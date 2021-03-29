@@ -1,6 +1,7 @@
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
 
+mqtt-explorer
 *~
 *.autosave
 *.a
@@ -58,6 +59,7 @@ Thumbs.db
 *.opensdf
 *.vcxproj
 *vcxproj.*
+*.vscode
 
 # MinGW generated files
 *.Debug
