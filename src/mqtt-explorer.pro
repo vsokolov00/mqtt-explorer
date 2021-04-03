@@ -3,6 +3,7 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
+CONFIG-=debug_and_release
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -12,6 +13,9 @@ INCLUDEPATH = ./mqtt_paho/libs/
 INCLUDEPATH += ./mqtt_paho/headers/
 LIBS = -fPIC -lpaho-mqttpp3 -lpaho-mqtt3a -lpaho-mqtt3as -lpaho-mqtt3c -lpaho-mqtt3cs
 
+DESTDIR=bin/ #Target file directory
+OBJECTS_DIR=build/ #Intermediate object files directory
+
 SOURCES += \
     main.cpp \
     mainwindow.cpp
@@ -20,10 +24,7 @@ HEADERS += \
     mainwindow.h
 
 FORMS += \
-    mainwindow.ui
-
-TRANSLATIONS += \
-    mqtt-explorer_en_US.ts
+    ui/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
