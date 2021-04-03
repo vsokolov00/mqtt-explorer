@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "mainmenu.h"
 #include "client.h"
 
 QT_BEGIN_NAMESPACE
@@ -16,7 +17,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_connectBroker_clicked();
+
 private:
     Ui::MainWindow *ui;
+    MainMenu *main_menu;
 };
 #endif // MAINWINDOW_H

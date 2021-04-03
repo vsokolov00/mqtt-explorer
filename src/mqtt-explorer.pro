@@ -2,8 +2,8 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
-CONFIG-=debug_and_release
+CONFIG += c++17
+#CONFIG-=debug_and_release
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -11,19 +11,24 @@ CONFIG-=debug_and_release
 
 INCLUDEPATH = ./mqtt_paho/libs/
 INCLUDEPATH += ./mqtt_paho/headers/
+INCLUDEPATH += .
 LIBS = -fPIC -lpaho-mqttpp3 -lpaho-mqtt3a -lpaho-mqtt3as -lpaho-mqtt3c -lpaho-mqtt3cs
 
 DESTDIR=bin/ #Target file directory
 OBJECTS_DIR=build/ #Intermediate object files directory
+MOC_DIR=build/
 
 SOURCES += \
     main.cpp \
+    mainmenu.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    mainmenu.h \
     mainwindow.h
 
 FORMS += \
+    ui/mainmenu.ui \
     ui/mainwindow.ui
 
 # Default rules for deployment.
