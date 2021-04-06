@@ -1,0 +1,6 @@
+src/build/*
+src/build
+.vscode/*
+*.o
+mqtt-explorer
+.qmake.stash
