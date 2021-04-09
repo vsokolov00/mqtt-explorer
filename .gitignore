@@ -4,3 +4,4 @@ src/build
 *.o
 mqtt-explorer
 .qmake.stash
+client/client

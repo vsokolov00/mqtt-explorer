@@ -1,6 +1,8 @@
 GENERATED = .qmake.stash Makefile
 TMP_DIRS = bin build
 
+.PHONY: all mqtt-explorer clean
+
 all mqtt-explorer:
 	cd src && qmake && make
 
