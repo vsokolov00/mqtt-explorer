@@ -15,8 +15,9 @@ int main()
 	SubscribeListener subscribe_listener;
 	PublishListener publish_listener;
 	UnsubscribeListener unsubscribe_listener;
+	DisconectListener disconect_listener;
 
-    ClientAPI API(connect_listener, subscribe_listener, unsubscribe_listener, publish_listener);
+    ClientAPI API(connect_listener, subscribe_listener, unsubscribe_listener, publish_listener, disconect_listener);
 
 	Client client(options, API, SERVER_ADDRESS);
 
@@ -32,6 +33,7 @@ int main()
 		return 1;
 	}
 
+	// press 's' and enter after successfull connection
 	while (std::tolower(std::cin.get()) != 's')
 		;
 
@@ -39,12 +41,14 @@ int main()
 	client.subscribe("#", 1);
 	client.subscribe("temp/#", 1);
 
+	// press 'p' and enter after sucessfull subscription 
 	while (std::tolower(std::cin.get()) != 'p')
 		;
 	
 	client.publish("hello", "Hello World!");
 	client.publish("test/publish", "Test of publishing.");
 
+	// press 'u' and enter after publish
 	while (std::tolower(std::cin.get()) != 'u')
 		;
 	
@@ -53,6 +57,7 @@ int main()
 
 	client.publish("test/publish", "Retest of publishing.");
 
+	// press 'q' and enter to disconect and quit
 	while (std::tolower(std::cin.get()) != 'q')
 		;
 
@@ -68,6 +73,7 @@ int main()
 		return 1;
 	}
 
- 	return 0;
+	std::cerr << "main ends" << std::endl;
+ 	exit(0);
 }
 

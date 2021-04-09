@@ -35,7 +35,7 @@ void Client::connect()
 
 void Client::disconnect()
 {
-    _client.disconnect()->wait();
+    _client.disconnect(nullptr, _API.disconect_listener)->wait();
 }
 
 void Client::subscribe(const std::string topic, const int QOS)

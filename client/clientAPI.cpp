@@ -2,13 +2,11 @@
 #include "clientAPI.h"
 
 ClientAPI::ClientAPI(ConnectListener &connect_listener, SubscribeListener &subscribe_listener, 
-                     UnsubscribeListener &unsubscribe_listener, PublishListener &publish_listener)
+                     UnsubscribeListener &unsubscribe_listener, PublishListener &publish_listener,
+                     DisconectListener &disconect_listener)
           :connect_listener(connect_listener), subscribe_listener(subscribe_listener), 
-           unsubscribe_listener(unsubscribe_listener), publish_listener(publish_listener) {}
-//{
-//    this->connect_listener = connect_listener;
-//    this->subscribe_listener = subscribe_listener;
-//}
+           unsubscribe_listener(unsubscribe_listener), publish_listener(publish_listener),
+           disconect_listener(disconect_listener) {}
 
 void ClientAPI::text_message(const std::string message, const std::string topic)
 {
@@ -23,9 +21,7 @@ void ClientAPI::connected()
 void ConnectListener::on_success(const mqtt::token& tok)
 {
     (void) tok;
-    // bug
-    //std::cout << "Connection to server: " << tok.get_connect_response().get_server_uri()
-    //          << "succeded for token: [" << tok.get_message_id() << "]" << std::endl;
+    // bug in paho library, function gets triggered twice
 }
 
 void ConnectListener::on_failure(const mqtt::token& tok)
@@ -85,4 +81,18 @@ void PublishListener::on_failure(const mqtt::token& tok)
     {
 		std::cout << "Publish to topic: '" << (*topics)[0] << "' failed." << std::endl;
     }
+}
+
+void DisconectListener::on_success(const mqtt::token& tok)
+{
+    (void)tok;
+    std::cout << "Disconect succeded." << std::endl;
+    exit(0);
+}
+
+void DisconectListener::on_failure(const mqtt::token& tok)
+{
+    (void)tok;
+    std::cout << "Disconect failed." << std::endl;
+    exit(1);
 }

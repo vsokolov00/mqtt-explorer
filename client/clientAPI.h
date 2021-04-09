@@ -40,13 +40,21 @@ class PublishListener : public virtual mqtt::iaction_listener
     void on_success(const mqtt::token& tok);
 };
 
+class DisconectListener : public virtual mqtt::iaction_listener
+{
+    void on_failure(const mqtt::token& tok);
+
+    void on_success(const mqtt::token& tok);
+};
+
 class ClientAPI
 {
     public:
         ClientAPI();
 
         ClientAPI(ConnectListener &connect_listener, SubscribeListener &subscribe_listener, 
-                  UnsubscribeListener &unsubscribe_listener, PublishListener &publish_listener);
+                  UnsubscribeListener &unsubscribe_listener, PublishListener &publish_listener,
+                  DisconectListener &disconect_listener);
 
         ConnectListener connect_listener;
 
@@ -56,9 +64,11 @@ class ClientAPI
 
         PublishListener publish_listener;
 
+        DisconectListener disconect_listener;
+
         void text_message(const std::string message, const std::string topic);
 
-        void connected();
+        void virtual connected();
 };
 
 #endif // __CLIENTAPI_H__
