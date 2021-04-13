@@ -22,5 +22,5 @@ class Thermometer
     
     Thermometer(std::string topic, std::string name, std::string location, int max, int min, float average, float deviation, int period);
 
-    void run_thermometer(mqtt::client &client, thred_control_t &control);
+    void run_thermometer(mqtt::client &client, thred_control_t &control, std::future<void> future);
 };

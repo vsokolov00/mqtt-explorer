@@ -6,7 +6,7 @@ Thermometer::Thermometer(std::string topic, std::string name, std::string locati
                 : topic(topic), name(name), location(location), max(max), min(min), average(average), 
                   deviation(deviation), period(period) {}
 
-void Thermometer::run_thermometer(mqtt::client &client, thred_control_t &control)
+void Thermometer::run_thermometer(mqtt::client &client, thred_control_t &control, std::future<void> future)
 {
     mqtt::message_ptr message = mqtt::make_message(topic, name);
     message->set_qos(1);
@@ -25,6 +25,7 @@ void Thermometer::run_thermometer(mqtt::client &client, thred_control_t &control
         std::cout << "name: " << name << ", location: " << location << std::endl;
         lock.unlock();
 
-        std::this_thread::sleep_for(std::chrono::seconds(period));
+        future.wait_for(std::chrono::seconds(period));
+        //std::this_thread::sleep_for(std::chrono::seconds(period));
     }
 }

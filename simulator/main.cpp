@@ -37,17 +37,25 @@ int main()
 
     std::vector<std::thread> threads;
     threads.reserve(devices.thermometers.size());
+    std::vector<std::promise<void>> promises;
+    promises.reserve(devices.thermometers.size());
 
     for (unsigned i = 0; i < devices.thermometers.size(); i++)
     {
+        promises.push_back(std::promise<void>());
         threads.push_back(std::thread(&Thermometer::run_thermometer, devices.thermometers[i], 
-                                      std::ref(client), std::ref(control)));
+                                      std::ref(client), std::ref(control), promises[i].get_future()));
     }
 
     std::cin.get();
 
     control.condition = false;
     std::cout << "Please wait, terminating..." << std::endl;
+
+    for (auto &promise: promises)
+    {
+        promise.set_value();
+    }
 
     for (auto &thread: threads)
     {
