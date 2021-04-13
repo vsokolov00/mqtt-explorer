@@ -19,19 +19,24 @@ OBJECTS_DIR=build/ #Intermediate object files directory
 MOC_DIR=build/
 
 SOURCES += \
+    login.cpp \
     main.cpp \
-    mainmenu.cpp \
-    mainwindow.cpp
+    messagepool.cpp \
+    treeviewmodel.cpp
 
 HEADERS += \
-    mainmenu.h \
-    mainwindow.h
+    login.h \
+    messagepool.h \
+    treeviewmodel.h
 
 FORMS += \
-    ui/mainmenu.ui \
+    ui/messagepool.ui \
     ui/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    ui/resources.qrc

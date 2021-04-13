@@ -2,26 +2,23 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "mainmenu.h"
-#include "client.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
+class Login: public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    Login(QWidget *parent = nullptr);
+    ~Login();
 
 private slots:
-    void on_connectBroker_clicked();
+    void on_connect_clicked();
 
 private:
     Ui::MainWindow *ui;
-    MainMenu *main_menu;
 };
 #endif // MAINWINDOW_H
