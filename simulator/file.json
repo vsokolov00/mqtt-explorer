@@ -1,0 +1,23 @@
+{
+    "thermometers": 
+    [
+        {
+            "name": "temp1",
+            "location": "kitchen",
+            "max": 56,
+            "min": 10,
+            "average": 24.6,
+            "deviation": 5,
+            "period": 5
+        },
+        {
+            "name": "temp2",
+            "location": "living room",
+            "max": 42,
+            "min": 5,
+            "average": 25.3,
+            "deviation": 5,
+            "period": 11
+        }
+    ]
+}
