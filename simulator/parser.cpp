@@ -62,7 +62,8 @@ bool Parser::parse_thermometers(Json::Value &root, std::vector<Thermometer> &the
 {
     for (int i = 0; root[i]; i++)
     {
-        thermometers.push_back(Thermometer(root[i]["name"].asString(), 
+        thermometers.push_back(Thermometer(root[i]["topic"].asString(),
+                                           root[i]["name"].asString(), 
                                            root[i]["location"].asString(), 
                                            root[i]["max"].asInt(), 
                                            root[i]["min"].asInt(), 

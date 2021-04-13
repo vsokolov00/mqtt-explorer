@@ -2,6 +2,7 @@
     "thermometers": 
     [
         {
+            "topic": "home/temperatrure/kitchen",
             "name": "temp1",
             "location": "kitchen",
             "max": 56,
@@ -11,6 +12,7 @@
             "period": 5
         },
         {
+            "topic": "home/temperatrure/living room",
             "name": "temp2",
             "location": "living room",
             "max": 42,

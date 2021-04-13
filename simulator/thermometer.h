@@ -5,11 +5,13 @@
 #include <iostream>
 #include <chrono>
 
-extern bool run;
+#include "main.h"
+#include "mqtt/client.h"
 
 class Thermometer
 {
     public:
+        std::string topic;
         std::string name;
         std::string location;
         int max;
@@ -18,7 +20,7 @@ class Thermometer
         float deviation;
         int period;
     
-    Thermometer(std::string name, std::string location, int max, int min, float average, float deviation, int period);
+    Thermometer(std::string topic, std::string name, std::string location, int max, int min, float average, float deviation, int period);
 
-    void run_thermometer();
+    void run_thermometer(mqtt::client &client, thred_control_t &control);
 };
