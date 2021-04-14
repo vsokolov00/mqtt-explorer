@@ -13,8 +13,8 @@
 class Parser
 {
     private:
-        Json::CharReader *reader;
-        std::string file_name;
+        Json::CharReader *_reader;
+        std::string _file_name;
 
         bool read_file_content(std::string &content);
         bool parse_thermometers(Json::Value &root, std::vector<Thermometer> &thermometers);

@@ -4,7 +4,7 @@ CFLAGS = -std=c++17 -Wall -Wextra
 LIBS = -fPIC -lpaho-mqttpp3 -lpaho-mqtt3a -lpaho-mqtt3as -lpaho-mqtt3c -lpaho-mqtt3cs
 LIB_DIR = ../mqtt_paho/libs/
 EXE = simulator
-OBJ = main.o thermometer.o parser.o
+OBJ = main.o thermometer.o parser.o runner.o
 JSON = jsoncpp.o
 LDFLAGS= -pthread  -lpthread
 
