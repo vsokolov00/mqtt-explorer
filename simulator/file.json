@@ -70,5 +70,45 @@
             "max_step": 0.7,
             "humidity": 82.2
         }
+    ],
+
+    "wattmeters": 
+    [
+        {
+            "topic": "devices/wattmeter",
+            "name": "WM",
+            "location": "workshop",
+            "period": 16,
+            "min_val": 0,
+            "max_val": 200,
+            "min_step": 1,
+            "max_step": 4,
+            "value": 53,
+            "unit": "kW"
+        },
+        {
+            "topic": "devices/wattmeter",
+            "name": "WattM1",
+            "location": "transformer",
+            "period": 14,
+            "min_val": 0,
+            "max_val": 450,
+            "min_step": 5,
+            "max_step": 20,
+            "value": 325,
+            "unit": "W"
+        },
+        {
+            "topic": "devices/wattmeter",
+            "name": "wattmeter",
+            "location": "circuit 1",
+            "period": 18,
+            "min_val": 0,
+            "max_val": 2000,
+            "min_step": 10,
+            "max_step": 63,
+            "value": 826,
+            "unit": "mW"
+        }
     ]
 }

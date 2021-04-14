@@ -54,6 +54,7 @@ bool Parser::parse_file(Devices &devices)
 
     parse_thermometers(root["thermometers"], devices.thermometers);
     parse_hygrometers(root["hygrometers"], devices.hygrometers);
+    parse_wattmeters(root["wattmeters"], devices.wattmeters);
 
     return false;
 }
@@ -86,5 +87,24 @@ void Parser::parse_hygrometers(Json::Value &root, std::vector<Hygrometer> &hygro
                                          root[i]["min_step"].asFloat(), 
                                          root[i]["max_step"].asFloat(),
                                          root[i]["humidity"].asFloat()));
+    }
+}
+
+
+void Parser::parse_wattmeters(Json::Value &root, std::vector<Wattmeter> &wattmeters)
+{
+    for (int i = 0; root[i]; i++)
+    {
+        wattmeters.push_back(Wattmeter(root[i]["topic"].asString(),
+                                         root[i]["name"].asString(), 
+                                         root[i]["location"].asString(), 
+                                         root[i]["period"].asInt(),
+                                         root[i]["min_val"].asInt(),
+                                         root[i]["max_val"].asInt(),
+                                         root[i]["min_step"].asInt(),
+                                         root[i]["max_step"].asInt(),
+                                         root[i]["value"].asInt(),
+                                         root[i]["unit"].asString()
+                                         ));
     }
 }

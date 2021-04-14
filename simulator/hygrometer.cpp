@@ -9,7 +9,7 @@ Hygrometer::Hygrometer(std::string topic, std::string name, std::string location
 }
 
 
-void Hygrometer::run_hygrometer(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future)
+void Hygrometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future)
 {
     mqtt::message_ptr message = mqtt::make_message(topic, name);
     message->set_qos(1);
@@ -19,6 +19,7 @@ void Hygrometer::run_hygrometer(mqtt::client &client, const bool &run, std::mute
 
     float step;
     bool up_down;
+    std::string humidity_template_str{"location: " + location + ", device name: " + name + ", humidity: "};
     std::string humidity_str;
 
     while (run)
@@ -36,7 +37,11 @@ void Hygrometer::run_hygrometer(mqtt::client &client, const bool &run, std::mute
             humidity = humidity - step < 0.0f ? 0.0f : humidity - step;
         }
 
-        humidity_str = std::to_string(humidity);
+        humidity_str = humidity_template_str + std::to_string(humidity);
+        humidity_str.pop_back();
+        humidity_str.pop_back();
+        humidity_str.pop_back();
+        humidity_str += "%";
         message->set_payload(humidity_str.c_str(), humidity_str.size());
         
         std::unique_lock<std::mutex> lock(mutex);

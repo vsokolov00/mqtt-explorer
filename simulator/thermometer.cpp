@@ -6,8 +6,7 @@ Thermometer::Thermometer(std::string topic, std::string name, std::string locati
                 : Device(topic, name, location, period), min_temp(min_temp), max_temp(max_temp), min_step(min_step), 
                   max_step(max_step), temp(temp), unit(unit) { }
 
-void Thermometer::run_thermometer(mqtt::client &client, const bool &run, std::mutex &mutex, 
-                                  std::future<void> future)
+void Thermometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future)
 {
     mqtt::message_ptr message = mqtt::make_message(topic, name);
     message->set_qos(1);
@@ -38,7 +37,9 @@ void Thermometer::run_thermometer(mqtt::client &client, const bool &run, std::mu
             temp = temp - step < min_temp ? min_temp : temp - step;
         }
         
-        root["value"] = temp;
+        root["name"] = name;
+        root["location"] = location;
+        root["temperature"] = temp;
         root["unit"] = unit;
         writer->write(root, &stream);
         json_str = stream.str();

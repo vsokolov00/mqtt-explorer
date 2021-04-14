@@ -19,6 +19,7 @@ class Parser
         bool read_file_content(std::string &content);
         void parse_thermometers(Json::Value &root, std::vector<Thermometer> &thermometers);
         void parse_hygrometers(Json::Value &root, std::vector<Hygrometer> &hygrometers);
+        void parse_wattmeters(Json::Value &root, std::vector<Wattmeter> &wattmeters);
 
     public:
         Parser(std::string file_name);

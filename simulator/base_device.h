@@ -1,7 +1,10 @@
 
 #pragma once
 
+#include <thread>
 #include <string>
+
+#include "mqtt/client.h"
 
 class Device
 {
@@ -12,4 +15,6 @@ class Device
         int period;
 
         Device(std::string topic, std::string name, std::string location, int period);
+
+        //void virtual run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future);
 };
