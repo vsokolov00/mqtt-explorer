@@ -6,16 +6,38 @@
 #include <condition_variable>
 #include <future>
 
+#include "hygrometer.h"
 #include "thermometer.h"
 #include "devices.h"
 #include "mqtt/client.h"
 
+template<class T, class U> class DeviceRunner
+{
+    private:
+        bool _run = false;
+        std::vector<T>& _devices;
+        U _function;
+
+        mqtt::client _client;
+        std::mutex _mutex;
+        std::vector<std::thread> _threads;
+        std::vector<std::promise<void>> _promises;
+
+    public:
+        bool not_runable = false;
+
+        DeviceRunner(std::vector<T> &devices, U function, const std::string &server_address, const std::string &id);
+
+        void run_devices();
+        void stop_devices();
+};
+
 class Runner
 {
     private:
-        ThermometerRunner _thermometer_runner;
-
-
+        DeviceRunner<Thermometer, void(Thermometer::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _thermometer_runner;
+        DeviceRunner<Hygrometer, void(Hygrometer::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _hygrometer_runner;
+        
     public:
         bool not_runable = false;
 

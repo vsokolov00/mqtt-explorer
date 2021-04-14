@@ -3,7 +3,6 @@
 
 Parser::Parser(std::string file_name)
 {
-
     _reader = Json::CharReaderBuilder().newCharReader();
     if (_reader == nullptr)
     {
@@ -54,24 +53,38 @@ bool Parser::parse_file(Devices &devices)
     }
 
     parse_thermometers(root["thermometers"], devices.thermometers);
+    parse_hygrometers(root["hygrometers"], devices.hygrometers);
 
     return false;
 }
 
-bool Parser::parse_thermometers(Json::Value &root, std::vector<Thermometer> &thermometers)
+void Parser::parse_thermometers(Json::Value &root, std::vector<Thermometer> &thermometers)
 {
     for (int i = 0; root[i]; i++)
     {
         thermometers.push_back(Thermometer(root[i]["topic"].asString(),
                                            root[i]["name"].asString(), 
                                            root[i]["location"].asString(), 
+                                           root[i]["period"].asInt(),
                                            root[i]["min_temp"].asFloat(), 
                                            root[i]["max_temp"].asFloat(), 
                                            root[i]["min_step"].asFloat(), 
                                            root[i]["max_step"].asFloat(),
                                            root[i]["temp"].asFloat(),
-                                           root[i]["period"].asInt()));
+                                           root[i]["unit"].asString()));
     }
+}
 
-    return false;
+void Parser::parse_hygrometers(Json::Value &root, std::vector<Hygrometer> &hygrometers)
+{
+    for (int i = 0; root[i]; i++)
+    {
+        hygrometers.push_back(Hygrometer(root[i]["topic"].asString(),
+                                         root[i]["name"].asString(), 
+                                         root[i]["location"].asString(), 
+                                         root[i]["period"].asInt(),
+                                         root[i]["min_step"].asFloat(), 
+                                         root[i]["max_step"].asFloat(),
+                                         root[i]["humidity"].asFloat()));
+    }
 }
