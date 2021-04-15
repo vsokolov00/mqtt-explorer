@@ -9,14 +9,16 @@
 #include "base_device.h"
 #include "mqtt/client.h"
 
-class MoveSensors : Device
+class MoveSensor : Device
 {
     public:
         int max_period;
-        int vertical_FOV = 0;
         int horizontal_FOV = 0;
+        int vertical_FOV = 0;
+        std::string type;
 
-        MoveSensors(std::string topic, std::string name, int min_period, int max_period, int horizontal_FOV, int vertical_FOV);
+        MoveSensor(std::string topic, std::string name, int min_period, int max_period, 
+                    int horizontal_FOV, int vertical_FOV, std::string type);
 
         void run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future) override;
 };

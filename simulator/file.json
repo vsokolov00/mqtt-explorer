@@ -114,16 +114,15 @@
         },
         {
             "topic": "home/move sensors/main door",
-            "name": "lock",
-            "type": "lock sensor",
+            "name": "main lock",
+            "type": "lock",
             "min_period": 80,
             "max_period": 3600
         },
         {
             "topic": "car/front",
-            "name": "LDR8543",
-            "type": "LIDAR",
-            "min_period": 2,
+            "name": "LIDAR",
+            "min_period": 10,
             "max_period": 60,
             "vertical_FOV": 150,
             "horizontal_FOV": 180
@@ -131,7 +130,6 @@
         {
             "topic": "car/front",
             "name": "SONIC",
-            "type": "sonic sensor",
             "min_period": 2,
             "max_period": 180,
             "vertical_FOV": 120,

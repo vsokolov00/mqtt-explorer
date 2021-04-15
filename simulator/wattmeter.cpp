@@ -18,6 +18,7 @@ void Wattmeter::run(mqtt::client &client, const bool &run, std::mutex &mutex, st
     bool up_down;
     std::string value_str;
 
+    future.wait_for(std::chrono::seconds(period));
     while (run)
     {
         step = step_generator();
@@ -33,7 +34,7 @@ void Wattmeter::run(mqtt::client &client, const bool &run, std::mutex &mutex, st
             value = value - step < min_val ? min_val : value - step;
         }
 
-        value_str = name + " " + std::to_string(value);
+        value_str = name + ": " + std::to_string(value) + " " + unit;
         message->set_payload(value_str.c_str(), value_str.size());
         
         std::unique_lock<std::mutex> lock(mutex);

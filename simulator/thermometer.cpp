@@ -22,6 +22,7 @@ void Thermometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, 
     std::ostringstream stream;
     std::string json_str;
 
+    future.wait_for(std::chrono::seconds(period));
     while (run)
     {
         step = step_generator() / 1000.0f;

@@ -2,9 +2,10 @@
 #include "runner.h"
 
 Runner::Runner(Devices &devices, const std::string server_address)
-       : _thermometer_runner(devices.thermometers, &Thermometer::run, server_address, "random_id_1354"), 
-         _hygrometer_runner(devices.hygrometers, &Hygrometer::run, server_address, "random_id_71354"),
-         _wattmeter_runner(devices.wattmeters, &Wattmeter::run, server_address, "random_id_8711")
+       : _thermometer_runner(devices.thermometers, &Thermometer::run, server_address, "id_1"),//"thermometers_id_135448"), 
+         _hygrometer_runner(devices.hygrometers, &Hygrometer::run, server_address, "id_2"),//"hygrometers_id_7135454"),
+         _wattmeter_runner(devices.wattmeters, &Wattmeter::run, server_address, "id_3"),//"wattmeters_id_871159"),
+         _move_sensor_runner(devices.move_sensors, &MoveSensor::run, server_address, "id_4")//"move_sensors_id_164813")
 {
     not_runable = _thermometer_runner.not_runable | _hygrometer_runner.not_runable | _wattmeter_runner.not_runable;
 }
@@ -14,6 +15,7 @@ void Runner::run_threads()
     _thermometer_runner.run_devices();
     _hygrometer_runner.run_devices();
     _wattmeter_runner.run_devices();
+    _move_sensor_runner.run_devices();
 }
 
 void Runner::stop_threads()
@@ -21,6 +23,7 @@ void Runner::stop_threads()
     _thermometer_runner.stop_devices();
     _hygrometer_runner.stop_devices();
     _wattmeter_runner.stop_devices();
+    _move_sensor_runner.stop_devices();
 }
 
 template<class T, class U> DeviceRunner<T, U>::DeviceRunner(std::vector<T> &devices, U function, const std::string &server_address, const std::string &id)

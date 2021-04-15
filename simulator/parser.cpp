@@ -1,15 +1,13 @@
 
 #include "parser.h"
 
-Parser::Parser(std::string file_name)
+Parser::Parser(std::string file_name) : _file_name(file_name)
 {
     _reader = Json::CharReaderBuilder().newCharReader();
     if (_reader == nullptr)
     {
         throw;
     }
-
-    this->_file_name = file_name;
 }
 
 Parser::~Parser()
@@ -55,6 +53,7 @@ bool Parser::parse_file(Devices &devices)
     parse_thermometers(root["thermometers"], devices.thermometers);
     parse_hygrometers(root["hygrometers"], devices.hygrometers);
     parse_wattmeters(root["wattmeters"], devices.wattmeters);
+    parse_move_sensors(root["move sensors"], devices.move_sensors);
 
     return false;
 }
@@ -105,3 +104,19 @@ void Parser::parse_wattmeters(Json::Value &root, std::vector<Wattmeter> &wattmet
                                          ));
     }
 }
+
+void Parser::parse_move_sensors(Json::Value &root, std::vector<MoveSensor> &move_sensors)
+{
+    for (int i = 0; root[i]; i++)
+    {
+        move_sensors.push_back(MoveSensor(root[i]["topic"].asString(),
+                                          root[i]["name"].asString(), 
+                                          root[i]["min_period"].asInt(),
+                                          root[i]["max_period"].asInt(),
+                                          root[i]["horizontal_FOV"].asInt(),
+                                          root[i]["vertical_FOV"].asInt(),
+                                          root[i]["type"].asString()
+                                         ));
+    }
+}
+

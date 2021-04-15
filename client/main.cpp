@@ -6,20 +6,104 @@
 const std::string SERVER_ADDRESS("tcp://broker.emqx.io:1883");
 const std::string TOPIC("test/#");
 
+class Test
+{
+	public:
+		static void on_success_cb(void *object, const mqtt::token& tok)
+		{
+			Test *test = static_cast<Test *>(object);
+			test->on_success(tok);
+		}
+
+		static void on_failure_cb(void *object, const mqtt::token& tok)
+		{
+			Test *test = static_cast<Test *>(object);
+			test->on_failure(tok);
+		}
+
+		static void on_connected_cb(void *object, const std::string& cause)
+		{
+			Test *test = static_cast<Test *>(object);
+			test->on_connected(cause);
+		}
+
+		static void on_message_arrived_cb(void *object, mqtt::const_message_ptr message)
+		{
+			Test *test = static_cast<Test *>(object);
+			test->on_message_arrived(message);
+		}
+
+		static void on_connection_lost_cb(void *object, const std::string& cause)
+		{
+			Test *test = static_cast<Test *>(object);
+			test->on_connection_lost(cause);
+		}
+
+		static void on_delivery_completed_cb(void *object, mqtt::delivery_token_ptr token)
+		{
+			Test *test = static_cast<Test *>(object);
+			test->on_delivery_completed(token);
+		}
+
+		Test(int num) : num(num) {}
+	
+	private:
+		void on_success(const mqtt::token& tok)
+		{
+			(void)tok;
+			std::cerr << "on success callback: called: " << num++ << std::endl;
+		}
+
+		void on_failure(const mqtt::token& tok)
+		{
+			(void)tok;
+			std::cerr << "on failure callback: called: " << num++ << std::endl;
+		}
+
+		void on_connected(const std::string& cause)
+		{
+			std::cerr << "on_connected: " << cause << std::endl;
+		}
+
+		void on_message_arrived(mqtt::const_message_ptr message)
+		{
+			std::cerr << "on_message_arrived: " << message.get()->get_payload_str() << std::endl;
+		}
+
+		void on_connection_lost(const std::string& cause)
+		{
+			std::cerr << "on_connection_lost: " << cause << std::endl;
+		}
+
+		void on_delivery_completed(mqtt::delivery_token_ptr token)
+		{
+			std::cerr << "on_delivery_completed: " << token.get()->get_message()->get_payload_str() << std::endl;
+		}
+
+		int num;
+};
+
+void func(void *class_object, const mqtt::token& tok)
+{
+	(void)class_object;
+	(void)tok;
+	std::cerr << "func call" << std::endl;
+}
+
 int main()
 {
 	mqtt::connect_options options;
 	options.set_clean_session(true);
 
-	ConnectListener connect_listener;
-	SubscribeListener subscribe_listener;
-	PublishListener publish_listener;
-	UnsubscribeListener unsubscribe_listener;
-	DisconectListener disconect_listener;
+	Test test(153);
 
-    ClientAPI API(connect_listener, subscribe_listener, unsubscribe_listener, publish_listener, disconect_listener);
+	std::mutex mutex;
+	Listener listener(&test, &Test::on_success_cb, &Test::on_failure_cb);
 
-	Client client(options, API, SERVER_ADDRESS);
+	Listeners listeners(listener, listener, listener, listener, listener);
+	Callbacks callbacks(&test, &Test::on_connected_cb, &test, &Test::on_message_arrived_cb, 
+	 					&test, &Test::on_connection_lost_cb, &test, &Test::on_delivery_completed_cb);
+	Client client(options, SERVER_ADDRESS, listeners, callbacks);
 
 	try 
 	{

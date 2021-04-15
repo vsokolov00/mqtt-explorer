@@ -1,22 +1,48 @@
 
 CC = g++
 CFLAGS = -std=c++17 -Wall -Wextra
-LIBS = -fPIC -lpaho-mqttpp3 -lpaho-mqtt3a -lpaho-mqtt3as -lpaho-mqtt3c -lpaho-mqtt3cs
+LDFLAGS = -fPIC -lpaho-mqttpp3 -lpaho-mqtt3a -lpaho-mqtt3as -lpaho-mqtt3c -lpaho-mqtt3cs -pthread  -lpthread
 LIB_DIR = ../mqtt_paho/libs/
-CLIENT_EXE = client
-EXAMPLE_CLIENT_EXE = example_client
-OBJ = main.o client.o clientAPI.o
+EXE = client
+EXAMPLE_EXE = example_client
+OBJ = client.o listener.o callback.o
+ALL_OBJ = $(OBJ) main.o
+STATIC_LIB = libclient.a
+DYNAMIC_LIB = libclient.so
+LIBS = $(STATIC_LIB) $(DYNAMIC_LIB)
+HEADER_DIR = header
+HEADER = client.h
+HEADER_FILES = listener.h callback.h client.h
 
-all: $(CLIENT_EXE)
+.PHONY: all libs clean static_lib dynamic_lib header clean_header
 
-$(CLIENT_EXE): $(OBJ)
-	$(CC) $(OBJ) $(CFLAGS) -L$(LIB_DIR) $(LIBS) -o $(CLIENT_EXE)
+all: $(EXE)
+
+$(EXE): $(ALL_OBJ)
+	$(CC) $(ALL_OBJ) $(CFLAGS) -L$(LIB_DIR) $(LDFLAGS) -o $(EXE)
 
 %.o: %.cpp %.h
 	$(CC) $< $(CFLAGS) -fPIC -c -o $@
 
-example: example_client.cpp client.h
-	$(CC) example_client.cpp $(CFLAGS) -L$(LIB_DIR) $(LIBS) -o $(EXAMPLE_CLIENT_EXE)
+libs: $(LIBS)
+
+static_lib: $(STATIC_LIB)
+
+dynamic_lib: $(DYNAMIC_LIB)
+
+libclient.a: $(OBJ)
+	ar rcs libclient.a $(OBJ)
+
+libclient.so: $(OBJ)
+	$(CC) $(OBJ) -shared -o libclient.so
+
+header:
+	mkdir $(HEADER_DIR)
+	cat header_includes.txt > $(HEADER_DIR)/$(HEADER)
+	tail -q -n +6 $(HEADER_FILES) >> $(HEADER_DIR)/$(HEADER)
+
+clean_header:
+	@rm -r $(HEADER_DIR)
 
 clean:
-	@rm $(OBJ) client example_client
+	@rm -r $(ALL_OBJ) $(EXE) $(LIBS) $(HEADER_DIR)

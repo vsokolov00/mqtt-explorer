@@ -21,6 +21,7 @@ void Hygrometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
     std::string humidity_template_str{"device name: " + name + ", humidity: "};
     std::string humidity_str;
 
+    future.wait_for(std::chrono::seconds(period));
     while (run)
     {
         step = step_generator() / 1000.0f;

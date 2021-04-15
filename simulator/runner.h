@@ -38,7 +38,8 @@ class Runner
         DeviceRunner<Thermometer, void(Thermometer::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _thermometer_runner;
         DeviceRunner<Hygrometer, void(Hygrometer::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _hygrometer_runner;
         DeviceRunner<Wattmeter, void(Wattmeter::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _wattmeter_runner;
-        
+        DeviceRunner<MoveSensor, void(MoveSensor::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _move_sensor_runner;
+
     public:
         bool not_runable = false;
 
