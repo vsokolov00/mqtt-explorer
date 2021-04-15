@@ -1,9 +1,9 @@
 
 #include "wattmeter.h"
 
-Wattmeter::Wattmeter(std::string topic, std::string name, std::string location, int period, int min_val, 
+Wattmeter::Wattmeter(std::string topic, std::string name, int period, int min_val, 
                   int max_val, int min_step, int max_step, int value, std::string unit)
-          :Device(topic, name, location, period), min_val(min_val), max_val(max_val), min_step(min_step),
+          :Device(topic, name, period), min_val(min_val), max_val(max_val), min_step(min_step),
            max_step(max_step), value(value), unit(unit) {}
 
 void Wattmeter::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future)

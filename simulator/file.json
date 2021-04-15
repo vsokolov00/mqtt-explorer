@@ -4,7 +4,6 @@
         {
             "topic": "home/temperatrure/kitchen",
             "name": "temp1",
-            "location": "kitchen",
             "period": 5,
             "min_temp": 25.0,
             "max_temp": 38.0,
@@ -16,7 +15,6 @@
         {
             "topic": "home/temperatrure/living room",
             "name": "temp2",
-            "location": "living room",
             "period": 4,
             "min_temp": 15.0,
             "max_temp": 42.0,
@@ -28,7 +26,6 @@
         {
             "topic": "home/temperatrure/garage",
             "name": "temp3",
-            "location": "garage",
             "period": 3,
             "min_temp": -20.0,
             "max_temp": 40.0,
@@ -44,7 +41,6 @@
         {
             "topic": "home/humidity/bathroom",
             "name": "hygro1",
-            "location": "kitchen",
             "period": 10,
             "min_step": 0.1,
             "max_step": 0.3,
@@ -54,7 +50,6 @@
         {
             "topic": "home/humidity/living room",
             "name": "hygro2",
-            "location": "living room",
             "period": 8,
             "min_step": 0.4,
             "max_step": 0.9,
@@ -64,7 +59,6 @@
         {
             "topic": "home/humidity/sauna",
             "name": "hygro3",
-            "location": "sauna",
             "period": 9,
             "min_step": 0.5,
             "max_step": 0.7,
@@ -75,9 +69,8 @@
     "wattmeters": 
     [
         {
-            "topic": "devices/wattmeter",
+            "topic": "devices/wattmeter/workshop",
             "name": "WM",
-            "location": "workshop",
             "period": 16,
             "min_val": 0,
             "max_val": 200,
@@ -87,9 +80,8 @@
             "unit": "kW"
         },
         {
-            "topic": "devices/wattmeter",
+            "topic": "devices/wattmeter/transformer",
             "name": "WattM1",
-            "location": "transformer",
             "period": 14,
             "min_val": 0,
             "max_val": 450,
@@ -99,9 +91,8 @@
             "unit": "W"
         },
         {
-            "topic": "devices/wattmeter",
+            "topic": "devices/wattmeter/circuit 1",
             "name": "wattmeter",
-            "location": "circuit 1",
             "period": 18,
             "min_val": 0,
             "max_val": 2000,
@@ -109,6 +100,42 @@
             "max_step": 63,
             "value": 826,
             "unit": "mW"
+        }
+    ],
+
+    "move sensors":
+    [
+        {
+            "topic": "home/move sensors/main door",
+            "name": "move detector",
+            "type": "PIR",
+            "min_period": 60,
+            "max_period": 3600
+        },
+        {
+            "topic": "home/move sensors/main door",
+            "name": "lock",
+            "type": "lock sensor",
+            "min_period": 80,
+            "max_period": 3600
+        },
+        {
+            "topic": "car/front",
+            "name": "LDR8543",
+            "type": "LIDAR",
+            "min_period": 2,
+            "max_period": 60,
+            "vertical_FOV": 150,
+            "horizontal_FOV": 180
+        },
+        {
+            "topic": "car/front",
+            "name": "SONIC",
+            "type": "sonic sensor",
+            "min_period": 2,
+            "max_period": 180,
+            "vertical_FOV": 120,
+            "horizontal_FOV": 270
         }
     ]
 }

@@ -1,9 +1,8 @@
 
 #include "hygrometer.h"
 
-Hygrometer::Hygrometer(std::string topic, std::string name, std::string location, int period, 
-                       float min_step, float max_step, float humidity)
-            : Device(topic, name, location, period), min_step(min_step), max_step(max_step) 
+Hygrometer::Hygrometer(std::string topic, std::string name, int period, float min_step, float max_step, float humidity)
+            : Device(topic, name, period), min_step(min_step), max_step(max_step) 
 {
     (*this).humidity = humidity >= 0.0f && humidity <= 100.f ? humidity : 50.0f;
 }
@@ -19,7 +18,7 @@ void Hygrometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
 
     float step;
     bool up_down;
-    std::string humidity_template_str{"location: " + location + ", device name: " + name + ", humidity: "};
+    std::string humidity_template_str{"device name: " + name + ", humidity: "};
     std::string humidity_str;
 
     while (run)

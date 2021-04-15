@@ -21,9 +21,9 @@ class Thermometer : Device
         float temp;
         std::string unit;
     
-    Thermometer(std::string topic, std::string name, std::string location, int period, float min_temp, float max_temp, 
+    Thermometer(std::string topic, std::string name, int period, float min_temp, float max_temp, 
                 float min_step, float max_step, float temp, std::string unit);
 
-    void run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future);
+    void run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future) override;
 };
 

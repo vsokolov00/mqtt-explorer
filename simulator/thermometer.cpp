@@ -1,10 +1,10 @@
 
 #include "thermometer.h"
 
-Thermometer::Thermometer(std::string topic, std::string name, std::string location, int period, float min_temp, float max_temp, 
+Thermometer::Thermometer(std::string topic, std::string name, int period, float min_temp, float max_temp, 
                          float min_step, float max_step, float temp, std::string unit)
-                : Device(topic, name, location, period), min_temp(min_temp), max_temp(max_temp), min_step(min_step), 
-                  max_step(max_step), temp(temp), unit(unit) { }
+            : Device(topic, name, period), min_temp(min_temp), max_temp(max_temp), min_step(min_step), 
+              max_step(max_step), temp(temp), unit(unit) { }
 
 void Thermometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future)
 {
@@ -38,7 +38,6 @@ void Thermometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, 
         }
         
         root["name"] = name;
-        root["location"] = location;
         root["temperature"] = temp;
         root["unit"] = unit;
         writer->write(root, &stream);

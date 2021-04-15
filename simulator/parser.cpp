@@ -65,7 +65,6 @@ void Parser::parse_thermometers(Json::Value &root, std::vector<Thermometer> &the
     {
         thermometers.push_back(Thermometer(root[i]["topic"].asString(),
                                            root[i]["name"].asString(), 
-                                           root[i]["location"].asString(), 
                                            root[i]["period"].asInt(),
                                            root[i]["min_temp"].asFloat(), 
                                            root[i]["max_temp"].asFloat(), 
@@ -82,7 +81,6 @@ void Parser::parse_hygrometers(Json::Value &root, std::vector<Hygrometer> &hygro
     {
         hygrometers.push_back(Hygrometer(root[i]["topic"].asString(),
                                          root[i]["name"].asString(), 
-                                         root[i]["location"].asString(), 
                                          root[i]["period"].asInt(),
                                          root[i]["min_step"].asFloat(), 
                                          root[i]["max_step"].asFloat(),
@@ -97,7 +95,6 @@ void Parser::parse_wattmeters(Json::Value &root, std::vector<Wattmeter> &wattmet
     {
         wattmeters.push_back(Wattmeter(root[i]["topic"].asString(),
                                          root[i]["name"].asString(), 
-                                         root[i]["location"].asString(), 
                                          root[i]["period"].asInt(),
                                          root[i]["min_val"].asInt(),
                                          root[i]["max_val"].asInt(),
