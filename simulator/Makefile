@@ -1,24 +1,27 @@
 
 CC = g++
-CFLAGS = -std=c++17 -Wall -Wextra
+CFLAGS = -std=c++17 -Wall -Wextra -MMD
+LDFLAGS = -pthread -lpthread -L. -lclient
 LIBS = -fPIC -lpaho-mqttpp3 -lpaho-mqtt3a -lpaho-mqtt3as -lpaho-mqtt3c -lpaho-mqtt3cs
 LIB_DIR = ../mqtt_paho/libs/
+BUILD_DIR = build
 EXE = simulator
-OBJ = main.o thermometer.o parser.o runner.o base_device.o hygrometer.o wattmeter.o move_sensor.o callbacks.o light.o \
-      reciever.o
-JSON = jsoncpp.o
-LDFLAGS = -pthread -lpthread -L. -lclient
+SRC = $(wildcard *.cpp)
+OBJ = ${SRC:.cpp=.o}
+DEPS = ${OBJ:.o=.d}
+DIR_OBJ = $(addprefix $(BUILD_DIR)/, $(OBJ))
+DIR_DEPS = $(addprefix $(BUILD_DIR)/, $(DEPS))
 
 all: $(EXE)
 
-$(EXE): $(OBJ) $(JSON)
-	$(CC) $(OBJ) $(JSON) $(CFLAGS) $(LDFLAGS) -L$(LIB_DIR) $(LIBS) -o $(EXE)
+-include $(DIR_DEPS)
 
-%.o: %.cpp %.h
+$(EXE): $(DIR_OBJ) 
+	$(CC) $(DIR_OBJ) $(CFLAGS) $(LDFLAGS) -L$(LIB_DIR) $(LIBS) -o $(EXE)
+
+$(BUILD_DIR)/%.o: %.cpp
+	@mkdir -p $(BUILD_DIR)
 	$(CC) $< $(CFLAGS) -fPIC -c -o $@
 
-$(JSON): jsoncpp.cpp json/json-forwards.h json/json.h
-	$(CC) jsoncpp.cpp $(CFLAGS) -c -o $(JSON)
-
 clean:
-	@rm $(OBJ) $(JSON) simulator
+	@rm -r $(EXE) $(BUILD_DIR)
