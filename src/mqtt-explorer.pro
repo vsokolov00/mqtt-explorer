@@ -12,7 +12,7 @@ CONFIG += c++17
 INCLUDEPATH = ./mqtt_paho/libs/
 INCLUDEPATH += ./mqtt_paho/headers/
 INCLUDEPATH += .
-LIBS = -fPIC -lpaho-mqttpp3 -lpaho-mqtt3a -lpaho-mqtt3as -lpaho-mqtt3c -lpaho-mqtt3cs
+LIBS = -fPIC
 
 DESTDIR=bin/ #Target file directory
 OBJECTS_DIR=build/ #Intermediate object files directory
@@ -22,12 +22,16 @@ SOURCES += \
     login.cpp \
     main.cpp \
     messagepool.cpp \
-    treeviewmodel.cpp
+    mqttreemodel.cpp \
+    topicsengine.cpp \
+    treeitem.cpp
 
 HEADERS += \
     login.h \
     messagepool.h \
-    treeviewmodel.h
+    mqttreemodel.h \
+    topicsengine.h \
+    treeitem.h
 
 FORMS += \
     ui/messagepool.ui \

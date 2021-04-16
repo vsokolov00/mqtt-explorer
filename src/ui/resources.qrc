@@ -3,5 +3,6 @@
         <file>mqtt-logo.png</file>
     </qresource>
     <qresource prefix="/icons"/>
+    <qresource prefix="/tmp"/>
     <qresource prefix="/new/prefix1"/>
 </RCC>
