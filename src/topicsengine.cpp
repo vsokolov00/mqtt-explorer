@@ -23,6 +23,11 @@ void TopicsEngine::send_message(std::string topic_path, std::string text_message
             auto subtopic = find_topic1(topics[0], supertopic->getChildren());
             if (subtopic != nullptr)
             {
+                if (topics.size() == 1)
+                {
+                    subtopic->new_message();
+                    add_topic(*subtopic, "message" + std::to_string(subtopic->getMessageCnt()), QString::fromStdString(text_message));
+                }
                 topics.erase(topics.begin());
                 supertopic = subtopic;
                 continue;
@@ -47,7 +52,10 @@ void TopicsEngine::create_hierarchy(TreeItem& supertopic, std::vector<std::strin
     {
         if (topic == topics.back())
         {
-            supertop = &add_topic(*supertop, topic, {QString::fromStdString(text_message)}); //TODO data
+            supertop = &add_topic(*supertop, topic, {}); //TODO different data
+            supertop->new_message();
+            add_topic(*supertop, "message" + std::to_string(supertop->getMessageCnt()), QString::fromStdString(text_message));
+
         } else {
             supertop = &add_topic(*supertop, topic, {});
         }

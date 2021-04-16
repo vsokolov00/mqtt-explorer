@@ -2,7 +2,9 @@
 
 TreeItem::TreeItem(const QVector<QVariant> &data, TreeItem *parent)
     : m_itemData(data), m_parentItem(parent)
-{}
+{
+    message_cnt = 0;
+}
 
 TreeItem::~TreeItem()
 {
@@ -56,5 +58,14 @@ QVector<TreeItem*> TreeItem::getChildren()
     return m_childItems;
 }
 
+int TreeItem::getMessageCnt()
+{
+    return message_cnt;
+}
+
+void TreeItem::new_message()
+{
+    this->message_cnt++;
+}
 
 

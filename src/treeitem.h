@@ -21,8 +21,11 @@ public:
     TreeItem *parentItem();
 
     QVector<TreeItem*> getChildren();
+    void new_message();
+    int getMessageCnt();
 
 private:
+    int message_cnt;
     QVector<TreeItem*> m_childItems;
     QVector<QVariant> m_itemData;
     TreeItem *m_parentItem;

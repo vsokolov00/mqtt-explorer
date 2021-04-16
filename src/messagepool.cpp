@@ -26,17 +26,7 @@ void MessagePool::display_message_tree()
 
 }
 
-void MessagePool::on_pushButton_clicked()
-{
-    engine->send_message("hello/mytopic/vlad", "nullptr");
-}
-
-void MessagePool::on_pushButton_2_clicked()
-{
-    engine->send_message("hello/mytopic/gfg", "mymessage");
-}
-
 void MessagePool::on_pushButton_3_clicked()
 {
-    engine->send_message("gaga/mynewtopichey/gfg", "hello");
+    engine->send_message(ui->topic->text().toStdString(), ui->message->text().toStdString());
 }
