@@ -24,8 +24,12 @@ int main()
 
     Devices devices;
     Parser parser("file.json");
+      
 
-    parser.parse_file(devices);
+    if (parser.parse_file(devices))
+    {
+        return 1;
+    }
 
     Runner runner(devices, "tcp://localhost:1883");
 

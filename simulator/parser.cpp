@@ -4,10 +4,6 @@
 Parser::Parser(std::string file_name) : _file_name(file_name)
 {
     _reader = Json::CharReaderBuilder().newCharReader();
-    if (_reader == nullptr)
-    {
-        throw;
-    }
 }
 
 Parser::~Parser()
@@ -34,6 +30,11 @@ bool Parser::read_file_content(std::string &content)
 
 bool Parser::parse_file(Devices &devices)
 {
+    if (_reader == nullptr)
+    {
+        return true;
+    }
+
     std::string content;
 
     if (read_file_content(content))

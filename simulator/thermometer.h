@@ -13,17 +13,18 @@
 
 class Thermometer : Device
 {
-    public:
-        float min_temp;
-        float max_temp;
-        float min_step;
-        float max_step;
-        float temp;
-        std::string unit;
+    private:
+        float _min_temp;
+        float _max_temp;
+        float _min_step;
+        float _max_step;
+        float _temp;
+        std::string _unit;
     
-    Thermometer(std::string topic, std::string name, int period, float min_temp, float max_temp, 
-                float min_step, float max_step, float temp, std::string unit);
+    public:
+        Thermometer(std::string topic, std::string name, int period, float min_temp, float max_temp, 
+                    float min_step, float max_step, float temp, std::string unit);
 
-    void run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future) override;
+        void run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future) override;
 };
 

@@ -11,12 +11,13 @@
 
 class MoveSensor : Device
 {
-    public:
-        int max_period;
-        int horizontal_FOV = 0;
-        int vertical_FOV = 0;
-        std::string type;
+    private:
+        int _max_period;
+        int _horizontal_FOV = 0;
+        int _vertical_FOV = 0;
+        std::string _type;
 
+    public:
         MoveSensor(std::string topic, std::string name, int min_period, int max_period, 
                     int horizontal_FOV, int vertical_FOV, std::string type);
 
