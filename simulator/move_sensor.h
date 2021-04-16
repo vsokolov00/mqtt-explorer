@@ -21,5 +21,5 @@ class MoveSensor : Device
         MoveSensor(std::string topic, std::string name, int min_period, int max_period, 
                     int horizontal_FOV, int vertical_FOV, std::string type);
 
-        void run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future) override;
+        void run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future);
 };

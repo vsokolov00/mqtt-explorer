@@ -9,3 +9,10 @@ Callbacks::Callbacks(void *on_connected_object, OnConnectedCallback on_connected
             on_message_arrived_object(on_message_arrived_object), on_message_arrived(on_message_arrived), 
             on_connection_lost_object(on_connection_lost_object), on_connection_lost(on_connection_lost),
             on_delivery_complete_object(on_delivery_complete_object), on_delivery_complete(on_delivery_complete) {}
+
+Callbacks::Callbacks(void *object, OnConnectedCallback on_connected, OnMessageArrivedCallback on_message_arrived, 
+                  OnConnectionLostCallback on_connection_lost, OnDeliveryCompleteCallback on_delivery_complete)
+          : on_connected_object(object), on_connected(on_connected), 
+            on_message_arrived_object(object), on_message_arrived(on_message_arrived), 
+            on_connection_lost_object(object), on_connection_lost(on_connection_lost),
+            on_delivery_complete_object(object), on_delivery_complete(on_delivery_complete) {}

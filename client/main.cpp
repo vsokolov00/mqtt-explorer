@@ -5,6 +5,7 @@
 
 const std::string SERVER_ADDRESS("tcp://broker.emqx.io:1883");
 const std::string TOPIC("test/#");
+const std::string CLIENT_ID("client_id_1");
 
 class Test
 {
@@ -103,12 +104,12 @@ int main()
 	Listeners listeners(listener, listener, listener, listener, listener);
 	Callbacks callbacks(&test, &Test::on_connected_cb, &test, &Test::on_message_arrived_cb, 
 	 					&test, &Test::on_connection_lost_cb, &test, &Test::on_delivery_completed_cb);
-	Client client(options, SERVER_ADDRESS, listeners, callbacks);
+	Client client(SERVER_ADDRESS, CLIENT_ID, listeners, callbacks);
 
 	try 
 	{
 		std::cout << "Connecting to the MQTT server..." << std::endl;
-		client.connect();
+		client.connect(options);
 	}
 	catch (const mqtt::exception& exc) 
 	{

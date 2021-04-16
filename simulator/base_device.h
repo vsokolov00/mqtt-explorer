@@ -5,6 +5,8 @@
 #include <string>
 
 #include "mqtt/client.h"
+#include "client.h"
+
 
 class Device
 {
@@ -14,7 +16,20 @@ class Device
         int _period;
 
     public:
+        Device() = default;
         Device(std::string topic, std::string name, int period);
+        Device(const Device&) = default;
+};
 
-        void virtual run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future) = 0;
+class RecievingDevice : public Device
+{
+    public:
+        std::string id;
+        std::string recv_topic;
+
+        RecievingDevice() = default;
+        RecievingDevice(std::string topic, std::string name, int period, std::string id, std::string recv_topic);
+        RecievingDevice(const RecievingDevice&) = default;
+        
+        virtual void on_message_arrived(std::string state, Client &client, std::mutex &mutex);
 };

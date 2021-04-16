@@ -1,15 +1,15 @@
 
 #include "client.h"
 
-Client::Client(mqtt::connect_options &options, const std::string server_address, Listeners &listeners, Callbacks &callbacks)
-       : _options(options), _client(server_address, "random_id_ujyt"), _listeners(listeners), _callbacks(callbacks)
+Client::Client(const std::string server_address, const std::string &id, Listeners &listeners, Callbacks &callbacks)
+       : _client(server_address, id), _listeners(listeners), _callbacks(callbacks)
 {
     _client.set_callback(*this);
 }
 
 void Client::connected(const std::string &cause)
 {   
-    (void)cause;
+    _callbacks.on_connected(_callbacks.on_connected_object, cause);
 }
 
 void Client::connection_lost(const std::string &cause)
@@ -27,14 +27,34 @@ void Client::delivery_complete(mqtt::delivery_token_ptr token)
     _callbacks.on_delivery_complete(_callbacks.on_delivery_complete_object, token);
 }
 
-void Client::connect()
+bool Client::connect(const mqtt::connect_options &connect_options)
 {
-    _client.connect(_options, nullptr, _listeners.connect_listener);
+    try
+    {
+        _client.connect(connect_options, nullptr, _listeners.connect_listener);
+    }
+    catch (const mqtt::exception& exc)
+    {
+        std::cerr << "Connection was not established: " << exc.what() << std::endl;
+        return true;
+    }
+    
+    return false;
 }
 
-void Client::disconnect()
+bool Client::disconnect()
 {
-    _client.disconnect(nullptr, _listeners.disconect_listener)->wait();
+    try
+    {
+        _client.disconnect(nullptr, _listeners.disconect_listener)->wait();
+    }
+    catch (const mqtt::exception& exc)
+    {
+        std::cerr << "Disconnect fail: " << exc.what() << std::endl;
+        return true;
+    }
+
+    return false;
 }
 
 void Client::subscribe(const std::string topic, const int QOS)

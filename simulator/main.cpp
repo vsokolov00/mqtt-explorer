@@ -23,25 +23,26 @@ int main()
     Listener listener(nullptr, test_func, test_func);
 
     Devices devices;
-    Parser parser("file.json");
+    Parser parser;
       
 
-    if (parser.parse_file(devices))
+    if (parser.parse_file("file.json", devices))
     {
         return 1;
     }
 
+    std::cerr << "Starting devices..." << std::endl;
     Runner runner(devices, "tcp://localhost:1883");
 
-    if (runner.not_runable)
+    if (runner.start())
+    {
         return 1;
-
-    runner.run_threads();
+    }
 
     std::cin.get();
     std::cout << "Please wait, terminating..." << std::endl;
 
-    runner.stop_threads();
+    runner.stop();
 
     std::cout << "Bye" << std::endl;
     return 0;

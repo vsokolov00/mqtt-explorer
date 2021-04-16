@@ -23,5 +23,5 @@ class Wattmeter : Device
         Wattmeter(std::string topic, std::string name, int period, int min_val, 
                   int max_val, int min_step, int max_step, int value, std::string unit);
 
-        void run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future) override;
+        void run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future);
 };

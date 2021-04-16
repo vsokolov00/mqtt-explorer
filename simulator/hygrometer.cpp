@@ -13,8 +13,11 @@ void Hygrometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
     mqtt::message_ptr message = mqtt::make_message(_topic, _name);
     message->set_qos(1);
 
-    auto step_generator = std::bind(std::uniform_int_distribution<int>(_min_step * 1000, _max_step * 1000), std::default_random_engine());
-    auto up_down_generator = std::bind(std::uniform_int_distribution<int>(0, 1), std::default_random_engine());
+    auto step_generator = std::bind(std::uniform_int_distribution<int>(_min_step * 1000, _max_step * 1000), 
+                                    std::default_random_engine(time(nullptr)));
+    step_generator();
+    auto up_down_generator = std::bind(std::uniform_int_distribution<int>(0, 1), std::default_random_engine(time(nullptr)));
+    up_down_generator();
 
     float step;
     bool up_down;
@@ -25,7 +28,6 @@ void Hygrometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
     while (run)
     {
         step = step_generator() / 1000.0f;
-        std::cout << "name: " << _name << ", step: " << step << std::endl;
         up_down = up_down_generator();
 
         if (up_down)
@@ -44,10 +46,11 @@ void Hygrometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
         humidity_str += "%";
         message->set_payload(humidity_str.c_str(), humidity_str.size());
         
-        std::unique_lock<std::mutex> lock(mutex);
-        client.publish(message);
-        lock.unlock();
-
+        mutex.lock();
+            client.publish(message);
+        mutex.unlock();
+        
+        std::cerr << humidity_str << std::endl;
         future.wait_for(std::chrono::seconds(_period));
     }
 }

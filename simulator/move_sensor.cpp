@@ -10,10 +10,13 @@ void MoveSensor::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
 {
     mqtt::message_ptr message = mqtt::make_message(_topic, _name);
     message->set_qos(1);
-
-    auto period_generator = std::bind(std::uniform_int_distribution<int>(_period, _max_period), std::default_random_engine());
-    auto horizontal_generator = std::bind(std::uniform_int_distribution<int>(0, _horizontal_FOV), std::default_random_engine());
-    auto vertical_generator = std::bind(std::uniform_int_distribution<int>(0, _vertical_FOV), std::default_random_engine());
+    
+    auto period_generator = std::bind(std::uniform_int_distribution<int>(_period, _max_period), std::default_random_engine(time(nullptr)));
+    period_generator();
+    auto horizontal_generator = std::bind(std::uniform_int_distribution<int>(0, _horizontal_FOV), std::default_random_engine(time(nullptr)));
+    horizontal_generator();
+    auto vertical_generator = std::bind(std::uniform_int_distribution<int>(0, _vertical_FOV), std::default_random_engine(time(nullptr)));
+    vertical_generator();
 
     std::string sensor_str;
     bool state = true;
@@ -21,12 +24,11 @@ void MoveSensor::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
     future.wait_for(std::chrono::seconds(period_generator()));
     while (run)
     {
-        std::cout << "name: " << _name << std::endl;
-
         sensor_str = _name;
         if (_horizontal_FOV | _vertical_FOV)
         {
-            sensor_str += ": move detected at x = " + std::to_string(horizontal_generator()) + ", y = " + std::to_string(vertical_generator());
+            sensor_str += ": move detected at x = " + std::to_string(horizontal_generator()) 
+                        + ", y = " + std::to_string(vertical_generator());
         }
         else
         {
@@ -51,10 +53,11 @@ void MoveSensor::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
 
         message->set_payload(sensor_str.c_str(), sensor_str.size());
         
-        std::unique_lock<std::mutex> lock(mutex);
+        mutex.lock();
             client.publish(message);
-        lock.unlock();
-        
+        mutex.unlock();
+
+        std::cerr << sensor_str << std::endl;        
         future.wait_for(std::chrono::seconds(period_generator()));
     }
 }

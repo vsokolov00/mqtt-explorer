@@ -6,10 +6,11 @@
 #include <condition_variable>
 #include <future>
 
+#include "mqtt/client.h"
 #include "hygrometer.h"
 #include "thermometer.h"
 #include "devices.h"
-#include "mqtt/client.h"
+#include "reciever.h"
 
 template<class T, class U> class DeviceRunner
 {
@@ -24,10 +25,10 @@ template<class T, class U> class DeviceRunner
         std::vector<std::promise<void>> _promises;
 
     public:
-        bool not_runable = false;
-
         DeviceRunner(std::vector<T> &devices, U function, const std::string &server_address, const std::string &id);
 
+        void connect_clients(mqtt::connect_options connect_options);
+        void disconnect_clients();
         void run_devices();
         void stop_devices();
 };
@@ -39,13 +40,13 @@ class Runner
         DeviceRunner<Hygrometer, void(Hygrometer::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _hygrometer_runner;
         DeviceRunner<Wattmeter, void(Wattmeter::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _wattmeter_runner;
         DeviceRunner<MoveSensor, void(MoveSensor::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _move_sensor_runner;
+        DeviceRunner<Light, void(Light::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _light_runner;
+
+        Reciever _reciever;
 
     public:
-        bool not_runable = false;
-
-        Runner();
         Runner(Devices &devices, const std::string server_address);
 
-        void run_threads();
-        void stop_threads();
+        bool start();
+        void stop();
 };

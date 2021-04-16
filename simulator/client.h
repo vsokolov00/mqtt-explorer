@@ -59,6 +59,9 @@ class Callbacks
                   void *on_message_arrived_object, OnMessageArrivedCallback on_message_arrived, 
                   void *on_connection_lost_object, OnConnectionLostCallback on_connection_lost, 
                   void *on_delivery_complete_object, OnDeliveryCompleteCallback on_delivery_complete);
+        
+        Callbacks(void *object, OnConnectedCallback on_connected, OnMessageArrivedCallback on_message_arrived, 
+                  OnConnectionLostCallback on_connection_lost, OnDeliveryCompleteCallback on_delivery_complete);
 };
 
 class Client : public virtual mqtt::callback
@@ -69,17 +72,16 @@ class Client : public virtual mqtt::callback
         void message_arrived(mqtt::const_message_ptr msg) override;
         void delivery_complete(mqtt::delivery_token_ptr token) override;
 
-        mqtt::connect_options& _options;
         mqtt::async_client _client;
 
         Listeners _listeners;
         Callbacks _callbacks;
 
     public:
-        Client(mqtt::connect_options &options, const std::string server_address, Listeners &listeners, Callbacks &callbacks);
+        Client(const std::string server_address, const std::string &id, Listeners &listeners, Callbacks &callbacks);
 
-        void connect();
-        void disconnect();
+        bool connect(const mqtt::connect_options &connect_options);
+        bool disconnect();
         void subscribe(const std::string topic, const int QOS);
         void unsubscribe(const std::string topic);
         void publish(const std::string topic, const std::string message);
