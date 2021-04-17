@@ -30,6 +30,7 @@ class Parser
         void parse_wattmeters(Json::Value &root, std::vector<Wattmeter> &wattmeters);
         void parse_move_sensors(Json::Value &root, std::vector<MoveSensor> &move_sensors);
         void parse_lights(Json::Value &root, std::vector<Light> &lights);
+        void parse_cameras(Json::Value &root, std::vector<Camera> &cameras);
 
     public:
         Parser();

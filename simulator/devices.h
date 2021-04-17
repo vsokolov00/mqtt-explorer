@@ -6,6 +6,7 @@
 #include "wattmeter.h"
 #include "move_sensor.h"
 #include "light.h"
+#include "camera.h"
 
 #include <vector>
 
@@ -17,4 +18,5 @@ struct Devices
         std::vector<Wattmeter> wattmeters;
         std::vector<MoveSensor> move_sensors;
         std::vector<Light> lights;
+        std::vector<Camera> cameras;
 };

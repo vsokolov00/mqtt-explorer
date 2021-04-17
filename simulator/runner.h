@@ -27,8 +27,8 @@ template<class T, class U> class DeviceRunner
     public:
         DeviceRunner(std::vector<T> &devices, U function, const std::string &server_address, const std::string &id);
 
-        void connect_clients(mqtt::connect_options connect_options);
-        void disconnect_clients();
+        void connect_client(mqtt::connect_options connect_options);
+        void disconnect_client();
         void run_devices();
         void stop_devices();
 };
@@ -41,6 +41,7 @@ class Runner
         DeviceRunner<Wattmeter, void(Wattmeter::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _wattmeter_runner;
         DeviceRunner<MoveSensor, void(MoveSensor::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _move_sensor_runner;
         DeviceRunner<Light, void(Light::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _light_runner;
+        DeviceRunner<Camera, void(Camera::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _camera_runner;
 
         Reciever _reciever;
 

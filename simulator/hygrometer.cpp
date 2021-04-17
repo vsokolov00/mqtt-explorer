@@ -21,7 +21,7 @@ void Hygrometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
 
     float step;
     bool up_down;
-    std::string humidity_template_str{"device name: " + _name + ", humidity: "};
+    std::string humidity_template_str{"name: " + _name + ", humidity: "};
     std::string humidity_str;
 
     future.wait_for(std::chrono::seconds(_period));

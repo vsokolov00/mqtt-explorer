@@ -56,6 +56,7 @@ bool Parser::parse_file(std::string file_name, Devices &devices)
     parse_wattmeters(root["wattmeters"], devices.wattmeters);
     parse_move_sensors(root["move sensors"], devices.move_sensors);
     parse_lights(root["lights"], devices.lights);
+    parse_cameras(root["cameras"], devices.cameras);
 
     return false;
 }
@@ -140,9 +141,37 @@ void Parser::parse_lights(Json::Value &root, std::vector<Light> &lights)
                                root[i]["recieving topic"].asString()
                                ));
         
+        if (!root[i]["states"])
+        {
+            continue;
+        }
+
         for (unsigned j = 0; root[i]["states"][j]; j++)
         {
             lights[i].add_state(root[i]["states"][j].asString());
+        }
+    }
+}
+
+void Parser::parse_cameras(Json::Value &root, std::vector<Camera> &cameras)
+{
+    cameras.reserve(root.size());
+    for (unsigned i = 0; root[i]; i++)
+    {
+        cameras.push_back(Camera(root[i]["topic"].asString(),
+                                 root[i]["name"].asString(), 
+                                 root[i]["min_period"].asInt(),
+                                 root[i]["max_period"].asInt()
+                                 ));
+        
+        if (!root[i]["images"])
+        {
+            continue;
+        }
+
+        for (unsigned j = 0; root[i]["images"][j]; j++)
+        {
+            cameras[i].add_image(root[i]["images"][j].asString());
         }
     }
 }

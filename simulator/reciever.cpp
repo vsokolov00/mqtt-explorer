@@ -67,7 +67,7 @@ void Reciever::on_subscribe_failure_cb(void *object, const mqtt::token &token)
 
 void Reciever::on_connected(const std::string &cause)
 {
-    std::cerr << "Reciever connected : " << cause << std::endl;
+    std::cerr << "Reciever connected: " << cause << std::endl;
 
     for (auto &topic: _topics)
     {
@@ -136,7 +136,7 @@ void Reciever::on_connection_failure(const mqtt::token &token)
 
 void Reciever::on_subscribe_success(const mqtt::token &token)
 {
-    std::cerr << "Reciever subscribed successfuly to topics: " << token.get_topics() << std::endl;
+    std::cerr << "Reciever subscribed successfuly to topic: " << token.get_topics() << std::endl;
 }
 
 void Reciever::on_subscribe_failure(const mqtt::token &token)
@@ -146,7 +146,7 @@ void Reciever::on_subscribe_failure(const mqtt::token &token)
 
 bool Reciever::start_recieving(const mqtt::connect_options &connect_options)
 {
-    std::cerr << "Connecting..." << std::endl;
+    std::cerr << "Connecting reciever..." << std::endl;
     return _client.connect(connect_options);
 }
 

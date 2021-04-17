@@ -7,7 +7,8 @@ Runner::Runner(Devices &devices, const std::string server_address)
          _wattmeter_runner(devices.wattmeters, &Wattmeter::run, server_address, "id_3"),
          _move_sensor_runner(devices.move_sensors, &MoveSensor::run, server_address, "id_4"),
          _light_runner(devices.lights, &Light::run, server_address, "id_5"),
-         _reciever(server_address, "id_6") 
+         _camera_runner(devices.cameras, &Camera::run, server_address, "id_6"),
+         _reciever(server_address, "id_7") 
 {
     _reciever.register_lights(devices.lights);
 }
@@ -15,39 +16,44 @@ Runner::Runner(Devices &devices, const std::string server_address)
 bool Runner::start()
 {
     mqtt::connect_options options;
+    if (_reciever.start_recieving(options))
+    {
+        return true;
+    }
 
     try
     {
         options.set_clean_session(true);
 
-        _thermometer_runner.connect_clients(options);
-        _hygrometer_runner.connect_clients(options);
-        _wattmeter_runner.connect_clients(options);
-        _move_sensor_runner.connect_clients(options);
-        _light_runner.connect_clients(options);
+        _thermometer_runner.connect_client(options);
+        _hygrometer_runner.connect_client(options);
+        _wattmeter_runner.connect_client(options);
+        _move_sensor_runner.connect_client(options);
+        _light_runner.connect_client(options);
+        _camera_runner.connect_client(options);
     }
     catch (const mqtt::exception& exc)
     {
         std::cerr << "Connection was not established: " << exc.what() << std::endl;
-        _thermometer_runner.disconnect_clients();
-        _hygrometer_runner.disconnect_clients();
-        _wattmeter_runner.disconnect_clients();
-        _move_sensor_runner.disconnect_clients();
-        _light_runner.disconnect_clients();
-
+        _thermometer_runner.disconnect_client();
+        _hygrometer_runner.disconnect_client();
+        _wattmeter_runner.disconnect_client();
+        _move_sensor_runner.disconnect_client();
+        _light_runner.disconnect_client();
+        _camera_runner.disconnect_client();
         return true;
     } 
     
+    std::cerr << "All devices connected successfuly." << std::endl;
+
     _thermometer_runner.run_devices();
     _hygrometer_runner.run_devices();
     _wattmeter_runner.run_devices();
     _move_sensor_runner.run_devices();
     _light_runner.run_devices();
+    _camera_runner.run_devices();
 
-    if (_reciever.start_recieving(options))
-    {
-        return true;
-    }
+    std::cerr << "All devices are runnning." << std::endl;
 
     return false;
 }
@@ -61,12 +67,14 @@ void Runner::stop()
     _wattmeter_runner.stop_devices();
     _move_sensor_runner.stop_devices();
     _light_runner.stop_devices();
+    _camera_runner.stop_devices();
 
-    _thermometer_runner.disconnect_clients();
-    _hygrometer_runner.disconnect_clients();
-    _wattmeter_runner.disconnect_clients();
-    _move_sensor_runner.disconnect_clients();
-    _light_runner.disconnect_clients();
+    _thermometer_runner.disconnect_client();
+    _hygrometer_runner.disconnect_client();
+    _wattmeter_runner.disconnect_client();
+    _move_sensor_runner.disconnect_client();
+    _light_runner.disconnect_client();
+    _camera_runner.disconnect_client();
 }
 
 template<class T, class U> DeviceRunner<T, U>::DeviceRunner(std::vector<T> &devices, U function, 
@@ -104,12 +112,12 @@ template<class T, class U> void DeviceRunner<T, U>::stop_devices()
     }
 }
 
-template<class T, class U> void DeviceRunner<T, U>::connect_clients(mqtt::connect_options connect_options)
+template<class T, class U> void DeviceRunner<T, U>::connect_client(mqtt::connect_options connect_options)
 {
     _client.connect(connect_options);
 }
 
-template<class T, class U> void DeviceRunner<T, U>::disconnect_clients()
+template<class T, class U> void DeviceRunner<T, U>::disconnect_client()
 {
     if (_client.is_connected())
     {
