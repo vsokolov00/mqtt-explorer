@@ -18,46 +18,46 @@ void MoveSensor::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
     auto vertical_generator = std::bind(std::uniform_int_distribution<int>(0, _vertical_FOV), std::default_random_engine(time(nullptr)));
     vertical_generator();
 
-    std::string sensor_str;
+    std::string message_str;
     bool state = true;
 
     future.wait_for(std::chrono::seconds(period_generator()));
     while (run)
     {
-        sensor_str = _name;
+        message_str = "name: " + _name;
         if (_horizontal_FOV | _vertical_FOV)
         {
-            sensor_str += ": move detected at x = " + std::to_string(horizontal_generator()) 
+            message_str += ": move detected at x = " + std::to_string(horizontal_generator()) 
                         + ", y = " + std::to_string(vertical_generator());
         }
         else
         {
             if (_type == "PIR")
             {
-                sensor_str += ": move detected";
+                message_str += ": move detected";
             }
             else if (_type == "lock")
             {
                 if (state)
                 {
-                    sensor_str += ": locked"; 
+                    message_str += ": locked"; 
                 }
                 else
                 {
-                    sensor_str += ": unlocked";
+                    message_str += ": unlocked";
                 }
 
                 state = !state;
             }
         }
 
-        message->set_payload(sensor_str.c_str(), sensor_str.size());
+        message->set_payload(message_str.c_str(), message_str.size());
         
         mutex.lock();
             client.publish(message);
         mutex.unlock();
 
-        std::cerr << sensor_str << std::endl;        
+        std::cerr << message_str << std::endl;        
         future.wait_for(std::chrono::seconds(period_generator()));
     }
 }

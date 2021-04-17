@@ -57,6 +57,8 @@ bool Parser::parse_file(std::string file_name, Devices &devices)
     parse_move_sensors(root["move sensors"], devices.move_sensors);
     parse_lights(root["lights"], devices.lights);
     parse_cameras(root["cameras"], devices.cameras);
+    parse_relays(root["relays"], devices.relays);
+    parse_valves(root["valves"], devices.valves);
 
     return false;
 }
@@ -172,6 +174,53 @@ void Parser::parse_cameras(Json::Value &root, std::vector<Camera> &cameras)
         for (unsigned j = 0; root[i]["images"][j]; j++)
         {
             cameras[i].add_image(root[i]["images"][j].asString());
+        }
+    }
+}
+
+void Parser::parse_relays(Json::Value &root, std::vector<Relay> &relays)
+{
+    relays.reserve(root.size());
+    for (unsigned i = 0; root[i]; i++)
+    {
+        relays.push_back(Relay(root[i]["answering topic"].asString(),
+                               root[i]["name"].asString(), 
+                               root[i]["id"].asString(),
+                               root[i]["recieving topic"].asString()
+                               ));
+        
+        if (!root[i]["states"])
+        {
+            continue;
+        }
+
+        for (unsigned j = 0; root[i]["states"][j]; j++)
+        {
+            relays[i].add_state(root[i]["states"][j].asString());
+        }
+    }
+}
+
+void Parser::parse_valves(Json::Value &root, std::vector<Valve> &valves)
+{
+    valves.reserve(root.size());
+    for (unsigned i = 0; root[i]; i++)
+    {
+        valves.push_back(Valve(root[i]["topic"].asString(),
+                               root[i]["name"].asString(), 
+                               root[i]["period"].asInt(), 
+                               root[i]["id"].asString(),
+                               root[i]["recieving topic"].asString()
+                               ));
+        
+        if (!root[i]["states"])
+        {
+            continue;
+        }
+
+        for (unsigned j = 0; root[i]["states"][j]; j++)
+        {
+            valves[i].add_state(root[i]["states"][j].asString());
         }
     }
 }

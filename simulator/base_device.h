@@ -15,7 +15,6 @@ class Device
         std::string _name;
 
     public:
-        Device() = default;
         Device(std::string topic, std::string name);
         Device(const Device&) = default;
 };
@@ -26,7 +25,6 @@ class PublishingDevice : public Device
         int _period;
 
     public:
-        PublishingDevice() = default;
         PublishingDevice(std::string topic, std::string name, int period);
         PublishingDevice(const PublishingDevice&) = default;
 };
@@ -40,7 +38,6 @@ class RecievingDevice : public Device
         std::string id;
         std::string recv_topic;
 
-        RecievingDevice() = default;
         RecievingDevice(std::string topic, std::string name, std::string id, std::string recv_topic);
         RecievingDevice(const RecievingDevice& device);
         ~RecievingDevice();
@@ -54,7 +51,6 @@ class RecievingAndPublishingDevice : public RecievingDevice
         int _period;
 
     public:
-        RecievingAndPublishingDevice() = default;
         RecievingAndPublishingDevice(std::string topic, std::string name, int period, std::string id, std::string recv_topic);
         RecievingAndPublishingDevice(const RecievingAndPublishingDevice &device);
 };

@@ -31,6 +31,8 @@ class Parser
         void parse_move_sensors(Json::Value &root, std::vector<MoveSensor> &move_sensors);
         void parse_lights(Json::Value &root, std::vector<Light> &lights);
         void parse_cameras(Json::Value &root, std::vector<Camera> &cameras);
+        void parse_relays(Json::Value &root, std::vector<Relay> &relays);
+        void parse_valves(Json::Value &root, std::vector<Valve> &valves);
 
     public:
         Parser();

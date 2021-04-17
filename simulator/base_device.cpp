@@ -13,10 +13,9 @@ RecievingDevice::RecievingDevice(std::string topic, std::string name, std::strin
     _mutex = new std::mutex();
 }
 
-RecievingDevice::RecievingDevice(const RecievingDevice& device) : Device(device)
+RecievingDevice::RecievingDevice(const RecievingDevice& device) 
+                : Device(device), id(device.id), recv_topic(device.recv_topic)
 {
-    id = device.id;
-    recv_topic = device.recv_topic;
     _mutex = new std::mutex();
 }
 
@@ -32,10 +31,10 @@ void RecievingDevice::on_message_arrived(std::string state, Client &client, std:
     std::cerr << "Message arrived to virtual function, state: " << state << std::endl;
 }
         
-RecievingAndPublishingDevice::RecievingAndPublishingDevice(std::string topic, std::string name, int period, std::string id, std::string recv_topic)
-                : RecievingDevice(topic, name, id, recv_topic), _period(period) {}
+RecievingAndPublishingDevice::RecievingAndPublishingDevice(std::string topic, std::string name, int period, std::string id, 
+                                                           std::string recv_topic)
+                             : RecievingDevice(topic, name, id, recv_topic), _period(period) {}
 
-RecievingAndPublishingDevice::RecievingAndPublishingDevice(const RecievingAndPublishingDevice &device) : RecievingDevice(device) 
-{
-    _period = device._period;
-}
+RecievingAndPublishingDevice::RecievingAndPublishingDevice(const RecievingAndPublishingDevice &device) 
+                             : RecievingDevice(device), _period(device._period) { }
+

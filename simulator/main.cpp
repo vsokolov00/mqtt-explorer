@@ -20,11 +20,8 @@ void test_func(void *ptr, const mqtt::token &token)
 
 int main()
 {
-    Listener listener(nullptr, test_func, test_func);
-
     Devices devices;
     Parser parser;
-      
 
     if (parser.parse_file("file.json", devices))
     {

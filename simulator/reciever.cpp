@@ -71,6 +71,7 @@ void Reciever::on_connected(const std::string &cause)
 
     for (auto &topic: _topics)
     {
+        std::cerr << "Reciever is subscribing to topic: " << topic << std::endl;
         _client.subscribe(topic, 1);
     }
 }
@@ -98,24 +99,6 @@ void Reciever::on_connection_lost(const std::string &cause)
     std::cerr << "Reciever lost connection: " << cause << std::endl;
 }
 
-void Reciever::register_device(RecievingAndPublishingDevice &device, const std::string &topic, const std::string &name)
-{
-    _map[topic + name] = &device;
-    if (std::find(_topics.begin(), _topics.end(), topic) == _topics.end())
-    {
-        _topics.push_back(topic);
-    }
-}
-
-void Reciever::register_device(RecievingAndPublishingDevice &device)
-{
-    if (std::find(_topics.begin(), _topics.end(), device.recv_topic) == _topics.end())
-    {
-        _topics.push_back(device.recv_topic);
-    }
-    _map[device.recv_topic + device.id] = &device;
-}
-
 void Reciever::register_lights(std::vector<Light> &lights)
 {
     for (auto &light: lights)
@@ -126,6 +109,32 @@ void Reciever::register_lights(std::vector<Light> &lights)
         }
 
         _map[light.recv_topic + light.id] = &light;
+    }
+}
+
+void Reciever::register_relays(std::vector<Relay> &relays)
+{
+    for (auto &relay: relays)
+    {
+        if (std::find(_topics.begin(), _topics.end(), relay.recv_topic) == _topics.end())
+        {
+            _topics.push_back(relay.recv_topic);
+        }
+
+        _map[relay.recv_topic + relay.id] = &relay;
+    }
+}
+
+void Reciever::register_valves(std::vector<Valve> &valves)
+{
+    for (auto &valve: valves)
+    {
+        if (std::find(_topics.begin(), _topics.end(), valve.recv_topic) == _topics.end())
+        {
+            _topics.push_back(valve.recv_topic);
+        }
+
+        _map[valve.recv_topic + valve.id] = &valve;
     }
 }
 

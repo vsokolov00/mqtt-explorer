@@ -193,14 +193,52 @@
     "relays":
     [
         {
+            "answering topic": "answers/relays",
+            "name": "switch-relay",
             "recieving topic": "devices/relays/main switch",
             "id": "RL4569",
             "states": ["on", "off"]
         },
         {
+            "answering topic": "answers/relays",
+            "name": "relay-ZAP-VYP",
             "recieving topic": "devices/relays/battery switch",
             "id": "RAL7745",
             "states": ["ZAP", "VYP"]
+        },
+        {
+            "answering topic": "devices/relays/engine",
+            "name": "ENG-RL",
+            "recieving topic": "devices/relays/engine",
+            "id": "ENGRL",
+            "states": ["run", "stop"]
+        }
+    ],
+    "valves":
+    [
+        {
+            "topic": "answers/valves",
+            "name": "SECTOR A",
+            "period": 25,
+            "recieving topic": "devices/valves/main piping",
+            "id": "AVLV",
+            "states": ["open", "closed", "40%", "80%"]
+        },
+        {
+            "topic": "answers/valves/main",
+            "name": "main piping main valve",
+            "period": 62,
+            "recieving topic": "devices/valves/main valve",
+            "id": "MVLV",
+            "states": ["open", "closed", "10%", "30%", "40%", "50%", "60%", "70%", "80%", "90%"]
+        },
+        {
+            "topic": "answers/valves",
+            "name": "SECTOR B",
+            "period": 36,
+            "recieving topic": "devices/valves/main piping",
+            "id": "BVLV",
+            "states": ["open", "closed", "25%", "50%", "75%"]
         }
     ]
 }

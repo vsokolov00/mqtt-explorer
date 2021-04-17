@@ -52,9 +52,10 @@ class Reciever
         Reciever(const Reciever&) = delete;
         ~Reciever();
 
-        void register_device(RecievingAndPublishingDevice &device, const std::string &topic, const std::string &name);
-        void register_device(RecievingAndPublishingDevice &device);
         void register_lights(std::vector<Light> &lights);
+        void register_relays(std::vector<Relay> &relays);
+        void register_valves(std::vector<Valve> &valves);
+
         bool start_recieving(const mqtt::connect_options &connect_options);
         bool stop_recieving();
 };

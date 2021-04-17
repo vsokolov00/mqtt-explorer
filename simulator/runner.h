@@ -42,6 +42,7 @@ class Runner
         DeviceRunner<MoveSensor, void(MoveSensor::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _move_sensor_runner;
         DeviceRunner<Light, void(Light::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _light_runner;
         DeviceRunner<Camera, void(Camera::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _camera_runner;
+        DeviceRunner<Valve, void(Valve::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _valve_runner;
 
         Reciever _reciever;
 

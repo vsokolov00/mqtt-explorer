@@ -1,5 +1,5 @@
 
-#pragma once
+#pragma once 
 
 #include <string>
 #include <thread>
@@ -11,16 +11,17 @@
 #include "base_device.h"
 #include "mqtt/client.h"
 
-class Relay : public RecievingDevice
+class Valve : public RecievingAndPublishingDevice
 {
     private:
-        std::string _state = "";
+        int _state = -1;
         std::vector<std::string> _states;
     
     public:
-        Relay(std::string topic, std::string name, std::string id, std::string recv_topic);
-        Relay(const Relay &relay);
+        Valve(std::string topic, std::string name, int period, std::string id, std::string recv_topic);
+        Valve(const Valve &valve);
 
         void add_state(std::string state);
+        void run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future);
         void on_message_arrived(std::string state, Client &client, std::mutex &mutex) override;
 };

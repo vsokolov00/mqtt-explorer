@@ -7,6 +7,8 @@
 #include "move_sensor.h"
 #include "light.h"
 #include "camera.h"
+#include "relay.h"
+#include "valve.h"
 
 #include <vector>
 
@@ -19,4 +21,6 @@ struct Devices
         std::vector<MoveSensor> move_sensors;
         std::vector<Light> lights;
         std::vector<Camera> cameras;
+        std::vector<Relay> relays;
+        std::vector<Valve> valves;
 };

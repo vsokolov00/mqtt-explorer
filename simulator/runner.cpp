@@ -8,14 +8,19 @@ Runner::Runner(Devices &devices, const std::string server_address)
          _move_sensor_runner(devices.move_sensors, &MoveSensor::run, server_address, "id_4"),
          _light_runner(devices.lights, &Light::run, server_address, "id_5"),
          _camera_runner(devices.cameras, &Camera::run, server_address, "id_6"),
-         _reciever(server_address, "id_7") 
+         _valve_runner(devices.valves, &Valve::run, server_address, "id_7"),
+         _reciever(server_address, "id_8") 
 {
     _reciever.register_lights(devices.lights);
+    _reciever.register_relays(devices.relays);
+    _reciever.register_valves(devices.valves);
 }
 
 bool Runner::start()
 {
     mqtt::connect_options options;
+    options.set_clean_session(true);
+    
     if (_reciever.start_recieving(options))
     {
         return true;
@@ -23,14 +28,13 @@ bool Runner::start()
 
     try
     {
-        options.set_clean_session(true);
-
         _thermometer_runner.connect_client(options);
         _hygrometer_runner.connect_client(options);
         _wattmeter_runner.connect_client(options);
         _move_sensor_runner.connect_client(options);
         _light_runner.connect_client(options);
         _camera_runner.connect_client(options);
+        _valve_runner.connect_client(options);
     }
     catch (const mqtt::exception& exc)
     {
@@ -41,6 +45,7 @@ bool Runner::start()
         _move_sensor_runner.disconnect_client();
         _light_runner.disconnect_client();
         _camera_runner.disconnect_client();
+        _valve_runner.disconnect_client();
         return true;
     } 
     
@@ -52,6 +57,7 @@ bool Runner::start()
     _move_sensor_runner.run_devices();
     _light_runner.run_devices();
     _camera_runner.run_devices();
+    _valve_runner.run_devices();
 
     std::cerr << "All devices are runnning." << std::endl;
 
@@ -68,6 +74,7 @@ void Runner::stop()
     _move_sensor_runner.stop_devices();
     _light_runner.stop_devices();
     _camera_runner.stop_devices();
+    _valve_runner.stop_devices();
 
     _thermometer_runner.disconnect_client();
     _hygrometer_runner.disconnect_client();
@@ -75,6 +82,7 @@ void Runner::stop()
     _move_sensor_runner.disconnect_client();
     _light_runner.disconnect_client();
     _camera_runner.disconnect_client();
+    _valve_runner.disconnect_client();
 }
 
 template<class T, class U> DeviceRunner<T, U>::DeviceRunner(std::vector<T> &devices, U function, 

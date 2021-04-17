@@ -1,18 +1,17 @@
 
-#include "light.h"
+#include "valve.h"
 
-Light::Light(std::string topic, std::string name, int period, std::string id, std::string recv_topic)
-      : RecievingAndPublishingDevice(topic, name, period, id, recv_topic) { }
+Valve::Valve(std::string topic, std::string name, int period, std::string id, std::string recv_topic)
+      : RecievingAndPublishingDevice(topic, name, period, id, recv_topic) {}
 
-Light::Light(const Light &light) 
-      : RecievingAndPublishingDevice(light), _state(light._state), _states(light._states) { }
+Valve::Valve(const Valve &valve) : RecievingAndPublishingDevice(valve), _state(valve._state), _states(valve._states) { }
 
-void Light::add_state(std::string state)
+void Valve::add_state(std::string state)
 {
     _states.push_back(state);
 }
 
-void Light::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future)
+void Valve::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future)
 {
     mqtt::message_ptr message = mqtt::make_message(_topic, _name);
     message->set_qos(1);
@@ -56,7 +55,7 @@ void Light::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::f
     }
 }
 
-void Light::on_message_arrived(std::string state, Client &client, std::mutex &mutex)
+void Valve::on_message_arrived(std::string state, Client &client, std::mutex &mutex)
 {
     std::string message_str = _name;
     auto iterator = std::find(_states.begin(), _states.end(), state);
