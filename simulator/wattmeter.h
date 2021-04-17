@@ -9,7 +9,7 @@
 #include "base_device.h"
 #include "mqtt/client.h"
 
-class Wattmeter : Device
+class Wattmeter : PublishingDevice
 {
     private:
         int _min_val;

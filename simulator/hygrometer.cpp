@@ -2,7 +2,7 @@
 #include "hygrometer.h"
 
 Hygrometer::Hygrometer(std::string topic, std::string name, int period, float min_step, float max_step, float humidity)
-            : Device(topic, name, period), _min_step(min_step), _max_step(max_step) 
+            : PublishingDevice(topic, name, period), _min_step(min_step), _max_step(max_step) 
 {
     (*this)._humidity = humidity >= 0.0f && humidity <= 100.f ? humidity : 50.0f;
 }

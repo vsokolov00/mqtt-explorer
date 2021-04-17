@@ -3,7 +3,7 @@
 
 MoveSensor::MoveSensor(std::string topic, std::string name, int min_period, int max_period, 
                          int horizontal_FOV, int vertical_FOV, std::string type)
-            : Device(topic, name, min_period), _max_period(max_period), _horizontal_FOV(horizontal_FOV), 
+            : PublishingDevice(topic, name, min_period), _max_period(max_period), _horizontal_FOV(horizontal_FOV), 
               _vertical_FOV(vertical_FOV), _type(type) {}
 
 void MoveSensor::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future)

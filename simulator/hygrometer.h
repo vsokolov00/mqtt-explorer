@@ -9,7 +9,7 @@
 #include "base_device.h"
 #include "mqtt/client.h"
 
-class Hygrometer : Device
+class Hygrometer : PublishingDevice
 {
     private:
         float _min_step;

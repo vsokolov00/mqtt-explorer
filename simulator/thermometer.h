@@ -11,7 +11,7 @@
 #include "base_device.h"
 #include "mqtt/client.h"
 
-class Thermometer : Device
+class Thermometer : PublishingDevice
 {
     private:
         float _min_temp;

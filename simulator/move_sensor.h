@@ -9,7 +9,7 @@
 #include "base_device.h"
 #include "mqtt/client.h"
 
-class MoveSensor : Device
+class MoveSensor : PublishingDevice
 {
     private:
         int _max_period;

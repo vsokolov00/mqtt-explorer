@@ -2,7 +2,7 @@
 #include "camera.h"
 
 Camera::Camera(std::string topic, std::string name, int min_period, int max_period)
-       : Device(topic, name, min_period), _max_period(max_period) {}
+       : PublishingDevice(topic, name, min_period), _max_period(max_period) {}
 
 void Camera::add_image(std::string image)
 {

@@ -98,7 +98,7 @@ void Reciever::on_connection_lost(const std::string &cause)
     std::cerr << "Reciever lost connection: " << cause << std::endl;
 }
 
-void Reciever::register_device(RecievingDevice &device, const std::string &topic, const std::string &name)
+void Reciever::register_device(RecievingAndPublishingDevice &device, const std::string &topic, const std::string &name)
 {
     _map[topic + name] = &device;
     if (std::find(_topics.begin(), _topics.end(), topic) == _topics.end())
@@ -107,7 +107,7 @@ void Reciever::register_device(RecievingDevice &device, const std::string &topic
     }
 }
 
-void Reciever::register_device(RecievingDevice &device)
+void Reciever::register_device(RecievingAndPublishingDevice &device)
 {
     if (std::find(_topics.begin(), _topics.end(), device.recv_topic) == _topics.end())
     {

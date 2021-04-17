@@ -189,5 +189,18 @@
             "images": ["images/starry_night.jpg", "images/scream.jpg", "images/composition_8.jpg", "images/time_persistance.jpg",
                        "images/impression_sunrise.jpg", "images/the_ladies_of_avignon.jpg"]
         }
+    ],
+    "relays":
+    [
+        {
+            "recieving topic": "devices/relays/main switch",
+            "id": "RL4569",
+            "states": ["on", "off"]
+        },
+        {
+            "recieving topic": "devices/relays/battery switch",
+            "id": "RAL7745",
+            "states": ["ZAP", "VYP"]
+        }
     ]
 }

@@ -2,21 +2,12 @@
 #include "light.h"
 
 Light::Light(std::string topic, std::string name, int period, std::string id, std::string recv_topic)
-      : RecievingDevice(topic, name, period, id, recv_topic) 
-{
-    _mutex = new std::mutex();
-}
+      : RecievingAndPublishingDevice(topic, name, period, id, recv_topic) { }
 
-Light::Light(const Light &copy) : RecievingDevice(copy)
+Light::Light(const Light &light) : RecievingAndPublishingDevice(light) 
 {
-    _states = copy._states;
-    _state = copy._state;
-    _mutex = new std::mutex();
-}
-
-Light::~Light()
-{
-    delete _mutex;
+    _state = light._state;
+    _states = light._states;
 }
 
 void Light::add_state(std::string state)
@@ -76,7 +67,9 @@ void Light::on_message_arrived(std::string state, Client &client, std::mutex &mu
     if (iterator == _states.end())
     {
         mutex.lock();
-            client.publish(_topic, _name + ", change unsuccessful, unknow state: " + state);
+            message_str = "name: " + _name + ", change unsuccessful, unknow state: " + state;
+            std::cerr << message_str << std::endl;
+            client.publish(_topic, message_str);
         mutex.unlock();
         return;
     }

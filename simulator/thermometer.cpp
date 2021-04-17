@@ -3,7 +3,7 @@
 
 Thermometer::Thermometer(std::string topic, std::string name, int period, float min_temp, float max_temp, 
                          float min_step, float max_step, float temp, std::string unit)
-            : Device(topic, name, period), _min_temp(min_temp), _max_temp(max_temp), _min_step(min_step), 
+            : PublishingDevice(topic, name, period), _min_temp(min_temp), _max_temp(max_temp), _min_step(min_step), 
               _max_step(max_step), _temp(temp), _unit(unit) { }
 
 void Thermometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future)

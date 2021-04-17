@@ -12,7 +12,7 @@
 #include "base_device.h"
 #include "mqtt/client.h"
 
-class Camera : Device
+class Camera : PublishingDevice
 {
     private:
         int _max_period;

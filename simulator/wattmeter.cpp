@@ -3,7 +3,7 @@
 
 Wattmeter::Wattmeter(std::string topic, std::string name, int period, int min_val, 
                   int max_val, int min_step, int max_step, int value, std::string unit)
-          :Device(topic, name, period), _min_val(min_val), _max_val(max_val), _min_step(min_step),
+          :PublishingDevice(topic, name, period), _min_val(min_val), _max_val(max_val), _min_step(min_step),
            _max_step(max_step), _value(value), _unit(unit) {}
 
 void Wattmeter::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future)
