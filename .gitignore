@@ -6,3 +6,6 @@ mqtt-explorer
 .qmake.stash
 client/client
 simulator/build
+simulator/simulator
+*/build/
+*/libs/
