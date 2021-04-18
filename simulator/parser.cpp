@@ -59,6 +59,7 @@ bool Parser::parse_file(std::string file_name, Devices &devices)
     parse_cameras(root["cameras"], devices.cameras);
     parse_relays(root["relays"], devices.relays);
     parse_valves(root["valves"], devices.valves);
+    parse_thermostats(root["thermostats"], devices.thermostats);
 
     return false;
 }
@@ -222,6 +223,25 @@ void Parser::parse_valves(Json::Value &root, std::vector<Valve> &valves)
         {
             valves[i].add_state(root[i]["states"][j].asString());
         }
+    }
+}
+
+void Parser::parse_thermostats(Json::Value &root, std::vector<Thermostat> &thermostats)
+{
+    thermostats.reserve(root.size());
+    for (unsigned i = 0; root[i]; i++)
+    {
+        thermostats.push_back(Thermostat(root[i]["topic"].asString(),
+                                         root[i]["name"].asString(), 
+                                         root[i]["id"].asString(),
+                                         root[i]["recieving topic"].asString(),
+                                         root[i]["min_period"].asInt(),
+                                         root[i]["max_period"].asInt(),
+                                         root[i]["set_point"].asFloat(),
+                                         root[i]["max_temp_change"].asFloat(),
+                                         root[i]["starting_temp"].asFloat(),
+                                         root[i]["unit"].asString()
+                                         ));
     }
 }
 

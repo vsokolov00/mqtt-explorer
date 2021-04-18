@@ -16,22 +16,22 @@
             "topic": "home/temperatrure/living room",
             "name": "temp2",
             "period": 14,
-            "min_temp": 15.0,
-            "max_temp": 42.0,
-            "min_step": 0.2,
-            "max_step": 0.8,
-            "temp": 25.45,
+            "min_temp": -40,
+            "max_temp": 120,
+            "min_step": 0.6,
+            "max_step": 1.9,
+            "temp": 59.45,
             "unit": "F"
         },
         {
             "topic": "home/temperatrure/garage",
             "name": "temp3",
             "period": 23,
-            "min_temp": -20.0,
-            "max_temp": 40.0,
+            "min_temp": 250.35,
+            "max_temp": 303,
             "min_step": 0.5,
             "max_step": 1.5,
-            "temp": 17.2,
+            "temp": 290.6,
             "unit": "T"
         }
     ],
@@ -164,6 +164,7 @@
             "states": ["green", "yellow", "orange", "red", "off"]
         }
     ],
+
     "cameras":
     [
         {
@@ -190,6 +191,7 @@
                        "images/impression_sunrise.jpg", "images/the_ladies_of_avignon.jpg"]
         }
     ],
+
     "relays":
     [
         {
@@ -214,6 +216,7 @@
             "states": ["run", "stop"]
         }
     ],
+
     "valves":
     [
         {
@@ -239,6 +242,71 @@
             "recieving topic": "devices/valves/main piping",
             "id": "BVLV",
             "states": ["open", "closed", "25%", "50%", "75%"]
+        }
+    ],
+
+    "thermostats":
+    [
+        {
+            "topic": "home/heating system/main heater",
+            "name": "Main Heater",
+            "min_period": 25,
+            "max_period": 163,
+            "recieving topic": "devices/heaters/main heater",
+            "id": "MHTR",
+            "set_point": 23.1,
+            "max_temp_change" : 1.3,
+            "starting_temp" : 21.5,
+            "unit" : "C"
+        },
+        {
+            "topic": "home/heating system/living room",
+            "name": "Livinf Room Heater",
+            "min_period": 21,
+            "max_period": 185,
+            "recieving topic": "devices/heaters",
+            "id": "LVHTR",
+            "set_point": 25.1,
+            "max_temp_change" : 2.1,
+            "starting_temp" : 23.5,
+            "unit" : "C"
+        },
+        {
+            "topic": "car/heater",
+            "name": "Car Heater",
+            "min_period": 32,
+            "max_period": 141,
+            "recieving topic": "car/heater",
+            "id": "CHTR",
+            "set_point": 82.0,
+            "max_temp_change" : 4.3,
+            "starting_temp" : 73.5,
+            "unit" : "F"
+        }
+    ],
+
+    "locks":
+    [
+        {
+            "answering topic": "answers/locks/home/main door",
+            "name": "Main lock",
+            "recieving topic": "home/locks/main door",
+            "id": "Mlock",
+            "states": ["locked", "unlocked"]
+        },
+        {
+            "answering topic": "home/locks/basement",
+            "name": "basement-lock",
+            "recieving topic": "home/locks/basement",
+            "id": "Block",
+            "states": ["open", "locked"]
+        },
+        {
+            "answering topic": "car/tesla/security/locks",
+            "name": "C-testla-lock",
+            "recieving topic": "car/tesla/security/locks",
+            "id": "carTlock",
+            "states": ["locked", "unlocked", "unlocked-no-drive"]
         }
     ]
 }

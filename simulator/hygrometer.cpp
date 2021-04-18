@@ -40,9 +40,7 @@ void Hygrometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
         }
 
         humidity_str = humidity_template_str + std::to_string(_humidity);
-        humidity_str.pop_back();
-        humidity_str.pop_back();
-        humidity_str.pop_back();
+        humidity_str = humidity_str.erase(humidity_str.size() - 3);
         humidity_str += "%";
         message->set_payload(humidity_str.c_str(), humidity_str.size());
         

@@ -138,6 +138,19 @@ void Reciever::register_valves(std::vector<Valve> &valves)
     }
 }
 
+void Reciever::register_thermostats(std::vector<Thermostat> &thermostats)
+{
+    for (auto &thermostat: thermostats)
+    {
+        if (std::find(_topics.begin(), _topics.end(), thermostat.recv_topic) == _topics.end())
+        {
+            _topics.push_back(thermostat.recv_topic);
+        }
+
+        _map[thermostat.recv_topic + thermostat.id] = &thermostat;
+    }
+}
+
 void Reciever::on_connection_failure(const mqtt::token &token)
 {
     std::cerr << "Reciever failed to connect with code: " << token.get_reason_code() << std::endl;

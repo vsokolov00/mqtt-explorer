@@ -9,11 +9,13 @@ Runner::Runner(Devices &devices, const std::string server_address)
          _light_runner(devices.lights, &Light::run, server_address, "id_5"),
          _camera_runner(devices.cameras, &Camera::run, server_address, "id_6"),
          _valve_runner(devices.valves, &Valve::run, server_address, "id_7"),
-         _reciever(server_address, "id_8") 
+         _thermostat_runner(devices.thermostats, &Thermostat::run, server_address, "id_8"),
+         _reciever(server_address, "id_9") 
 {
     _reciever.register_lights(devices.lights);
     _reciever.register_relays(devices.relays);
     _reciever.register_valves(devices.valves);
+    _reciever.register_thermostats(devices.thermostats);
 }
 
 bool Runner::start()
@@ -35,6 +37,7 @@ bool Runner::start()
         _light_runner.connect_client(options);
         _camera_runner.connect_client(options);
         _valve_runner.connect_client(options);
+        _thermostat_runner.connect_client(options);
     }
     catch (const mqtt::exception& exc)
     {
@@ -46,6 +49,7 @@ bool Runner::start()
         _light_runner.disconnect_client();
         _camera_runner.disconnect_client();
         _valve_runner.disconnect_client();
+        _thermostat_runner.disconnect_client();
         return true;
     } 
     
@@ -58,6 +62,7 @@ bool Runner::start()
     _light_runner.run_devices();
     _camera_runner.run_devices();
     _valve_runner.run_devices();
+    _thermostat_runner.run_devices();
 
     std::cerr << "All devices are runnning." << std::endl;
 
@@ -75,6 +80,7 @@ void Runner::stop()
     _light_runner.stop_devices();
     _camera_runner.stop_devices();
     _valve_runner.stop_devices();
+    _thermostat_runner.stop_devices();
 
     _thermometer_runner.disconnect_client();
     _hygrometer_runner.disconnect_client();
@@ -83,6 +89,7 @@ void Runner::stop()
     _light_runner.disconnect_client();
     _camera_runner.disconnect_client();
     _valve_runner.disconnect_client();
+    _thermostat_runner.disconnect_client();
 }
 
 template<class T, class U> DeviceRunner<T, U>::DeviceRunner(std::vector<T> &devices, U function, 

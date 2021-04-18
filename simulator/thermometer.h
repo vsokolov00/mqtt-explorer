@@ -19,7 +19,7 @@ class Thermometer : PublishingDevice
         float _min_step;
         float _max_step;
         float _temp;
-        std::string _unit;
+        const std::string _unit;
     
     public:
         Thermometer(std::string topic, std::string name, int period, float min_temp, float max_temp, 

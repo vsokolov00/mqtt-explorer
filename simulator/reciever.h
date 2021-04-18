@@ -55,6 +55,7 @@ class Reciever
         void register_lights(std::vector<Light> &lights);
         void register_relays(std::vector<Relay> &relays);
         void register_valves(std::vector<Valve> &valves);
+        void register_thermostats(std::vector<Thermostat> &thermostats);
 
         bool start_recieving(const mqtt::connect_options &connect_options);
         bool stop_recieving();

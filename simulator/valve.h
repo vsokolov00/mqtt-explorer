@@ -19,7 +19,7 @@ class Valve : public RecievingAndPublishingDevice
     
     public:
         Valve(std::string topic, std::string name, int period, std::string id, std::string recv_topic);
-        Valve(const Valve &valve);
+        Valve(const Valve &valve) = default;
 
         void add_state(std::string state);
         void run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future);

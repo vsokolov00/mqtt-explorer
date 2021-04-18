@@ -19,7 +19,7 @@ class Relay : public RecievingDevice
     
     public:
         Relay(std::string topic, std::string name, std::string id, std::string recv_topic);
-        Relay(const Relay &relay);
+        Relay(const Relay &relay) = default;
 
         void add_state(std::string state);
         void on_message_arrived(std::string state, Client &client, std::mutex &mutex) override;

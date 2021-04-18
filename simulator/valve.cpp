@@ -4,7 +4,7 @@
 Valve::Valve(std::string topic, std::string name, int period, std::string id, std::string recv_topic)
       : RecievingAndPublishingDevice(topic, name, period, id, recv_topic) {}
 
-Valve::Valve(const Valve &valve) : RecievingAndPublishingDevice(valve), _state(valve._state), _states(valve._states) { }
+//Valve::Valve(const Valve &valve) : RecievingAndPublishingDevice(valve), _state(valve._state), _states(valve._states) { }
 
 void Valve::add_state(std::string state)
 {
@@ -57,12 +57,12 @@ void Valve::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::f
 
 void Valve::on_message_arrived(std::string state, Client &client, std::mutex &mutex)
 {
-    std::string message_str = _name;
+    std::string message_str = "name: " + _name;
     auto iterator = std::find(_states.begin(), _states.end(), state);
 
     if (iterator == _states.end())
     {
-        message_str = "name: " + _name + ", change unsuccessful, unknow state: " + state;
+        message_str += ", change unsuccessful, unknow state: " + state;
         std::cerr << message_str << std::endl;
         mutex.lock();
             client.publish(_topic, message_str);

@@ -9,6 +9,7 @@
 #include "camera.h"
 #include "relay.h"
 #include "valve.h"
+#include "thermostat.h"
 
 #include <vector>
 
@@ -23,4 +24,5 @@ struct Devices
         std::vector<Camera> cameras;
         std::vector<Relay> relays;
         std::vector<Valve> valves;
+        std::vector<Thermostat> thermostats;
 };

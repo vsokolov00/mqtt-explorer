@@ -4,8 +4,8 @@
 Relay::Relay(std::string topic, std::string name, std::string id, std::string recv_topic)
       : RecievingDevice(topic, name, id, recv_topic) { }
 
-Relay::Relay(const Relay &relay)
-      : RecievingDevice(relay), _state(relay._state), _states(relay._states) { }
+//Relay::Relay(const Relay &relay)
+//      : RecievingDevice(relay), _state(relay._state), _states(relay._states) { }
 
 void Relay::add_state(std::string state)
 {
