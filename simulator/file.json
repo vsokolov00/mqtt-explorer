@@ -261,7 +261,7 @@
         },
         {
             "topic": "home/heating system/living room",
-            "name": "Livinf Room Heater",
+            "name": "Living Room Heater",
             "min_period": 21,
             "max_period": 185,
             "recieving topic": "devices/heaters",
@@ -278,7 +278,7 @@
             "max_period": 141,
             "recieving topic": "car/heater",
             "id": "CHTR",
-            "set_point": 82.0,
+            "set_point": 89.0,
             "max_temp_change" : 4.3,
             "starting_temp" : 73.5,
             "unit" : "F"

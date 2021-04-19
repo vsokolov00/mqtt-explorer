@@ -99,56 +99,26 @@ void Reciever::on_connection_lost(const std::string &cause)
     std::cerr << "Reciever lost connection: " << cause << std::endl;
 }
 
-void Reciever::register_lights(std::vector<Light> &lights)
+template<typename T> void Reciever::register_device(std::vector<T> &devices)
 {
-    for (auto &light: lights)
+    for (auto &device: devices)
     {
-        if (std::find(_topics.begin(), _topics.end(), light.recv_topic) == _topics.end())
+        if (std::find(_topics.begin(), _topics.end(), device.recv_topic) == _topics.end())
         {
-            _topics.push_back(light.recv_topic);
+            _topics.push_back(device.recv_topic);
         }
 
-        _map[light.recv_topic + light.id] = &light;
+        _map[device.recv_topic + device.id] = &device;
     }
 }
 
-void Reciever::register_relays(std::vector<Relay> &relays)
+void Reciever::regiser_devices(Devices &devices)
 {
-    for (auto &relay: relays)
-    {
-        if (std::find(_topics.begin(), _topics.end(), relay.recv_topic) == _topics.end())
-        {
-            _topics.push_back(relay.recv_topic);
-        }
-
-        _map[relay.recv_topic + relay.id] = &relay;
-    }
-}
-
-void Reciever::register_valves(std::vector<Valve> &valves)
-{
-    for (auto &valve: valves)
-    {
-        if (std::find(_topics.begin(), _topics.end(), valve.recv_topic) == _topics.end())
-        {
-            _topics.push_back(valve.recv_topic);
-        }
-
-        _map[valve.recv_topic + valve.id] = &valve;
-    }
-}
-
-void Reciever::register_thermostats(std::vector<Thermostat> &thermostats)
-{
-    for (auto &thermostat: thermostats)
-    {
-        if (std::find(_topics.begin(), _topics.end(), thermostat.recv_topic) == _topics.end())
-        {
-            _topics.push_back(thermostat.recv_topic);
-        }
-
-        _map[thermostat.recv_topic + thermostat.id] = &thermostat;
-    }
+    register_device<Light>(devices.lights);
+    register_device<Lock>(devices.locks);
+    register_device<Valve>(devices.valves);
+    register_device<Thermostat>(devices.thermostats);
+    register_device<Relay>(devices.relays);
 }
 
 void Reciever::on_connection_failure(const mqtt::token &token)

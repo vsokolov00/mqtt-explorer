@@ -34,6 +34,7 @@ class Parser
         void parse_relays(Json::Value &root, std::vector<Relay> &relays);
         void parse_valves(Json::Value &root, std::vector<Valve> &valves);
         void parse_thermostats(Json::Value &root, std::vector<Thermostat> &thermostats);
+        void parse_locks(Json::Value &root, std::vector<Lock> &locks);
 
     public:
         Parser();

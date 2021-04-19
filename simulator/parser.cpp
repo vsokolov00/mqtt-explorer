@@ -60,6 +60,7 @@ bool Parser::parse_file(std::string file_name, Devices &devices)
     parse_relays(root["relays"], devices.relays);
     parse_valves(root["valves"], devices.valves);
     parse_thermostats(root["thermostats"], devices.thermostats);
+    parse_locks(root["locks"], devices.locks);
 
     return false;
 }
@@ -242,6 +243,29 @@ void Parser::parse_thermostats(Json::Value &root, std::vector<Thermostat> &therm
                                          root[i]["starting_temp"].asFloat(),
                                          root[i]["unit"].asString()
                                          ));
+    }
+}
+
+void Parser::parse_locks(Json::Value &root, std::vector<Lock> &locks)
+{
+    locks.reserve(root.size());
+    for (unsigned i = 0; root[i]; i++)
+    {
+        locks.push_back(Lock(root[i]["answering topic"].asString(),
+                             root[i]["name"].asString(), 
+                             root[i]["id"].asString(),
+                             root[i]["recieving topic"].asString()
+                             ));
+        
+        if (!root[i]["states"])
+        {
+            continue;
+        }
+
+        for (unsigned j = 0; root[i]["states"][j]; j++)
+        {
+            locks[i].add_state(root[i]["states"][j].asString());
+        }
     }
 }
 

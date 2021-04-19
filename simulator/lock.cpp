@@ -1,15 +1,15 @@
 
-#include "relay.h"
+#include "lock.h"
 
-Relay::Relay(std::string topic, std::string name, std::string id, std::string recv_topic)
+Lock::Lock(std::string topic, std::string name, std::string id, std::string recv_topic)
       : RecievingDevice(topic, name, id, recv_topic) { }
 
-void Relay::add_state(std::string state)
+void Lock::add_state(std::string state)
 {
     _states.push_back(state);
 }
 
-void Relay::on_message_arrived(std::string state, Client &client, std::mutex &mutex)
+void Lock::on_message_arrived(std::string state, Client &client, std::mutex &mutex)
 {
     std::string message_str = "name: " + _name;
     auto iterator = std::find(_states.begin(), _states.end(), state);

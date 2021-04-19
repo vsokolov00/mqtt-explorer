@@ -47,15 +47,14 @@ class Reciever
         void on_subscribe_success(const mqtt::token &token);
         void on_subscribe_failure(const mqtt::token &token);
 
+        template<typename T> void register_device(std::vector<T> &device);
+
     public:
         Reciever(const std::string &server_address, const std::string &id);
         Reciever(const Reciever&) = delete;
         ~Reciever();
 
-        void register_lights(std::vector<Light> &lights);
-        void register_relays(std::vector<Relay> &relays);
-        void register_valves(std::vector<Valve> &valves);
-        void register_thermostats(std::vector<Thermostat> &thermostats);
+        void regiser_devices(Devices &devices);
 
         bool start_recieving(const mqtt::connect_options &connect_options);
         bool stop_recieving();

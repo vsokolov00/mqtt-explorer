@@ -10,12 +10,9 @@ Runner::Runner(Devices &devices, const std::string server_address)
          _camera_runner(devices.cameras, &Camera::run, server_address, "id_6"),
          _valve_runner(devices.valves, &Valve::run, server_address, "id_7"),
          _thermostat_runner(devices.thermostats, &Thermostat::run, server_address, "id_8"),
-         _reciever(server_address, "id_9") 
+         _reciever(server_address, "id_10") 
 {
-    _reciever.register_lights(devices.lights);
-    _reciever.register_relays(devices.relays);
-    _reciever.register_valves(devices.valves);
-    _reciever.register_thermostats(devices.thermostats);
+    _reciever.regiser_devices(devices);
 }
 
 bool Runner::start()

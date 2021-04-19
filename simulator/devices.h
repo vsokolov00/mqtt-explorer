@@ -10,6 +10,7 @@
 #include "relay.h"
 #include "valve.h"
 #include "thermostat.h"
+#include "lock.h"
 
 #include <vector>
 
@@ -25,4 +26,5 @@ struct Devices
         std::vector<Relay> relays;
         std::vector<Valve> valves;
         std::vector<Thermostat> thermostats;
+        std::vector<Lock> locks;
 };
