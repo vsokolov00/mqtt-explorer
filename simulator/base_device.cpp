@@ -28,7 +28,7 @@ void RecievingDevice::on_message_arrived(std::string state, Client &client, std:
 {
     (void)client;
     (void)mutex;
-    std::cerr << "Message arrived to virtual function, state: " << state << std::endl;
+    Log::warning("Message arrived to virtual function, state: " + state);
 }
         
 RecievingAndPublishingDevice::RecievingAndPublishingDevice(std::string topic, std::string name, int period, std::string id, 

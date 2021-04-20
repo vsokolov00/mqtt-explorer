@@ -11,6 +11,7 @@
 #include "thermometer.h"
 #include "devices.h"
 #include "reciever.h"
+#include "options.h"
 
 template<class T, class U> class DeviceRunner
 {
@@ -46,9 +47,10 @@ class Runner
         DeviceRunner<Thermostat, void(Thermostat::*)(mqtt::client&, const bool&, std::mutex&, std::future<void>)> _thermostat_runner;
 
         Reciever _reciever;
+        unsigned _flags;
 
     public:
-        Runner(Devices &devices, const std::string server_address);
+        Runner(Devices &devices, const std::string server_address, unsigned flags);
 
         bool start();
         void stop();

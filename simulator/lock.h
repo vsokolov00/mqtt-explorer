@@ -10,6 +10,7 @@
 
 #include "base_device.h"
 #include "mqtt/client.h"
+#include "log.h"
 
 class Lock : public RecievingDevice
 {

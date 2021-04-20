@@ -28,7 +28,7 @@ void Thermostat::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
     future.wait_for(std::chrono::seconds(period_generator()));
     while (run)
     {
-        message_str = "name: " + _name;
+        message_str = _name;
         temp_chage = step_generator() / 1000.0f;
 
         _mutex->lock();
@@ -39,19 +39,19 @@ void Thermostat::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
 
             if (_direction && _set_point > _temp)
             {
-                message_str += ", temperature raised to: " + temp_str + _unit + ", heating remains turned on";
+                message_str += ": temperature raised to: " + temp_str + " " + _unit + ", heating remains turned on";
             }
             else if (!_direction && _set_point < _temp)
             {
-                message_str += ", temperature droped to: " + temp_str + _unit + ", heating remains turned off";
+                message_str += ": temperature droped to: " + temp_str + " " + _unit + ", heating remains turned off";
             }
             else if (_direction && _set_point < _temp)
             {
-                message_str += ", temperature raised to: " + temp_str + _unit + ", turning heating off";
+                message_str += ": temperature raised to: " + temp_str + " " + _unit + ", turning heating off";
             }
             else
             {
-                message_str += ", temperature droped to: " + temp_str + _unit + ", turning heating on";
+                message_str += ": temperature droped to: " + temp_str + " " + _unit + ", turning heating on";
             }
             _direction = _set_point > _temp;
 
@@ -61,7 +61,7 @@ void Thermostat::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
                 client.publish(message);
             mutex.unlock();
 
-            std::cout << message_str << std::endl;
+            Log::log(message_str);
         _mutex->unlock();
 
         future.wait_for(std::chrono::seconds(period_generator()));
@@ -70,7 +70,7 @@ void Thermostat::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
 
 void Thermostat::on_message_arrived(std::string state, Client &client, std::mutex &mutex)
 {
-    std::string message_str = "name: " + _name;
+    std::string message_str = _name;
     
     float set_point;
     try
@@ -79,14 +79,16 @@ void Thermostat::on_message_arrived(std::string state, Client &client, std::mute
     }
     catch (const std::invalid_argument& e1)
     {
-        message_str += ", recieved value could not be parsed";
+        message_str += ": recieved value could not be parsed";
+        Log::log(message_str);
         mutex.lock();
             client.publish(_topic, message_str);
         mutex.unlock();
     }
     catch (const std::out_of_range& e2)
     {
-        message_str += ", recieved value could not be parsed";
+        message_str += ": recieved value could not be parsed";
+        Log::log(message_str);
         mutex.lock();
             client.publish(_topic, message_str);
         mutex.unlock();
@@ -100,43 +102,43 @@ void Thermostat::on_message_arrived(std::string state, Client &client, std::mute
     _mutex->lock();
         if (_direction && set_point > _temp && set_point > _set_point)
         {
-            message_str += ", set point raised to: " + set_point_str + ", heating remains turned on, current temperature is: " +
-                           temp_str + _unit;
+            message_str += ": set point raised to " + set_point_str + " " + _unit + ", heating remains turned on, current temperature is " +
+                           temp_str + " " + _unit;
         }
         else if (_direction && set_point > _temp && set_point < _set_point)
         {
-            message_str += ", set point lowerd to: " + set_point_str + ", heating remains turned on, current temperature is: " +
-                           temp_str + _unit;
+            message_str += ": set point lowerd to " + set_point_str + " " + _unit + ", heating remains turned on, current temperature is " +
+                           temp_str + " " + _unit;
         }
         else if (_direction && set_point < _temp && set_point > _set_point)
         {
-            message_str += ", set point raised to: " + set_point_str + ", turning heating off, current temperature is: " +
-                           temp_str + _unit;
+            message_str += ": set point raised to " + set_point_str + " " + _unit + ", turning heating off, current temperature is " +
+                           temp_str + " " + _unit;
         }
         else if (_direction && set_point < _temp && set_point < _set_point)
         {
-            message_str += ", set point lowerd to: " + set_point_str + ", turning heating off, current temperature is: " +
-                           temp_str + _unit;
+            message_str += ": set point lowerd to " + set_point_str + " " + _unit + ", turning heating off, current temperature is " +
+                           temp_str + " " + _unit;
         }
         else if (!_direction && set_point < _temp && set_point < _set_point)
         {
-            message_str += ", set point lowerd to: " + set_point_str + ", heating remains turned off, current temperature is: " +
-                           temp_str + _unit;
+            message_str += ": set point lowerd to " + set_point_str + " " + _unit + ", heating remains turned off, current temperature is " +
+                           temp_str + " " + _unit;
         }
         else if (!_direction && set_point < _temp && set_point > _set_point)
         {
-            message_str += ", set point raised to: " + set_point_str + ", heating remains turned off, current temperature is: " +
-                           temp_str + _unit;
+            message_str += ": set point raised to " + set_point_str + " " + _unit + ", heating remains turned off, current temperature is " +
+                           temp_str + " " + _unit;
         }
                 else if (!_direction && set_point > _temp && set_point < _set_point)
         {
-            message_str += ", set point lowerd to: " + set_point_str + ", turning heating on, current temperature is: " +
-                           temp_str + _unit;
+            message_str += ": set point lowerd to " + set_point_str + " " + _unit + ", turning heating on, current temperature is " +
+                           temp_str + " " + _unit + _unit;
         }
         else if (!_direction && set_point > _temp && set_point > _set_point)
         {
-            message_str += ", set point raised to: " + set_point_str + ", turning heating on, current temperature is: " +
-                           temp_str + _unit;
+            message_str += ": set point raised to " + set_point_str + " " + _unit + ", turning heating on, current temperature is " +
+                           temp_str + " " + _unit;
         }
         _set_point = set_point;
         _direction = _set_point > _temp;
@@ -144,6 +146,6 @@ void Thermostat::on_message_arrived(std::string state, Client &client, std::mute
         mutex.lock();
             client.publish(_topic, message_str);
         mutex.unlock();
-        std::cerr << message_str << std::endl;
+        Log::log(message_str);
     _mutex->unlock();
 }

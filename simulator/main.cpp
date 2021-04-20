@@ -1,47 +1,31 @@
 
-#include "json/json-forwards.h"
-#include "json/json.h"
-#include "devices.h"
-#include "parser.h"
-#include "thermometer.h"
-#include "runner.h"
-#include "client.h"
+#include "main.h"
 
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
-
-void test_func(void *ptr, const mqtt::token &token)
-{
-    (void)ptr;
-    (void)token;
-}
-
-int main()
+int main(int argc, char **argv)
 {
     Devices devices;
     Parser parser;
+    Options options;
+    parse_arguments(argc, argv, options);
 
-    if (parser.parse_file("file.json", devices))
+    if (parser.parse_file(options.filename, devices))
     {
         return 1;
     }
 
-    std::cerr << "Starting devices..." << std::endl;
-    Runner runner(devices, "tcp://localhost:1883");
+    Runner runner(devices, options.server_addres, options.device_flags);
 
     if (runner.start())
     {
         return 1;
     }
 
+    Log::message("Press ENTER to terminate...");
     std::cin.get();
-    std::cout << "Please wait, terminating..." << std::endl;
+    Log::message("Please wait, terminating...");
 
     runner.stop();
 
-    std::cout << "Bye" << std::endl;
     return 0;
 }
 

@@ -1,7 +1,7 @@
 
 #include "runner.h"
 
-Runner::Runner(Devices &devices, const std::string server_address)
+Runner::Runner(Devices &devices, const std::string server_address, unsigned flags)
        : _thermometer_runner(devices.thermometers, &Thermometer::run, server_address, "id_1"),
          _hygrometer_runner(devices.hygrometers, &Hygrometer::run, server_address, "id_2"),
          _wattmeter_runner(devices.wattmeters, &Wattmeter::run, server_address, "id_3"),
@@ -10,9 +10,10 @@ Runner::Runner(Devices &devices, const std::string server_address)
          _camera_runner(devices.cameras, &Camera::run, server_address, "id_6"),
          _valve_runner(devices.valves, &Valve::run, server_address, "id_7"),
          _thermostat_runner(devices.thermostats, &Thermostat::run, server_address, "id_8"),
-         _reciever(server_address, "id_10") 
+         _reciever(server_address, "id_9"),
+         _flags(flags)
 {
-    _reciever.regiser_devices(devices);
+    _reciever.regiser_devices(devices, flags);
 }
 
 bool Runner::start()
@@ -25,20 +26,49 @@ bool Runner::start()
         return true;
     }
 
+    Log::log("Connecting devices...");
+
     try
     {
-        _thermometer_runner.connect_client(options);
-        _hygrometer_runner.connect_client(options);
-        _wattmeter_runner.connect_client(options);
-        _move_sensor_runner.connect_client(options);
-        _light_runner.connect_client(options);
-        _camera_runner.connect_client(options);
-        _valve_runner.connect_client(options);
-        _thermostat_runner.connect_client(options);
+        if (_flags & THERMOMETERS_FLAG)
+        {
+            _thermometer_runner.connect_client(options);
+        }
+        if (_flags & HYGROMETERS_FLAG)
+        {
+            _hygrometer_runner.connect_client(options);
+        }
+        if (_flags & WATTMETERS_FLAG)
+        {
+            _wattmeter_runner.connect_client(options);
+        }
+        if (_flags & MOVE_FLAG)
+        {
+            _move_sensor_runner.connect_client(options);
+        }
+        if (_flags & LIGHTS_FLAG)
+        {
+            _light_runner.connect_client(options);
+        }
+        if (_flags & CAMERAS_FLAG)
+        {
+            _camera_runner.connect_client(options);
+        }
+        if (_flags & VALVES_FLAG)
+        {
+            _valve_runner.connect_client(options);
+        }
+        if (_flags & THERMOMETERS_FLAG)
+        {
+            _thermostat_runner.connect_client(options);
+        }
     }
-    catch (const mqtt::exception& exc)
+    catch (const mqtt::exception& e)
     {
-        std::cerr << "Connection was not established: " << exc.what() << std::endl;
+        std::stringstream message;
+        message << "Connection was not established: " << e.what();
+        Log::error(message.str());
+
         _thermometer_runner.disconnect_client();
         _hygrometer_runner.disconnect_client();
         _wattmeter_runner.disconnect_client();
@@ -50,18 +80,51 @@ bool Runner::start()
         return true;
     } 
     
-    std::cerr << "All devices connected successfuly." << std::endl;
+    Log::log("All devices connected successfuly.");
+    Log::log("Starting devices...");
 
-    _thermometer_runner.run_devices();
-    _hygrometer_runner.run_devices();
-    _wattmeter_runner.run_devices();
-    _move_sensor_runner.run_devices();
-    _light_runner.run_devices();
-    _camera_runner.run_devices();
-    _valve_runner.run_devices();
-    _thermostat_runner.run_devices();
-
-    std::cerr << "All devices are runnning." << std::endl;
+    try
+    {
+        if (_flags & THERMOMETERS_FLAG)
+        {
+            _thermometer_runner.run_devices();
+        }
+        if (_flags & HYGROMETERS_FLAG)
+        {
+            _hygrometer_runner.run_devices();
+        }
+        if (_flags & WATTMETERS_FLAG)
+        {
+            _wattmeter_runner.run_devices();
+        }
+        if (_flags & MOVE_FLAG)
+        {
+            _move_sensor_runner.run_devices();
+        }
+        if (_flags & LIGHTS_FLAG)
+        {
+            _light_runner.run_devices();
+        }
+        if (_flags & CAMERAS_FLAG)
+        {
+            _camera_runner.run_devices();
+        }
+        if (_flags & VALVES_FLAG)
+        {
+            _valve_runner.run_devices();
+        }
+        if (_flags & THERMOMETERS_FLAG)
+        {
+            _thermostat_runner.run_devices();
+        }
+        Log::log("All devices started successfuly.");
+    }
+    catch (const std::bad_alloc &e)
+    {
+        std::stringstream message;
+        message << "Starting of new devices failed with '" << e.what() << "', some may still run.";
+        Log::warning(message.str());
+    }
 
     return false;
 }
@@ -70,14 +133,38 @@ void Runner::stop()
 {
     _reciever.stop_recieving();
 
-    _thermometer_runner.stop_devices();
-    _hygrometer_runner.stop_devices();
-    _wattmeter_runner.stop_devices();
-    _move_sensor_runner.stop_devices();
-    _light_runner.stop_devices();
-    _camera_runner.stop_devices();
-    _valve_runner.stop_devices();
-    _thermostat_runner.stop_devices();
+    if (_flags & THERMOMETERS_FLAG)
+    {
+        _thermometer_runner.stop_devices();
+    }
+    if (_flags & HYGROMETERS_FLAG)
+    {
+        _hygrometer_runner.stop_devices();
+    }
+    if (_flags & WATTMETERS_FLAG)
+    {
+        _wattmeter_runner.stop_devices();
+    }
+    if (_flags & MOVE_FLAG)
+    {
+        _move_sensor_runner.stop_devices();
+    }
+    if (_flags & LIGHTS_FLAG)
+    {
+        _light_runner.stop_devices();
+    }
+    if (_flags & CAMERAS_FLAG)
+    {
+        _camera_runner.stop_devices();
+    }
+    if (_flags & VALVES_FLAG)
+    {
+        _valve_runner.stop_devices();
+    }
+    if (_flags & THERMOMETERS_FLAG)
+    {
+        _thermostat_runner.stop_devices();
+    }
 
     _thermometer_runner.disconnect_client();
     _hygrometer_runner.disconnect_client();
@@ -120,7 +207,10 @@ template<class T, class U> void DeviceRunner<T, U>::stop_devices()
 
     for (auto &thread: _threads)
     {
-        thread.join();
+        if (thread.joinable())
+        {
+            thread.join();
+        }
     }
 }
 
@@ -139,7 +229,9 @@ template<class T, class U> void DeviceRunner<T, U>::disconnect_client()
         }
         catch (const mqtt::exception& exc)
         {
-            std::cerr << "Disconnect failed: " << exc.what() << std::endl;
+            std::stringstream message;
+            message << "Disconnection failed: " << exc.what();
+            Log::warning(message.str());
         }
     }
 }

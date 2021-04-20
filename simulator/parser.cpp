@@ -16,7 +16,7 @@ bool Parser::read_file_content(std::string file_name, std::string &content)
     std::ifstream file(file_name, std::ifstream::in);
     if (file.fail())
     {
-        std::cerr << "Opening configuration file failed." << std::endl;
+        Log::error("Opening configuration file '" + file_name + "' failed.");
         return true;
     }
 
@@ -47,20 +47,35 @@ bool Parser::parse_file(std::string file_name, Devices &devices)
 
     if (!_reader->parse(content.c_str(), content.c_str() + content.size(), &root, &errs))
     {
-        std::cerr << errs << std::endl;
+        Log::error("JSON file parsing failed with:\n" + errs);
         return true;
     }
 
-    parse_thermometers(root["thermometers"], devices.thermometers);
-    parse_hygrometers(root["hygrometers"], devices.hygrometers);
-    parse_wattmeters(root["wattmeters"], devices.wattmeters);
-    parse_move_sensors(root["move sensors"], devices.move_sensors);
-    parse_lights(root["lights"], devices.lights);
-    parse_cameras(root["cameras"], devices.cameras);
-    parse_relays(root["relays"], devices.relays);
-    parse_valves(root["valves"], devices.valves);
-    parse_thermostats(root["thermostats"], devices.thermostats);
-    parse_locks(root["locks"], devices.locks);
+    try
+    {
+        parse_thermometers(root["thermometers"], devices.thermometers);
+        parse_hygrometers(root["hygrometers"], devices.hygrometers);
+        parse_wattmeters(root["wattmeters"], devices.wattmeters);
+        parse_move_sensors(root["move sensors"], devices.move_sensors);
+        parse_lights(root["lights"], devices.lights);
+        parse_cameras(root["cameras"], devices.cameras);
+        parse_relays(root["relays"], devices.relays);
+        parse_valves(root["valves"], devices.valves);
+        parse_thermostats(root["thermostats"], devices.thermostats);
+        parse_locks(root["locks"], devices.locks);
+    }
+    catch (const std::bad_alloc &e)
+    {
+        std::stringstream message;
+        message << "Memory allocation of devices failed with '" << e.what() << "', some may strill run.";
+        Log::warning(message.str());
+    }
+    catch (const Json::Exception &e)
+    {
+        std::stringstream message;
+        message << "Parsing of devices faild with '" << e.what() << "' , some may strill run.";
+        Log::warning(message.str());
+    }
 
     return false;
 }
@@ -127,8 +142,7 @@ void Parser::parse_move_sensors(Json::Value &root, std::vector<MoveSensor> &move
                                           root[i]["min_period"].asInt(),
                                           root[i]["max_period"].asInt(),
                                           root[i]["horizontal_FOV"].asInt(),
-                                          root[i]["vertical_FOV"].asInt(),
-                                          root[i]["type"].asString()
+                                          root[i]["vertical_FOV"].asInt()
                                          ));
     }
 }
@@ -145,8 +159,9 @@ void Parser::parse_lights(Json::Value &root, std::vector<Light> &lights)
                                root[i]["recieving topic"].asString()
                                ));
         
-        if (!root[i]["states"])
+        if (!root[i]["states"] || !root[i]["states"].isArray())
         {
+            Log::warning("States of a device '" + root[i]["name"].asString() + ", could not be parsed.");
             continue;
         }
 
@@ -168,8 +183,9 @@ void Parser::parse_cameras(Json::Value &root, std::vector<Camera> &cameras)
                                  root[i]["max_period"].asInt()
                                  ));
         
-        if (!root[i]["images"])
+        if (!root[i]["images"] || !root[i]["images"].isArray())
         {
+            Log::warning("Imgaes of a camera '" + root[i]["name"].asString() + ", could not be parsed.");
             continue;
         }
 
@@ -191,8 +207,9 @@ void Parser::parse_relays(Json::Value &root, std::vector<Relay> &relays)
                                root[i]["recieving topic"].asString()
                                ));
         
-        if (!root[i]["states"])
+        if (!root[i]["states"] || !root[i]["states"].isArray())
         {
+            Log::warning("States of a device '" + root[i]["name"].asString() + ", could not be parsed.");
             continue;
         }
 
@@ -215,8 +232,9 @@ void Parser::parse_valves(Json::Value &root, std::vector<Valve> &valves)
                                root[i]["recieving topic"].asString()
                                ));
         
-        if (!root[i]["states"])
+        if (!root[i]["states"] || !root[i]["states"].isArray())
         {
+            Log::warning("States of a device '" + root[i]["name"].asString() + ", could not be parsed.");
             continue;
         }
 
@@ -257,8 +275,9 @@ void Parser::parse_locks(Json::Value &root, std::vector<Lock> &locks)
                              root[i]["recieving topic"].asString()
                              ));
         
-        if (!root[i]["states"])
+        if (!root[i]["states"] || !root[i]["states"].isArray())
         {
+            Log::warning("States of a device '" + root[i]["name"].asString() + ", could not be parsed.");
             continue;
         }
 
@@ -284,7 +303,6 @@ bool Parser::parse_message(mqtt::const_message_ptr recieved_message, Message &pa
     Json::Value root;
     if (!_reader->parse(content.c_str(), content.c_str() + content.size(), &root, &errs))
     {
-        //std::cerr << "Message parsing error: " << errs << std::endl;
         return true;
     }
 

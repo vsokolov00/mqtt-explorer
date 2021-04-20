@@ -1,0 +1,56 @@
+{
+    "lights":
+    [
+        {
+            "topic": "home/lights/living room",
+            "name": "main light",
+            "recieving topic": "home/lights/living room",
+            "id": 267,
+            "period": 13,
+            "states": ["on", "off", "dimmed"]
+        },
+        {
+            "topic": "home/lights/living room",
+            "name": "LED",
+            "recieving topic": "home/lights/recieving topic",
+            "id": "LED_8942",
+            "period": 27,
+            "states": ["off", "white", "red", "green", "blue", "yellow", "cyan", "magenta", "rainbow"]
+        },
+        {
+            "topic": "home/lights/work shop",
+            "name": "Danger indicator",
+            "recieving topic": "home/lights/recieving topic",
+            "id": 74,
+            "period": 22,
+            "states": ["green", "yellow", "orange", "red", "off"]
+        }
+    ],
+
+    "cameras":
+    [
+        {
+            "topic": "surveillance/motion/cameras/home/main entrance",
+            "name": "main cam",
+            "min_preiod": 3,
+            "max_period": 120,
+            "images": ["images/bob_ross.jpg", "images/composition_8.jpg", "images/impression_sunrise.jpg", "images/scream.jpg"]
+        },
+        {
+            "topic": "surveillance/motion/cameras/garden/tree house",
+            "name": "tree camera",
+            "min_preiod": 28,
+            "max_period": 85,
+            "images": ["images/girl_with_a_pearl_earring.jpg", "images/starry_night.jpg", "images/time_persistance.jpg", 
+                       "images/royal_red_blue.jpg", "images/bob_ross.jpg"]
+        },
+        {
+            "topic": "motion/video/car/rear",
+            "name": "carcam",
+            "min_preiod": 16,
+            "max_period": 326,
+            "images": ["images/starry_night.jpg", "images/scream.jpg", "images/composition_8.jpg", "images/time_persistance.jpg",
+                       "images/impression_sunrise.jpg", "images/the_ladies_of_avignon.jpg"]
+        }
+    ]
+}

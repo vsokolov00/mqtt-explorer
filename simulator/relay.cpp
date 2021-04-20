@@ -11,14 +11,14 @@ void Relay::add_state(std::string state)
 
 void Relay::on_message_arrived(std::string state, Client &client, std::mutex &mutex)
 {
-    std::string message_str = "name: " + _name;
+    std::string message_str = _name;
     auto iterator = std::find(_states.begin(), _states.end(), state);
 
     if (iterator == _states.end())
     {
         mutex.lock();
-            message_str += ", change unsuccessful, unknow state: " + state;
-            std::cerr << message_str << std::endl;
+            message_str += ": change unsuccessful, unknow state: " + state;
+            Log::log(message_str);
             client.publish(_topic, message_str);
         mutex.unlock();
         return;
@@ -27,17 +27,17 @@ void Relay::on_message_arrived(std::string state, Client &client, std::mutex &mu
     _mutex->lock();
         if (state != _state)
         {
-            message_str += ", changing state to: " + state;
+            message_str += ": changing state to: " + state;
         }
         else
         {
-            message_str += ", state remains unchanged: " + state;
+            message_str += ": state remains unchanged: " + state;
         }
         _state = state;
         
         mutex.lock();
             client.publish(_topic, message_str);
         mutex.unlock();
-        std::cerr << message_str << std::endl;
+        Log::log(message_str);
     _mutex->unlock();
 }

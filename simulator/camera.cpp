@@ -33,8 +33,8 @@ void Camera::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::
         }
         catch (std::ifstream::failure &e)
         {
-            std::cerr << "Camera " + _name + " error while reading file " + _images[i - failed] + 
-                         " with: " + e.what() << std::endl;
+            Log::warning("Camera '" + _name + "' error while reading file " + _images[i - failed] + 
+                         " with: " + e.what());
             failed++;
         }
 
@@ -43,7 +43,7 @@ void Camera::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::
     unsigned modulo{static_cast<unsigned>(_images.size() - failed)};
     if (modulo == 0)
     {
-        std::cerr << "camera: " + _name + " has no images to send, terminating..." << std::endl;
+        Log::warning("Camera: '" + _name + "' has no images to send, terminating...");
         return;
     }
     unsigned index{0};
@@ -58,7 +58,7 @@ void Camera::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::
             client.publish(message);
         mutex.unlock();
         
-        std::cerr << "name: " + _name + " sent an image" << std::endl;
+        Log::log(_name + ": sending an image");
         future.wait_for(std::chrono::seconds(period_generator()));
     }
 }

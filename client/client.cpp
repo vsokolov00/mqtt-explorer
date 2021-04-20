@@ -35,7 +35,7 @@ bool Client::connect(const mqtt::connect_options &connect_options)
     }
     catch (const mqtt::exception& exc)
     {
-        std::cerr << "Connection was not established: " << exc.what() << std::endl;
+        std::cerr << "ERROR: Connection was not established: " << exc.what() << std::endl;
         return true;
     }
     
@@ -50,7 +50,7 @@ bool Client::disconnect()
     }
     catch (const mqtt::exception& exc)
     {
-        std::cerr << "Disconnect fail: " << exc.what() << std::endl;
+        std::cerr << "Disconnect failed: " << exc.what() << std::endl;
         return true;
     }
 

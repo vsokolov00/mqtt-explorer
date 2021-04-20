@@ -67,11 +67,11 @@ void Reciever::on_subscribe_failure_cb(void *object, const mqtt::token &token)
 
 void Reciever::on_connected(const std::string &cause)
 {
-    std::cerr << "Reciever connected: " << cause << std::endl;
+    Log::log("Reciever connected: " + cause);
 
     for (auto &topic: _topics)
     {
-        std::cerr << "Reciever is subscribing to topic: " << topic << std::endl;
+        Log::log("Reciever is subscribing to topic: " + topic);
         _client.subscribe(topic, 1);
     }
 }
@@ -90,13 +90,13 @@ void Reciever::on_message_arrived(mqtt::const_message_ptr message)
     }
     catch(const std::out_of_range& e)
     {
-        std::cerr << e.what() << std::endl;
+        Log::warning("Device with id '" + parsed_message.id + "' does not exist on topic '" + parsed_message.topic + "'.");
     }
 }
 
 void Reciever::on_connection_lost(const std::string &cause)
 {
-    std::cerr << "Reciever lost connection: " << cause << std::endl;
+    Log::warning("Reciever lost connection: " + cause);
 }
 
 template<typename T> void Reciever::register_device(std::vector<T> &devices)
@@ -112,33 +112,60 @@ template<typename T> void Reciever::register_device(std::vector<T> &devices)
     }
 }
 
-void Reciever::regiser_devices(Devices &devices)
+void Reciever::regiser_devices(Devices &devices, unsigned flags)
 {
-    register_device<Light>(devices.lights);
-    register_device<Lock>(devices.locks);
-    register_device<Valve>(devices.valves);
-    register_device<Thermostat>(devices.thermostats);
-    register_device<Relay>(devices.relays);
+    try
+    {
+        if (flags & LIGHTS_FLAG)
+        {
+            register_device<Light>(devices.lights);
+        }
+        if (flags & LOCKS_FLAG)
+        {
+            register_device<Lock>(devices.locks);
+        }
+        if (flags & VALVES_FLAG)
+        {
+            register_device<Valve>(devices.valves);
+        }
+        if (flags & THERMOSTAT_FLAG)
+        {
+            register_device<Thermostat>(devices.thermostats);
+        }
+        if (flags & RELAYS_FLAG)
+        {
+            register_device<Relay>(devices.relays);
+        }
+    }
+    catch(const std::bad_alloc &e)
+    {
+        std::stringstream message;
+        message << "Registration of recieving devices failed with '" << e.what() << "' some may still recieve.";
+        Log::warning(message.str());
+    }
 }
 
 void Reciever::on_connection_failure(const mqtt::token &token)
 {
-    std::cerr << "Reciever failed to connect with code: " << token.get_reason_code() << std::endl;
+    Log::warning("Reciever failed to connect with code: " + token.get_reason_code());
 }
 
 void Reciever::on_subscribe_success(const mqtt::token &token)
 {
-    std::cerr << "Reciever subscribed successfuly to topic: " << token.get_topics() << std::endl;
+    if (Log::verbose)
+    {
+        std::cerr << "LOG: Reciever subscribed successfuly to topic: " << token.get_topics() << std::endl;
+    }
 }
 
 void Reciever::on_subscribe_failure(const mqtt::token &token)
 {
-    std::cerr << "Reciever could not subscribe to topics: " << token.get_topics() << std::endl;
+    std::cerr << "WARNING: Reciever could not subscribe to topic: " << token.get_topics() << std::endl;
 }
 
 bool Reciever::start_recieving(const mqtt::connect_options &connect_options)
 {
-    std::cerr << "Connecting reciever..." << std::endl;
+    Log::log("Connecting reciever...");
     return _client.connect(connect_options);
 }
 

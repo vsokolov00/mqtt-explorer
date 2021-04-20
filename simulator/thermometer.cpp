@@ -51,8 +51,7 @@ void Thermometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, 
             client.publish(message);
         mutex.unlock();
 
-        std::cerr << "name: " << _name << ", temperature: " << _temp << _unit << std::endl;
-
+        Log::log(_name + ": temperature = " + std::to_string(_temp) + " " + _unit);
         future.wait_for(std::chrono::seconds(_period));
     }
 

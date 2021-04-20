@@ -108,15 +108,7 @@
         {
             "topic": "home/move sensors/main door",
             "name": "move detector",
-            "type": "PIR",
             "min_period": 60,
-            "max_period": 3600
-        },
-        {
-            "topic": "home/move sensors/main door",
-            "name": "main lock",
-            "type": "lock",
-            "min_period": 80,
             "max_period": 3600
         },
         {

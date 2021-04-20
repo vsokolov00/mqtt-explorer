@@ -9,6 +9,8 @@
 #include "parser.h"
 #include "base_device.h"
 #include "client.h"
+#include "options.h"
+#include "log.h"
 
 using OnConnectedCallback = void(*)(void *, const std::string&);
 using OnMessageArrivedCallback = void(*)(void *, mqtt::const_message_ptr);
@@ -54,7 +56,7 @@ class Reciever
         Reciever(const Reciever&) = delete;
         ~Reciever();
 
-        void regiser_devices(Devices &devices);
+        void regiser_devices(Devices &devices, unsigned flags);
 
         bool start_recieving(const mqtt::connect_options &connect_options);
         bool stop_recieving();

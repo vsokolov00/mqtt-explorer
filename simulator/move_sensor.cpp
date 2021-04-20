@@ -2,9 +2,9 @@
 #include "move_sensor.h"
 
 MoveSensor::MoveSensor(std::string topic, std::string name, int min_period, int max_period, 
-                         int horizontal_FOV, int vertical_FOV, std::string type)
+                         int horizontal_FOV, int vertical_FOV)
             : PublishingDevice(topic, name, min_period), _max_period(max_period), _horizontal_FOV(horizontal_FOV), 
-              _vertical_FOV(vertical_FOV), _type(type) {}
+              _vertical_FOV(vertical_FOV) {}
 
 void MoveSensor::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future)
 {
@@ -19,12 +19,11 @@ void MoveSensor::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
     vertical_generator();
 
     std::string message_str;
-    bool state = true;
 
     future.wait_for(std::chrono::seconds(period_generator()));
     while (run)
     {
-        message_str = "name: " + _name;
+        message_str = _name;
         if (_horizontal_FOV | _vertical_FOV)
         {
             message_str += ": move detected at x = " + std::to_string(horizontal_generator()) 
@@ -32,23 +31,7 @@ void MoveSensor::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
         }
         else
         {
-            if (_type == "PIR")
-            {
-                message_str += ": move detected";
-            }
-            else if (_type == "lock")
-            {
-                if (state)
-                {
-                    message_str += ": locked"; 
-                }
-                else
-                {
-                    message_str += ": unlocked";
-                }
-
-                state = !state;
-            }
+            message_str += ": move detected";
         }
 
         message->set_payload(message_str.c_str(), message_str.size());
@@ -57,7 +40,7 @@ void MoveSensor::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
             client.publish(message);
         mutex.unlock();
 
-        std::cerr << message_str << std::endl;        
+        Log::log(message_str);     
         future.wait_for(std::chrono::seconds(period_generator()));
     }
 }

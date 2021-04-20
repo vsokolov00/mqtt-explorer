@@ -6,6 +6,7 @@
 
 #include "mqtt/client.h"
 #include "client.h"
+#include "log.h"
 
 
 class Device
