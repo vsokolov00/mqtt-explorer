@@ -3,7 +3,8 @@
 
 // sudo systemctl stop mosquitto.service
 
-const std::string SERVER_ADDRESS("tcp://broker.emqx.io:1883");
+//const std::string SERVER_ADDRESS("tcp://broker.emqx.io:1883");
+const std::string SERVER_ADDRESS("tcp://localhost:1883");
 const std::string TOPIC("test/#");
 const std::string CLIENT_ID("client_id_1");
 
@@ -28,10 +29,10 @@ class Test
 			test->on_connected(cause);
 		}
 
-		static void on_message_arrived_cb(void *object, mqtt::const_message_ptr message)
+		static void on_message_arrived_cb(void *object, const std::string &topic, const MessageData &message, FileType type)
 		{
 			Test *test = static_cast<Test *>(object);
-			test->on_message_arrived(message);
+			test->on_message_arrived(topic, message, type);
 		}
 
 		static void on_connection_lost_cb(void *object, const std::string& cause)
@@ -66,9 +67,11 @@ class Test
 			std::cerr << "on_connected: " << cause << std::endl;
 		}
 
-		void on_message_arrived(mqtt::const_message_ptr message)
+		void on_message_arrived(const std::string &topic, const MessageData &message, FileType type)
 		{
-			std::cerr << "on_message_arrived: " << message.get()->get_payload_str() << std::endl;
+			(void)message;
+			(void)type;
+			std::cerr << "on_message_arrived - topic: " << topic << std::endl;
 		}
 
 		void on_connection_lost(const std::string& cause)
@@ -104,7 +107,7 @@ int main()
 	Listeners listeners(listener, listener, listener, listener, listener);
 	Callbacks callbacks(&test, &Test::on_connected_cb, &test, &Test::on_message_arrived_cb, 
 	 					&test, &Test::on_connection_lost_cb, &test, &Test::on_delivery_completed_cb);
-	Client client(SERVER_ADDRESS, CLIENT_ID, listeners, callbacks);
+	Client client(SERVER_ADDRESS, CLIENT_ID, listeners, callbacks, FileType::ALL);
 
 	try 
 	{

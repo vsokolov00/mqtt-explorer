@@ -35,7 +35,7 @@ void Log::help_message(bool cerr)
     stream << "   --file or -f <file name>: JSON file from which application configuration is loaded, default file is 'config.json'." << std::endl;
     stream << "   --server or -s:           MQTT server address, default address is 'tcp://localhost:1883'." << std::endl;
     stream << "   --verbose or -v:          Display log messages." << std::endl;
-    stream << "   --apart or -a:            If specified before all other options below, devices will be excluded from the whole list, rather then included." << std::endl;
+    stream << "   --apart or -a:            If specified before all other options below, devices will be excluded from the running list, rather then included." << std::endl;
     stream << "   --cameras or -c:          Include or exclude cameras." << std::endl;
     stream << "   --hygrometers or -g:      Include or exclude hygrometers." << std::endl;
     stream << "   --lights or -l:           Include or exclude lights." << std::endl;

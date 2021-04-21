@@ -11,14 +11,6 @@
 #include <sstream>
 #include <string>
 
-struct Message
-{
-    public:
-        std::string topic;
-        std::string id;
-        std::string state;
-};
-
 class Parser
 {
     private:
@@ -38,8 +30,8 @@ class Parser
 
     public:
         Parser();
+        Parser(const Parser&) = delete;
         ~Parser();
 
         bool parse_file(std::string file_name, Devices &devices);
-        bool parse_message(mqtt::const_message_ptr recieved_message, Message &parsed_message);
 };

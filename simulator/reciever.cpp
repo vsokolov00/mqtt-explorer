@@ -7,7 +7,7 @@ Reciever::Reciever(const std::string &server_address, const std::string &id)
            _dummy_listener(this, dummy_cb, dummy_cb),
            _listeners(_connection_listener, _subscribe_listener, _dummy_listener, _dummy_listener, _dummy_listener),
            _callbacks(this, on_connected_cb, on_message_arrived_cb, on_connection_lost_cb, on_delivery_complete_dummy_cb),
-           _client(server_address, id, _listeners, _callbacks) 
+           _client(server_address, id, _listeners, _callbacks, FileType::JSON) 
 {
     _mutex = new std::mutex();
 }
@@ -23,10 +23,11 @@ void Reciever::on_connected_cb(void *object, const std::string &cause)
     reciever->on_connected(cause);
 }
 
-void Reciever::on_message_arrived_cb(void *object, mqtt::const_message_ptr message)
+void Reciever::on_message_arrived_cb(void *object, const std::string &topic, const MessageData &message, FileType type)
 {
+    (void)type;
     Reciever *reciever = static_cast<Reciever *>(object);
-    reciever->on_message_arrived(message);
+    reciever->on_message_arrived(topic, *message.json);
 }
 
 void Reciever::on_connection_lost_cb(void *object, const std::string &cause)
@@ -76,21 +77,23 @@ void Reciever::on_connected(const std::string &cause)
     }
 }
 
-void Reciever::on_message_arrived(mqtt::const_message_ptr message)
+void Reciever::on_message_arrived(const std::string &topic, const Json::Value &root)
 {
-    Message parsed_message;
-    if (_parser.parse_message(message, parsed_message))
+    if (!root["id"] || !root["state"])
     {
         return;
     }
 
+    std::string id = root["id"].asString();
+    std::string state = root["state"].asString();
+    
     try
     {
-        _map.at(parsed_message.topic + parsed_message.id)->on_message_arrived(parsed_message.state, _client, *_mutex);
+        _map.at(topic + id)->on_message_arrived(state, _client, *_mutex);
     }
     catch(const std::out_of_range& e)
     {
-        Log::warning("Device with id '" + parsed_message.id + "' does not exist on topic '" + parsed_message.topic + "'.");
+        Log::warning("Device with id '" + id + "' does not exist on topic '" + topic + "'.");
     }
 }
 

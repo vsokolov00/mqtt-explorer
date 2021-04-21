@@ -287,32 +287,3 @@ void Parser::parse_locks(Json::Value &root, std::vector<Lock> &locks)
         }
     }
 }
-
-bool Parser::parse_message(mqtt::const_message_ptr recieved_message, Message &parsed_message)
-{
-    const mqtt::message *message = recieved_message.get();
-    if (message == nullptr)
-    {
-        return true;
-    }
-
-    std::string content = message->get_payload_str();
-    parsed_message.topic = message->get_topic();
-
-    std::string errs;
-    Json::Value root;
-    if (!_reader->parse(content.c_str(), content.c_str() + content.size(), &root, &errs))
-    {
-        return true;
-    }
-
-    if (!root["id"] | !root["state"])
-    {
-        return true;
-    }
-
-    parsed_message.id = root["id"].asString();
-    parsed_message.state = root["state"].asString();
-
-    return false;
-}

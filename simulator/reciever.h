@@ -12,16 +12,11 @@
 #include "options.h"
 #include "log.h"
 
-using OnConnectedCallback = void(*)(void *, const std::string&);
-using OnMessageArrivedCallback = void(*)(void *, mqtt::const_message_ptr);
-using OnConnectionLostCallback = void(*)(void *, const std::string&);
-using OnDeliveryCompleteCallback = void(*)(void *, mqtt::delivery_token_ptr);
-
 class Reciever
 {
     public:
         static void on_connected_cb(void *object, const std::string &cause);
-        static void on_message_arrived_cb(void *object, mqtt::const_message_ptr message);
+        static void on_message_arrived_cb(void *object, const std::string &topic, const MessageData &message, FileType type);
         static void on_connection_lost_cb(void *object, const std::string &cause);
         static void on_delivery_complete_dummy_cb(void *object, mqtt::delivery_token_ptr token);
         static void dummy_cb(void *object, const mqtt::token &token);
@@ -42,7 +37,7 @@ class Reciever
         std::mutex *_mutex;
 
         void on_connected(const std::string &cause);
-        void on_message_arrived(mqtt::const_message_ptr message);
+        void on_message_arrived(const std::string &topic, const Json::Value &root);
         void on_connection_lost(const std::string &cause);
 
         void on_connection_failure(const mqtt::token &token);

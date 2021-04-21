@@ -24,10 +24,12 @@ HEADER_FILES = listener.h callback.h client.h
 
 all: $(EXE)
 
+-include $(DIR_DEPS)
+
 $(EXE): $(DIR_ALL_OBJ)
 	$(CC) $(DIR_ALL_OBJ) $(CFLAGS) -L$(LIB_DIR) $(LDFLAGS) -o $(EXE)
 
-$(BUILD_DIR)/%.o: %.cpp %.h
+$(BUILD_DIR)/%.o: %.cpp
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $< $(CFLAGS) -fPIC -c -o $@
 
@@ -48,7 +50,7 @@ libclient.so: $(DIR_OBJ)
 header:
 	@mkdir -p $(HEADER_DIR)
 	cat header_includes.txt > $(HEADER_DIR)/$(HEADER)
-	tail -q -n +6 $(HEADER_FILES) >> $(HEADER_DIR)/$(HEADER)
+	tail -q -n +11 $(HEADER_FILES) >> $(HEADER_DIR)/$(HEADER)
 
 clean_header:
 	@rm -r $(HEADER_DIR)
