@@ -35,17 +35,3 @@ class Listener : public virtual mqtt::iaction_listener
     public:
         Listener(void *class_object, OnSuccessCallback on_success_callback, OnFailureCallback on_failure_callback);
 };
-
-class Listeners
-{
-    public:
-        Listener connect_listener;
-        Listener subscribe_listener;
-        Listener unsubscribe_listener;
-        Listener publish_listener;
-        Listener disconect_listener;
-
-        Listeners(Listener &connect_listener, Listener &subscribe_listener, Listener &unsubscribe_listener, 
-                  Listener &publish_listener, Listener &disconect_listener);
-};
-

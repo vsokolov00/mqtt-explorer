@@ -18,7 +18,7 @@ DYNAMIC_LIB = libclient.so
 LIBS = $(STATIC_LIB) $(DYNAMIC_LIB)
 HEADER_DIR = header
 HEADER = client.h
-HEADER_FILES = listener.h callback.h client.h
+HEADER_FILES = listener.h client.h
 
 .PHONY: all libs clean static_lib dynamic_lib header clean_header
 
@@ -50,7 +50,7 @@ libclient.so: $(DIR_OBJ)
 header:
 	@mkdir -p $(HEADER_DIR)
 	cat header_includes.txt > $(HEADER_DIR)/$(HEADER)
-	tail -q -n +11 $(HEADER_FILES) >> $(HEADER_DIR)/$(HEADER)
+	tail -q -n +10 $(HEADER_FILES) >> $(HEADER_DIR)/$(HEADER)
 
 clean_header:
 	@rm -r $(HEADER_DIR)

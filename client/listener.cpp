@@ -15,9 +15,3 @@ void Listener::on_failure(const mqtt::token& tok)
 {
     _on_failure_callback(_class_object, tok);
 }
-
-Listeners::Listeners(Listener &connect_listener, Listener &subscribe_listener, Listener &unsubscribe_listener, 
-                     Listener &publish_listener, Listener &disconect_listener)
-          : connect_listener(connect_listener), subscribe_listener(subscribe_listener), unsubscribe_listener(unsubscribe_listener),
-            publish_listener(publish_listener), disconect_listener(disconect_listener) {}
-

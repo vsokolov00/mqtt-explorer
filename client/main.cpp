@@ -102,11 +102,7 @@ int main()
 	Test test(153);
 
 	std::mutex mutex;
-	Listener listener(&test, &Test::on_success_cb, &Test::on_failure_cb);
 
-	Listeners listeners(listener, listener, listener, listener, listener);
-	Callbacks callbacks(&test, &Test::on_connected_cb, &test, &Test::on_message_arrived_cb, 
-	 					&test, &Test::on_connection_lost_cb, &test, &Test::on_delivery_completed_cb);
 	Client client(SERVER_ADDRESS, CLIENT_ID, FileType::ALL, &test, &Test::on_connected_cb, &Test::on_failure_cb, 
 				  &Test::on_connection_lost_cb, &Test::on_success_cb, &Test::on_failure_cb, &test,
 				  &Test::on_message_arrived_cb, &Test::on_delivery_completed_cb, &Test::on_success_cb, &Test::on_failure_cb,

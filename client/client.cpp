@@ -1,22 +1,22 @@
 
 #include "client.h"
 
-ParsingLevel Client::BINARY = static_cast<unsigned short>(FileType::BINARY);
-ParsingLevel Client::STRING = static_cast<unsigned short>(FileType::STRING_UTF8);
-ParsingLevel Client::JSON = static_cast<unsigned short>(FileType::JSON);
-ParsingLevel Client::JPG = static_cast<unsigned short>(FileType::JPG);
-ParsingLevel Client::PNG = static_cast<unsigned short>(FileType::PNG);
-ParsingLevel Client::GIF = static_cast<unsigned short>(FileType::GIF);
-ParsingLevel Client::ALL_IMAGES = static_cast<unsigned short>(FileType::ALL_IMAGES);
+ParsingLevel Client::BINARY = static_cast<ParsingLevel>(FileType::BINARY);
+ParsingLevel Client::STRING = static_cast<ParsingLevel>(FileType::STRING_UTF8);
+ParsingLevel Client::JSON = static_cast<ParsingLevel>(FileType::JSON);
+ParsingLevel Client::JPG = static_cast<ParsingLevel>(FileType::JPG);
+ParsingLevel Client::PNG = static_cast<ParsingLevel>(FileType::PNG);
+ParsingLevel Client::GIF = static_cast<ParsingLevel>(FileType::GIF);
+ParsingLevel Client::ALL_IMAGES = static_cast<ParsingLevel>(FileType::ALL_IMAGES);
 
 void Client::add_parsing_level(ParsingLevel &current_levels, FileType file_type)
 {
-    current_levels |= static_cast<unsigned short>(file_type);
+    current_levels |= static_cast<ParsingLevel>(file_type);
 }
 
 void Client::remove_parsing_level(ParsingLevel &current_levels, FileType file_type)
 {
-    current_levels &= ~static_cast<unsigned short>(file_type);
+    current_levels &= ~static_cast<ParsingLevel>(file_type);
 }
 
 void Client::dummy_cb(void *object, const mqtt::token& token)

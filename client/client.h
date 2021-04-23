@@ -2,12 +2,50 @@
 #pragma once
 
 #include "listener.h"
-#include "callback.h"
 #include "json/json-forwards.h"
 #include "json/json.h"
 
 #include <string>
 #include <thread>
+
+
+enum class FileType : unsigned short 
+{
+    ALL = 0xFFFF,
+    BINARY = 0b1,
+    STRING_UTF8 = 0b10,
+    JSON = 0b100,
+    JPG = 0b1000,
+    PNG = 0b10000,
+    GIF = 0b100000,
+    ALL_IMAGES = 0b111100
+};
+
+using ParsingLevel = unsigned short;
+
+struct String
+{
+    size_t size;
+    const char *data;
+};
+
+struct Binary
+{
+    size_t size;
+    const char *data;
+};
+
+union MessageData
+{
+    String string;
+    Binary binary;
+    Json::Value *json;
+};
+
+using OnConnectionSuccessCB = void(*)(void *, const std::string&);
+using OnMessageArrivedCallback = void(*)(void *, const std::string&, const MessageData&, FileType);
+using OnConnectionLostCallback = void(*)(void *, const std::string&);
+using OnDeliveryCompleteCallback = void(*)(void *, mqtt::delivery_token_ptr);
 
 class Client : public virtual mqtt::callback
 {
@@ -35,8 +73,6 @@ class Client : public virtual mqtt::callback
 
         mqtt::async_client _client;
         ParsingLevel _level;
-        //Listeners _listeners;
-        //Callbacks _callbacks;
 
         void *_connection_object;
         OnConnectionSuccessCB _connection_success_cb;
@@ -56,10 +92,6 @@ class Client : public virtual mqtt::callback
         std::mutex *_muttex;
 
     public:
-        /*Client(const std::string server_address, const std::string &id, Listeners &listeners, 
-               Callbacks &callbacks, ParsingLevel level);
-        Client(const std::string server_address, const std::string &id, 
-               Listeners &listeners, Callbacks &callbacks, FileType single_file_type);*/
         Client(const std::string server_address, const std::string &id, FileType single_file_type,
                void *connection_object, OnConnectionSuccessCB connected_cb, OnConnectionFailureCB connection_failure_cb,
                OnConnectionLostCallback connection_lost_cb, OnDisconectSucessCB disconnect_success_cb, 

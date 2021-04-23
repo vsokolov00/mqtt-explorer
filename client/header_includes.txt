@@ -2,7 +2,6 @@
 #pragma once
 
 #include <string>
-#include <locale> 
 
 #include "mqtt/async_client.h"
 #include "json/json-forwards.h"

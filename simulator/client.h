@@ -2,11 +2,11 @@
 #pragma once
 
 #include <string>
-#include <locale> 
 
 #include "mqtt/async_client.h"
 #include "json/json-forwards.h"
 #include "json/json.h"
+
 
 using OnSuccessCallback = void(*)(void *, const mqtt::token&);
 using OnFailureCallback = void(*)(void *, const mqtt::token&);
@@ -35,21 +35,6 @@ class Listener : public virtual mqtt::iaction_listener
         Listener(void *class_object, OnSuccessCallback on_success_callback, OnFailureCallback on_failure_callback);
 };
 
-class Listeners
-{
-    public:
-        Listener connect_listener;
-        Listener subscribe_listener;
-        Listener unsubscribe_listener;
-        Listener publish_listener;
-        Listener disconect_listener;
-
-        Listeners(Listener &connect_listener, Listener &subscribe_listener, Listener &unsubscribe_listener, 
-                  Listener &publish_listener, Listener &disconect_listener);
-};
-
-
-using ParsingLevel = unsigned short;
 
 enum class FileType : unsigned short 
 {
@@ -62,6 +47,8 @@ enum class FileType : unsigned short
     GIF = 0b100000,
     ALL_IMAGES = 0b111100
 };
+
+using ParsingLevel = unsigned short;
 
 struct String
 {
@@ -86,30 +73,6 @@ using OnConnectionSuccessCB = void(*)(void *, const std::string&);
 using OnMessageArrivedCallback = void(*)(void *, const std::string&, const MessageData&, FileType);
 using OnConnectionLostCallback = void(*)(void *, const std::string&);
 using OnDeliveryCompleteCallback = void(*)(void *, mqtt::delivery_token_ptr);
-
-class Callbacks
-{
-    public:
-        void *on_connected_object;
-        OnConnectionSuccessCB on_connected;
-
-        void *on_message_arrived_object;
-        OnMessageArrivedCallback on_message_arrived;
-
-        void *on_connection_lost_object;
-        OnConnectionLostCallback on_connection_lost;
-
-        void *on_delivery_complete_object;
-        OnDeliveryCompleteCallback on_delivery_complete;
-    
-        Callbacks(void *on_connected_object, OnConnectionSuccessCB on_connected, 
-                  void *on_message_arrived_object, OnMessageArrivedCallback on_message_arrived, 
-                  void *on_connection_lost_object, OnConnectionLostCallback on_connection_lost, 
-                  void *on_delivery_complete_object, OnDeliveryCompleteCallback on_delivery_complete);
-        
-        Callbacks(void *object, OnConnectionSuccessCB on_connected, OnMessageArrivedCallback on_message_arrived, 
-                  OnConnectionLostCallback on_connection_lost, OnDeliveryCompleteCallback on_delivery_complete);
-};
 
 class Client : public virtual mqtt::callback
 {
@@ -137,8 +100,6 @@ class Client : public virtual mqtt::callback
 
         mqtt::async_client _client;
         ParsingLevel _level;
-        //Listeners _listeners;
-        //Callbacks _callbacks;
 
         void *_connection_object;
         OnConnectionSuccessCB _connection_success_cb;
@@ -158,10 +119,6 @@ class Client : public virtual mqtt::callback
         std::mutex *_muttex;
 
     public:
-        /*Client(const std::string server_address, const std::string &id, Listeners &listeners, 
-               Callbacks &callbacks, ParsingLevel level);
-        Client(const std::string server_address, const std::string &id, 
-               Listeners &listeners, Callbacks &callbacks, FileType single_file_type);*/
         Client(const std::string server_address, const std::string &id, FileType single_file_type,
                void *connection_object, OnConnectionSuccessCB connected_cb, OnConnectionFailureCB connection_failure_cb,
                OnConnectionLostCallback connection_lost_cb, OnDisconectSucessCB disconnect_success_cb, 
