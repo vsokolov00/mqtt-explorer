@@ -14,13 +14,12 @@ INCLUDEPATH += ./mqtt_paho/headers/
 INCLUDEPATH += .
 LIBS = -fPIC
 
-DESTDIR=bin/ #Target file directory
-OBJECTS_DIR=build/ #Intermediate object files directory
-MOC_DIR=build/
+DESTDIR=bin/        #Target file directory
+OBJECTS_DIR=build/  #Intermediate object files directory
+MOC_DIR=view/       #Generated UI *.[cpp,h] files
 
 SOURCES += \
     login.cpp \
-    logincontroller.cpp \
     main.cpp \
     maincontroller.cpp \
     mainwindow.cpp \
@@ -28,7 +27,6 @@ SOURCES += \
     treeitem.cpp
 
 HEADERS += \
-    logincontroller.h \
     maincontroller.h \
     mainwindow.h \
     mqttreemodel.h \
@@ -36,8 +34,8 @@ HEADERS += \
     login.h
 
 FORMS += \
-    ui/login.ui \
-    ui/mainwindow.ui
+    view/ui/login.ui \
+    view/ui/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -45,4 +43,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    ui/resources.qrc
+    view/ui/resources.qrc

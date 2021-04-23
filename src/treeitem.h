@@ -8,7 +8,7 @@
 class TreeItem
 {
 public:
-    explicit TreeItem(const QVector<QVariant> &data, TreeItem *parentItem = nullptr, std::string path = "");
+    explicit TreeItem(const QVector<QVariant> &data, TreeItem *parentItem = nullptr);
     ~TreeItem();
 
     void appendSubtopic(TreeItem *child);

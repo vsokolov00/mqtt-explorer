@@ -1,7 +1,7 @@
 #include "treeitem.h"
 
-TreeItem::TreeItem(const QVector<QVariant> &data, TreeItem *parent, std::string path)
-    : m_itemData(data), m_parentItem(parent), full_path(QString::fromStdString(path))
+TreeItem::TreeItem(const QVector<QVariant> &data, TreeItem *parent)
+    : m_itemData(data), m_parentItem(parent)
 {
     message_cnt = 0;
 }

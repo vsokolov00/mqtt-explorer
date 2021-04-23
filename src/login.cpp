@@ -24,6 +24,7 @@ void Login::on_connect_clicked()
 {
     if (ui->user->text() == "admin" && ui->password->text() == "admin") {
         emit login_successfull();
+        this->hide();
     } else {
         //unsuccessful log in
     }

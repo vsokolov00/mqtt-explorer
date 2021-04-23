@@ -24,21 +24,22 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void create_controllers();
+    void init_models();
+    void init_controllers();
     void login();
 
-    void display_message_tree();
+    void show_main_window();
+
     void item_selection();
 
 private slots:
-    void on_pushButton_3_clicked();
-
     void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
 
 private:
     Ui::MainWindow *ui;
-    TreeModel* model;
-    MainController* engine;
+    TreeModel* main_model;
+    MainController* main_controller;
 };
 
 #endif // MAINWINDOW_H

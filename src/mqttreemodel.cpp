@@ -106,10 +106,9 @@ TreeItem *TreeModel::getItem(const QModelIndex &index) const
     return rootItem;
 }
 
-
-TreeItem* TreeModel::getRoot()
+TreeItem& TreeModel::getRoot()
 {
-    return this->rootItem;
+    return *this->rootItem;
 }
 
 QString TreeModel::getPath(TreeItem& t)
@@ -118,14 +117,17 @@ QString TreeModel::getPath(TreeItem& t)
     std::vector<QString> path;
 
     path.push_back(t.getName());
+    TreeItem* tmp = &t;
 
-    while(t.supertopic() != rootItem)
+
+    while(tmp->supertopic() != rootItem)
     {
         path.push_back(t.supertopic()->getName());
+        tmp = tmp->supertopic();
     }
 
     std::reverse(path.begin(), path.end());
-    for (auto t : path)
+    for (auto &t : path)
     {
         pathStr += t;
         pathStr += "/";

@@ -9,7 +9,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
 
-    w.create_controllers();
+    w.init_controllers();
+    w.init_models();
     w.login();
 
     return a.exec();

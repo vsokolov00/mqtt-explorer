@@ -8,32 +8,32 @@
 #include <string>
 #include <string.h>
 
+enum class FileType : unsigned short
+{
+    ALL = 0xFFFF,
+    BINARY = 0b1,
+    STRING_UTF8 = 0b10,
+    JSON = 0b100,
+    JPG = 0b1000,
+    PNG = 0b10000,
+    GIF = 0b100000,
+    ALL_IMAGES = 0b111100
+};
+
 class MainController
 {
 public:
     MainController(TreeModel& m);
     ~MainController();
-    void recieve_message(std::string topic_path, QVariant& data); //client calls this function when new message arrives
+    void message_recieved(std::string topic_path, QVariant& data, FileType msgType);
 private:
-    std::vector<TreeItem*> root_topics;
-    int total_topics;
+    QVector<TreeItem*> root_topics;
+    TreeModel& model;
 
     std::vector<std::string> parse_topic_path(std::string path);
-
-    /**
-     * @brief TopicsEngine::find_topic checks if the given vector of topics contain a topic with the given name
-     * @param name
-     * @param topics
-     * @return
-     */
-    TreeItem* find_topic(std::string name, std::vector<TreeItem*>&);
-    TreeItem* find_topic1(std::string name, const QVector<TreeItem*>& topics);
-
-    TreeItem& add_child(TreeItem& supertopic, std::string topic_name, QVariant data, std::string path);
-    void create_hierarchy(TreeItem& supertopic, std::vector<std::string> topics, std::string full_path, bool new_root, QVariant& qv);
-
-private:
-    TreeModel& model;
+    TreeItem* find_topic(std::string name, const QVector<TreeItem*>& topics);
+    TreeItem& add_child(TreeItem& supertopic, std::string topic_name, QVariant data);
+    void create_hierarchy(TreeItem& supertopic, std::vector<std::string> topics, bool new_root, QVariant& qv);
 };
 
 #endif // MAINCONTROLLER_H

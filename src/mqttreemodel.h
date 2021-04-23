@@ -25,7 +25,7 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     TreeItem *getItem(const QModelIndex &index) const;
-    TreeItem* getRoot();
+    TreeItem& getRoot();
 
     QString getPath(TreeItem& t);
 private:
