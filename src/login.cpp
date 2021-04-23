@@ -24,6 +24,9 @@ void Login::on_connect_clicked()
     if (true) {
         this->hide();
         auto mp = new MessagePool(nullptr);
+        /*
+            create and login to client
+        */
         mp->display_message_tree();
         //mp->show();
     } else {

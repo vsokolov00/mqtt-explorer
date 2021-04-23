@@ -94,7 +94,7 @@ std::vector<std::string> TopicsEngine::parse_topic_path(std::string path)
 {
     std::vector<std::string> topics;
     const char* delimeter = "/";
-    char *token = std::strtok(const_cast<char*>(path.c_str()), delimeter);
+    char *token = strtok(const_cast<char*>(path.c_str()), delimeter);
 
     while (token != nullptr)
     {

@@ -5,6 +5,8 @@
 #include <mqttreemodel.h>
 #include <QVector>
 #include <QList>
+#include <string>
+#include <string.h>
 
 class TopicsEngine
 {
