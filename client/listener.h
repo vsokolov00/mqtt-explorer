@@ -12,6 +12,16 @@
 using OnSuccessCallback = void(*)(void *, const mqtt::token&);
 using OnFailureCallback = void(*)(void *, const mqtt::token&);
 
+using OnConnectionFailureCB = OnFailureCallback;
+using OnSubscribeSucessCB = OnSuccessCallback;
+using OnSubscribeFailureCB = OnFailureCallback;
+using OnUnsubscribeSucessCB = OnSuccessCallback;
+using OnUnsubscribeFailureCB = OnFailureCallback;
+using OnPublishSucessCB = OnSuccessCallback;
+using OnPublishFailureCB = OnFailureCallback;
+using OnDisconectSucessCB = OnSuccessCallback;
+using OnDisconectFailureCB = OnFailureCallback;
+
 class Listener : public virtual mqtt::iaction_listener
 {
     private:
