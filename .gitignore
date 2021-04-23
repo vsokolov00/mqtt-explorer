@@ -9,3 +9,4 @@ simulator/build
 simulator/simulator
 */build/
 */libs/
+*a

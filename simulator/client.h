@@ -11,6 +11,16 @@
 using OnSuccessCallback = void(*)(void *, const mqtt::token&);
 using OnFailureCallback = void(*)(void *, const mqtt::token&);
 
+using OnConnectionFailureCB = OnFailureCallback;
+using OnSubscribeSucessCB = OnSuccessCallback;
+using OnSubscribeFailureCB = OnFailureCallback;
+using OnUnsubscribeSucessCB = OnSuccessCallback;
+using OnUnsubscribeFailureCB = OnFailureCallback;
+using OnPublishSucessCB = OnSuccessCallback;
+using OnPublishFailureCB = OnFailureCallback;
+using OnDisconectSucessCB = OnSuccessCallback;
+using OnDisconectFailureCB = OnFailureCallback;
+
 class Listener : public virtual mqtt::iaction_listener
 {
     private:
@@ -115,6 +125,9 @@ class Client : public virtual mqtt::callback
     public:
         static void add_parsing_level(ParsingLevel &current_levels, FileType file_type);
         static void remove_parsing_level(ParsingLevel &current_levels, FileType file_type);
+    
+    private:
+        static void dummy_cb(void *object, const mqtt::token& token);
 
     private:
         void connected(const std::string &cause) override;
@@ -123,18 +136,48 @@ class Client : public virtual mqtt::callback
         void delivery_complete(mqtt::delivery_token_ptr token) override;
 
         mqtt::async_client _client;
-        Listeners _listeners;
-        Callbacks _callbacks;
-
         ParsingLevel _level;
+        //Listeners _listeners;
+        //Callbacks _callbacks;
+
+        void *_connection_object;
+        OnConnectionSuccessCB _connection_success_cb;
+        OnConnectionLostCallback _connection_lost_cb;
+        Listener _connect_listener;
+        Listener _disconect_listener;
+
+        void *_message_object;
+        OnMessageArrivedCallback _message_arrived_cb;
+        OnDeliveryCompleteCallback _delivery_complete_cb;
+        Listener _publish_listener;
+
+        Listener _subscribe_listener;
+        Listener _unsubscribe_listener;
+
         Json::CharReader *_reader;
         std::mutex *_muttex;
 
     public:
-        Client(const std::string server_address, const std::string &id, Listeners &listeners, 
+        /*Client(const std::string server_address, const std::string &id, Listeners &listeners, 
                Callbacks &callbacks, ParsingLevel level);
         Client(const std::string server_address, const std::string &id, 
-               Listeners &listeners, Callbacks &callbacks, FileType single_file_type);
+               Listeners &listeners, Callbacks &callbacks, FileType single_file_type);*/
+        Client(const std::string server_address, const std::string &id, FileType single_file_type,
+               void *connection_object, OnConnectionSuccessCB connected_cb, OnConnectionFailureCB connection_failure_cb,
+               OnConnectionLostCallback connection_lost_cb, OnDisconectSucessCB disconnect_success_cb, 
+               OnDisconectFailureCB disconnect_failure_cb, void *message_object, OnMessageArrivedCallback message_arrived_cb, 
+               OnDeliveryCompleteCallback delivery_completed_cb, OnPublishSucessCB publish_success_cb, OnPublishFailureCB publish_failure_cb,
+               void *subscription_object, OnSubscribeSucessCB subscribe_success_cb, OnSubscribeFailureCB subscribe_failure_cb,
+               OnUnsubscribeSucessCB unsubscribe_success_cb, OnUnsubscribeFailureCB unsubscribe_failure_cb);
+
+        Client(const std::string server_address, const std::string &id, ParsingLevel level,
+               void *connection_object, OnConnectionSuccessCB connected_cb, OnConnectionFailureCB connection_failure_cb,
+               OnConnectionLostCallback connection_lost_cb, OnDisconectSucessCB disconnect_success_cb, 
+               OnDisconectFailureCB disconnect_failure_cb, void *message_object, OnMessageArrivedCallback message_arrived_cb, 
+               OnDeliveryCompleteCallback delivery_completed_cb, OnPublishSucessCB publish_success_cb, OnPublishFailureCB publish_failure_cb,
+               void *subscription_object, OnSubscribeSucessCB subscribe_success_cb, OnSubscribeFailureCB subscribe_failure_cb,
+               OnUnsubscribeSucessCB unsubscribe_success_cb, OnUnsubscribeFailureCB unsubscribe_failure_cb);
+
         Client(const Client&) = delete;
         ~Client();
 

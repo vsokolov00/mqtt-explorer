@@ -2,12 +2,10 @@
 #include "reciever.h"
 
 Reciever::Reciever(const std::string &server_address, const std::string &id) 
-         : _connection_listener(this, dummy_cb, on_connection_failure_cb),
-           _subscribe_listener(this, on_subscribe_success_cb, on_subscribe_failure_cb),
-           _dummy_listener(this, dummy_cb, dummy_cb),
-           _listeners(_connection_listener, _subscribe_listener, _dummy_listener, _dummy_listener, _dummy_listener),
-           _callbacks(this, on_connected_cb, on_message_arrived_cb, on_connection_lost_cb, on_delivery_complete_dummy_cb),
-           _client(server_address, id, _listeners, _callbacks, FileType::JSON) 
+         : _client(server_address, id, FileType::JSON, this, &Reciever::on_connected_cb, &Reciever::on_connection_failure_cb,
+           &Reciever::on_connection_lost_cb, &Reciever::dummy_cb, &Reciever::dummy_cb, this, &Reciever::on_message_arrived_cb, 
+           &Reciever::on_delivery_complete_dummy_cb, &Reciever::dummy_cb, &Reciever::dummy_cb, this, &Reciever::on_subscribe_success_cb,
+           &Reciever::on_subscribe_failure_cb, &Reciever::dummy_cb, &Reciever::dummy_cb) 
 {
     _mutex = new std::mutex();
 }

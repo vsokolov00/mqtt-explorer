@@ -26,13 +26,7 @@ class Reciever
     
     private:
         std::unordered_map<std::string, RecievingDevice *> _map;
-        Parser _parser;
         std::vector<std::string> _topics;
-        Listener _connection_listener;
-        Listener _subscribe_listener;
-        Listener _dummy_listener;
-        Listeners _listeners;
-        Callbacks _callbacks;
         Client _client;
         std::mutex *_mutex;
 
