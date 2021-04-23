@@ -1,34 +1,48 @@
-#include "messagepool.h"
-#include "ui_messagepool.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 
 #include <QApplication>
 
-MessagePool::MessagePool(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MessagePool)
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    model = new TreeModel(this);
-    ui->messageList->setModel(model);
-    engine = new TopicsEngine(*model);
-
-    connect(ui->messageList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MessagePool::item_selection);
-
-    this->display_message_tree();
 }
 
-MessagePool::~MessagePool()
+MainWindow::~MainWindow()
 {
     delete ui;
+    delete model;
+    delete engine;
 }
 
-void MessagePool::display_message_tree()
+void MainWindow::create_controllers()
+{
+    model = new TreeModel(this);
+    ui->messageList->setModel(model);
+
+    engine = new MainController(*model);
+
+    //some built-in QT stuff for selection of treeview items
+    connect(ui->messageList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::item_selection);
+}
+
+void MainWindow::login()
+{
+    auto l = new Login(this);
+    l->show();
+    connect(l,&Login::login_successfull, this, &MainWindow::show);
+}
+
+
+void MainWindow::display_message_tree()
 {       
     ui->messageList->setColumnWidth(0, ui->messageList->size().rwidth() * 0.6);
     this->show();
 }
 
-void MessagePool::on_pushButton_3_clicked()
+void MainWindow::on_pushButton_3_clicked()
 {
     QString s = ui->message->text();
     QVariant qv = QVariant(s);
@@ -37,7 +51,7 @@ void MessagePool::on_pushButton_3_clicked()
     item_selection();
 }
 
-void MessagePool::item_selection()
+void MainWindow::item_selection()
 {
     ui->listWidget->clear();
     const bool hasCurrent = ui->messageList->selectionModel()->currentIndex().isValid();
@@ -61,7 +75,7 @@ void MessagePool::item_selection()
 
 
 
-void MessagePool::on_pushButton_clicked()
+void MainWindow::on_pushButton_clicked()
 {
     QString topic = ui->path->text();
     QVariant qv = ui->message->text();
@@ -69,3 +83,4 @@ void MessagePool::on_pushButton_clicked()
     engine->recieve_message(topic.toStdString(), qv);
     item_selection();
 }
+

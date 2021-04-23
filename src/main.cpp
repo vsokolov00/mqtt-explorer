@@ -1,4 +1,5 @@
-#include "login.h"
+//#include "login.h"
+#include "mainwindow.h"
 
 #include <QApplication>
 
@@ -6,8 +7,10 @@ int main(int argc, char *argv[])
 {
 
     QApplication a(argc, argv);
-    Login w;
-    // window.show_login()
-    w.show();
+    MainWindow w;
+
+    w.create_controllers();
+    w.login();
+
     return a.exec();
 }

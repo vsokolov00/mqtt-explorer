@@ -20,21 +20,23 @@ MOC_DIR=build/
 
 SOURCES += \
     login.cpp \
+    logincontroller.cpp \
     main.cpp \
-    messagepool.cpp \
+    maincontroller.cpp \
+    mainwindow.cpp \
     mqttreemodel.cpp \
-    topicsengine.cpp \
     treeitem.cpp
 
 HEADERS += \
-    login.h \
-    messagepool.h \
+    logincontroller.h \
+    maincontroller.h \
+    mainwindow.h \
     mqttreemodel.h \
-    topicsengine.h \
-    treeitem.h
+    treeitem.h \
+    login.h
 
 FORMS += \
-    ui/messagepool.ui \
+    ui/login.ui \
     ui/mainwindow.ui
 
 # Default rules for deployment.

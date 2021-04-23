@@ -1,11 +1,16 @@
-#include "topicsengine.h"
+#include "maincontroller.h"
 #include <iostream>
 
-TopicsEngine::TopicsEngine(TreeModel& m)
+MainController::MainController(TreeModel& m)
     : model(m)
 {
     root_topics = {};
     total_topics = 0;
+}
+
+MainController::~MainController()
+{
+
 }
 
 /**
@@ -13,7 +18,7 @@ TopicsEngine::TopicsEngine(TreeModel& m)
  * @param topic_path
  * @param text_message
  */
-void TopicsEngine::recieve_message(std::string topic_path, QVariant& data)
+void MainController::recieve_message(std::string topic_path, QVariant& data)
 {
     std::vector<std::string> topics = this->parse_topic_path(topic_path);
     TreeItem* supertopic = find_topic(topics[0], root_topics);
@@ -53,7 +58,7 @@ void TopicsEngine::recieve_message(std::string topic_path, QVariant& data)
 }
 
 //creates hierarchy of new topics that didn't exist before
-void TopicsEngine::create_hierarchy(TreeItem& supertopic, std::vector<std::string> topics, std::string full_path, bool new_root_topic, QVariant& data)
+void MainController::create_hierarchy(TreeItem& supertopic, std::vector<std::string> topics, std::string full_path, bool new_root_topic, QVariant& data)
 {
     TreeItem* supertop = &supertopic;
     for (std::string topic : topics)
@@ -77,7 +82,7 @@ void TopicsEngine::create_hierarchy(TreeItem& supertopic, std::vector<std::strin
 
 
 //adds topic to the model and returns pointer to the item of this topic
-TreeItem& TopicsEngine::add_child(TreeItem& supertopic, std::string topic_name, QVariant data = {}, std::string path = "")
+TreeItem& MainController::add_child(TreeItem& supertopic, std::string topic_name, QVariant data = {}, std::string path = "")
 {
     auto child = new TreeItem({QString::fromStdString(topic_name), data}, &supertopic, path);
     supertopic.appendSubtopic(child);
@@ -90,7 +95,7 @@ TreeItem& TopicsEngine::add_child(TreeItem& supertopic, std::string topic_name, 
  * @param path
  * @return vector of topic names
  */
-std::vector<std::string> TopicsEngine::parse_topic_path(std::string path)
+std::vector<std::string> MainController::parse_topic_path(std::string path)
 {
     std::vector<std::string> topics;
     const char* delimeter = "/";
@@ -105,7 +110,7 @@ std::vector<std::string> TopicsEngine::parse_topic_path(std::string path)
     return topics;
 }
 
-TreeItem* TopicsEngine::find_topic(std::string name, std::vector<TreeItem*>& topics)
+TreeItem* MainController::find_topic(std::string name, std::vector<TreeItem*>& topics)
 {
     for (auto t : topics)
     {
@@ -117,7 +122,7 @@ TreeItem* TopicsEngine::find_topic(std::string name, std::vector<TreeItem*>& top
     return nullptr;
 }
 //template or overloading???
-TreeItem* TopicsEngine::find_topic1(std::string name, const QVector<TreeItem*>& topics)
+TreeItem* MainController::find_topic1(std::string name, const QVector<TreeItem*>& topics)
 {
     for (auto t : topics)
     {

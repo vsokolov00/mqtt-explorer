@@ -1,16 +1,17 @@
 #include "login.h"
-#include "messagepool.h"
-#include "ui_mainwindow.h"
+#include "ui_login.h"
 
 Login::Login(QWidget *parent)
     : QMainWindow(parent),
-      ui(new Ui::MainWindow)
+      ui(new Ui::Login)
 {
     ui->setupUi(this);
     ui->protocol->addItem("mqtt://");
     ui->protocol->addItem("tcp://");
     ui->host->setText("localhost");
     ui->port->setText("1883");
+    ui->user->setText("admin");
+    ui->password->setText("admin");
 }
 
 Login::~Login()
@@ -18,18 +19,12 @@ Login::~Login()
     delete ui;
 }
 
+
 void Login::on_connect_clicked()
 {
-    //call client connect function
-    if (true) {
-        this->hide();
-        auto mp = new MessagePool(nullptr);
-        /*
-            create and login to client
-        */
-        mp->display_message_tree();
-        //mp->show();
+    if (ui->user->text() == "admin" && ui->password->text() == "admin") {
+        emit login_successfull();
     } else {
-
+        //unsuccessful log in
     }
 }

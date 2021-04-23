@@ -1,5 +1,5 @@
-#ifndef TOPICSENGINE_H
-#define TOPICSENGINE_H
+#ifndef MAINCONTROLLER_H
+#define MAINCONTROLLER_H
 
 #include <treeitem.h>
 #include <mqttreemodel.h>
@@ -8,11 +8,11 @@
 #include <string>
 #include <string.h>
 
-class TopicsEngine
+class MainController
 {
 public:
-    TopicsEngine(TreeModel& m);
-    ~TopicsEngine();
+    MainController(TreeModel& m);
+    ~MainController();
     void recieve_message(std::string topic_path, QVariant& data); //client calls this function when new message arrives
 private:
     std::vector<TreeItem*> root_topics;
@@ -36,4 +36,4 @@ private:
     TreeModel& model;
 };
 
-#endif // TOPICSENGINE_H
+#endif // MAINCONTROLLER_H

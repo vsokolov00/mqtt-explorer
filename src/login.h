@@ -1,11 +1,9 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef LOGIN_H
+#define LOGIN_H
 
 #include <QMainWindow>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+namespace Ui { class Login; }
 
 class Login: public QMainWindow
 {
@@ -18,7 +16,10 @@ public:
 private slots:
     void on_connect_clicked();
 
+signals:
+    void login_successfull();
+
 private:
-    Ui::MainWindow *ui;
+    Ui::Login *ui;
 };
-#endif // MAINWINDOW_H
+#endif // LOGIN_H
