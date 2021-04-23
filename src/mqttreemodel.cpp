@@ -3,7 +3,7 @@
 TreeModel::TreeModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
-    rootItem = new TreeItem({tr("Topic"), tr("Message")});
+    rootItem = new TreeItem({tr("Topic"), tr("Last message")});
 }
 
 
@@ -32,13 +32,13 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     return item->data(index.column());
 }
 
-//Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
-//{
-//    if (!index.isValid())
-//        return Qt::NoItemFlags;
+Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return Qt::NoItemFlags;
 
-//    return QAbstractItemModel::flags(index);
-//}
+    return Qt::ItemIsSelectable  | QAbstractItemModel::flags(index);
+}
 
 QVariant TreeModel::headerData(int section, Qt::Orientation orientation,
                                int role) const
@@ -61,9 +61,10 @@ QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent) con
     else
         parentItem = static_cast<TreeItem*>(parent.internalPointer());
 
-    TreeItem *childItem = parentItem->child(row);
+    TreeItem *childItem = parentItem->getSubtopic(row);
     if (childItem)
         return createIndex(row, column, childItem);
+
     return QModelIndex();
 }
 
@@ -73,7 +74,7 @@ QModelIndex TreeModel::parent(const QModelIndex &index) const
         return QModelIndex();
 
     TreeItem *childItem = static_cast<TreeItem*>(index.internalPointer());
-    TreeItem *parentItem = childItem->parentItem();
+    TreeItem *parentItem = childItem->supertopic();
 
     if (parentItem == rootItem)
         return QModelIndex();
@@ -92,12 +93,43 @@ int TreeModel::rowCount(const QModelIndex &parent) const
     else
         parentItem = static_cast<TreeItem*>(parent.internalPointer());
 
-    return parentItem->childCount();
+    return parentItem->subtopicCount();
+}
+
+TreeItem *TreeModel::getItem(const QModelIndex &index) const
+{
+    if (index.isValid()) {
+        TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+        if (item)
+            return item;
+    }
+    return rootItem;
 }
 
 
 TreeItem* TreeModel::getRoot()
 {
     return this->rootItem;
+}
+
+QString TreeModel::getPath(TreeItem& t)
+{
+    QString pathStr;
+    std::vector<QString> path;
+
+    path.push_back(t.getName());
+
+    while(t.supertopic() != rootItem)
+    {
+        path.push_back(t.supertopic()->getName());
+    }
+
+    std::reverse(path.begin(), path.end());
+    for (auto t : path)
+    {
+        pathStr += t;
+        pathStr += "/";
+    }
+    return pathStr;
 }
 

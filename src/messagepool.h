@@ -19,9 +19,12 @@ public:
     explicit MessagePool(QWidget *parent = nullptr);
     ~MessagePool();
     void display_message_tree();
+    void item_selection();
 
 private slots:
     void on_pushButton_3_clicked();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::MessagePool *ui;

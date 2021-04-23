@@ -1,7 +1,7 @@
 #include "treeitem.h"
 
-TreeItem::TreeItem(const QVector<QVariant> &data, TreeItem *parent)
-    : m_itemData(data), m_parentItem(parent)
+TreeItem::TreeItem(const QVector<QVariant> &data, TreeItem *parent, std::string path)
+    : m_itemData(data), m_parentItem(parent), full_path(QString::fromStdString(path))
 {
     message_cnt = 0;
 }
@@ -11,26 +11,26 @@ TreeItem::~TreeItem()
     qDeleteAll(m_childItems);
 }
 
-void TreeItem::appendChild(TreeItem *item)
+void TreeItem::appendSubtopic(TreeItem *item)
 {
     m_childItems.append(item);
 }
 
-TreeItem *TreeItem::child(int row)
+TreeItem *TreeItem::getSubtopic(int row)
 {
     if (row < 0 || row >= m_childItems.size())
         return nullptr;
     return m_childItems.at(row);
 }
 
-int TreeItem::childCount() const
+int TreeItem::subtopicCount() const
 {
     return m_childItems.count();
 }
 
 int TreeItem::columnCount() const
 {
-    return m_itemData.count();
+    return 2;
 }
 
 QVariant TreeItem::data(int column) const
@@ -40,7 +40,7 @@ QVariant TreeItem::data(int column) const
     return m_itemData.at(column);
 }
 
-TreeItem *TreeItem::parentItem()
+TreeItem *TreeItem::supertopic()
 {
     return m_parentItem;
 }
@@ -53,7 +53,7 @@ int TreeItem::row() const
     return 0;
 }
 
-QVector<TreeItem*> TreeItem::getChildren()
+QVector<TreeItem*> TreeItem::getSubtopics()
 {
     return m_childItems;
 }
@@ -63,9 +63,30 @@ int TreeItem::getMessageCnt()
     return message_cnt;
 }
 
-void TreeItem::new_message()
+void TreeItem::addMessage(QVariant msg)
 {
     this->message_cnt++;
+    this->m_itemData[1] = msg;
+    if (msg_history.count() > MSGLIMIT)
+    {
+        msg_history.erase(msg_history.begin());
+    }
+    this->msg_history.append(msg);
+}
+
+QString TreeItem::getName()
+{
+    return this->m_itemData[0].toString();
+}
+
+QVector<QVariant> TreeItem::getMessages()
+{
+    return msg_history;
+}
+
+QString TreeItem::getPath()
+{
+    return this->full_path;
 }
 
 
