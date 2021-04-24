@@ -5,9 +5,12 @@
 
 #include <QMainWindow>
 #include <QFileSystemModel>
+#include <QFileDialog>
+#include <QImageReader>
+#include <QPixmap>
+#include <QStringList>
 
-#include "maincontroller.h"
-#include "publishcontroller.h"
+#include "messagecontroller.h"
 #include "subscriptioncontroller.h"
 #include "mqttreemodel.h"
 #include "login.h"
@@ -40,13 +43,16 @@ private slots:
 
     void on_unsubscribe_clicked();
 
+    void on_chooseFile_clicked();
+
+    void on_clear_clicked();
+
 private:
     Ui::MainWindow *ui;
     TreeModel* main_model;
 
-    MainController* main_controller;
+    MessageController* message_controller;
     ConnectionController* conn_controller;
-    PublishController* pub_controller;
     SubscriptionController* sub_constroller;
 };
 

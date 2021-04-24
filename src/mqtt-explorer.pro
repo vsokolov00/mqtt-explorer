@@ -22,19 +22,17 @@ SOURCES += \
     connectioncontroller.cpp \
     login.cpp \
     main.cpp \
-    maincontroller.cpp \
     mainwindow.cpp \
+    messagecontroller.cpp \
     mqttreemodel.cpp \
-    publishcontroller.cpp \
     subscriptioncontroller.cpp \
     treeitem.cpp
 
 HEADERS += \
     connectioncontroller.h \
-    maincontroller.h \
     mainwindow.h \
+    messagecontroller.h \
     mqttreemodel.h \
-    publishcontroller.h \
     subscriptioncontroller.h \
     treeitem.h \
     login.h
