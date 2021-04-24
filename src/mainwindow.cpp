@@ -1,74 +1,97 @@
 #include "mainwindow.h"
-#include <string>
+#include "ui_mainwindow.h"
+
 #include <QApplication>
 
-//const std::string ADDRESS	{ "tcp://localhost:7412" };
-//const std::string CLIENT_ID		{ "test_client" };
-//const std::string TOPIC 			{ "hello" };
-
-//const int  QOS = 1;
-
-int main(int argc, char *argv[])
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
-//    const std::string TOPIC { "hello" };
-//    const std::string PAYLOAD1 { "Hello World!" };
+    ui->setupUi(this);
+}
 
-//    const char* PAYLOAD2 = "Hi there!";
+MainWindow::~MainWindow()
+{
+    delete ui;
+    delete main_model;
+    delete main_controller;
+    delete conn_controller;
+}
 
-    // Create a client
+void MainWindow::init_models()
+{
+    main_model = new TreeModel(this);
+    ui->messageList->setModel(main_model);
+    main_controller = new MainController(*main_model);
+    //some built-in QT stuff for selection of treeview items
+    connect(ui->messageList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::item_selection);
+}
 
-//    mqtt::client cli(ADDRESS, CLIENT_ID);
+void MainWindow::init_controllers()
+{
+    main_controller = new MainController(*main_model);
+    conn_controller = new ConnectionController();
+    pub_controller = new PublishController();
+    sub_constroller = new SubscriptionController();
+}
 
-//    mqtt::connect_options connOpts;
-//    connOpts.set_keep_alive_interval(20);
-    //connOpts.set_clean_session(true);
+void MainWindow::login()
+{
+    auto l = new Login(this, conn_controller);
+    l->show();
+    connect(l, &Login::login_successfull, this, &MainWindow::show_main_window);
+}
 
-//    try
-//    {
-//        // Connect to the client
 
-//        cli.connect();
-//        //cli.connect(connOpts);
+void MainWindow::show_main_window()
+{       
+    this->show();
+    ui->messageList->setColumnWidth(0, ui->messageList->size().rwidth() * 0.6);
+}
 
-//        // Publish using a message pointer.
+void MainWindow::item_selection()
+{
+    ui->listWidget->clear();
+    const bool hasCurrent = ui->messageList->selectionModel()->currentIndex().isValid();
 
-//        auto msg = mqtt::make_message(TOPIC, PAYLOAD1);
-//        msg->set_qos(QOS);
+    if (hasCurrent)
+    {
+        auto qindex = ui->messageList->selectionModel()->currentIndex();
+        auto item = main_model->getItem(qindex);
+        QVector<QVariant> history = item->getMessages();
+        QStringList messages;
 
-//        cli.publish(msg);
+        for (auto& message : history)
+        {
+            messages << message.toString();
+        }
+        ui->listWidget->addItems(messages);
+        ui->listWidget->update();
+        ui->path->setText(main_model->getPath(*item));
+    }
+}
 
-//        // Now try with itemized publish.
+//PUBLISH MESSAGE
+void MainWindow::on_publish_clicked()
+{
+    QString topic = ui->path->text();
+    QVariant qv = ui->msg_to_publish->toPlainText();
 
-//        cli.publish(TOPIC, PAYLOAD2, strlen(PAYLOAD2), 0, false);
+    if (pub_controller->publish_msg(topic.toStdString(), qv))
+    {
+        main_controller->message_recieved(topic.toStdString(), qv, FileType::STRING_UTF8);
+        item_selection();
+    }
+}
 
-//    }
-//    catch (const mqtt::exception& exc) {
-//        std::cerr << "Error: " << exc.what() << " ["
-//            << exc.get_reason_code() << "]" << std::endl;
-//        return 1;
-//    }
+//SUBSCRIBE TO THE TOPIC
+void MainWindow::on_subscribe_clicked()
+{
+    std::cout << "Subscribe" << std::endl;
+}
 
-//    // create some topics
-//    mqtt::string_collection topics({"test", "temp", "speed", "wind"});
-//    // add one more topic
-//    topics.push_back("lol");
-//    // subsribe to the topics
-//    cli.subscribe(topics);
-
-//    while (true) // TODO loop termination
-//    {
-//        // reciev a message from subscribed topics
-//        mqtt::const_message_ptr message_ptr = cli.consume_message();
-//        // print the recieved message
-//        std::cout << "message on topic " << message_ptr.get()->get_topic() << ": " << message_ptr.get()->get_payload_str() << std::endl;
-//    }
-    
-//    cli.disconnect();
-    //return 0;
-
-    // TODO incorporate the mechanismus above the GUI app
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+//UNSUBSCRIBE
+void MainWindow::on_unsubscribe_clicked()
+{
+    std::cout << "Unubscribe" << std::endl;
 }

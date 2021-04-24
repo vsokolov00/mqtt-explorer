@@ -12,26 +12,41 @@ CONFIG += c++17
 INCLUDEPATH = ./mqtt_paho/libs/
 INCLUDEPATH += ./mqtt_paho/headers/
 INCLUDEPATH += .
-LIBS = -fPIC -lpaho-mqttpp3 -lpaho-mqtt3a -lpaho-mqtt3as -lpaho-mqtt3c -lpaho-mqtt3cs
+LIBS = -fPIC
 
-DESTDIR=bin/ #Target file directory
-OBJECTS_DIR=build/ #Intermediate object files directory
-MOC_DIR=build/
+DESTDIR=bin/        #Target file directory
+OBJECTS_DIR=build/  #Intermediate object files directory
+MOC_DIR=view/       #Generated UI *.[cpp,h] files
 
 SOURCES += \
+    connectioncontroller.cpp \
+    login.cpp \
     main.cpp \
-    mainmenu.cpp \
-    mainwindow.cpp
+    maincontroller.cpp \
+    mainwindow.cpp \
+    mqttreemodel.cpp \
+    publishcontroller.cpp \
+    subscriptioncontroller.cpp \
+    treeitem.cpp
 
 HEADERS += \
-    mainmenu.h \
-    mainwindow.h
+    connectioncontroller.h \
+    maincontroller.h \
+    mainwindow.h \
+    mqttreemodel.h \
+    publishcontroller.h \
+    subscriptioncontroller.h \
+    treeitem.h \
+    login.h
 
 FORMS += \
-    ui/mainmenu.ui \
-    ui/mainwindow.ui
+    view/ui/login.ui \
+    view/ui/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    view/ui/resources.qrc
