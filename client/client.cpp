@@ -100,59 +100,6 @@ Client::Client(const std::string server_address, const std::string &id, ParsingL
     }
 }
 
-/*
-Client::Client(const std::string server_address, const std::string &id, Listeners &listeners, 
-               Callbacks &callbacks, ParsingLevel level)
-       : _client(server_address, id), _listeners(listeners), _callbacks(callbacks), _level(level)
-{
-    _client.set_callback(*this);
-
-    try
-    {
-        _muttex = new std::mutex();        
-    }
-    catch(const std::bad_alloc &e)
-    {
-        std::cerr << "ERROR: memory allocation failed." << std::endl;
-        exit(1);
-    }
-    
-    _reader = Json::CharReaderBuilder().newCharReader();
-    if (_reader == nullptr)
-    {
-        delete _muttex;
-        std::cerr << "ERROR: memory allocation failed." << std::endl;
-        exit(1);
-    }
-}
-
-Client::Client(const std::string server_address, const std::string &id, 
-               Listeners &listeners, Callbacks &callbacks, FileType single_file_type)
-       : _client(server_address, id), _listeners(listeners), _callbacks(callbacks)
-{
-    _level = static_cast<ParsingLevel>(single_file_type);
-    _client.set_callback(*this);
-
-    try
-    {
-        _muttex = new std::mutex();
-        std::cerr << _muttex << std::endl;
-    }
-    catch(const std::bad_alloc &e)
-    {
-        std::cerr << "ERROR: memory allocation failed." << std::endl;
-        exit(1);
-    }
-    
-    _reader = Json::CharReaderBuilder().newCharReader();
-    if (_reader == nullptr)
-    {
-        delete _muttex;
-        std::cerr << "ERROR: memory allocation failed." << std::endl;
-        exit(1);
-    }
-}*/
-
 Client::~Client()
 {
     delete _reader;
@@ -162,13 +109,11 @@ Client::~Client()
 void Client::connected(const std::string &cause)
 {   
     _connection_success_cb(_connection_object, cause);
-    //_callbacks.on_connected(_callbacks.on_connected_object, cause);
 }
 
 void Client::connection_lost(const std::string &cause)
 {
     _connection_lost_cb(_connection_object, cause);
-    //_callbacks.on_connection_lost(_callbacks.on_connection_lost_object, cause);
 }
 
 void Client::message_arrived(mqtt::const_message_ptr msg)
@@ -236,7 +181,6 @@ void Client::message_arrived(mqtt::const_message_ptr msg)
                     _muttex->unlock();
                     message_data.json = &root;
                     _message_arrived_cb(_message_object, topic, message_data, FileType::JSON);
-                    //_callbacks.on_message_arrived(_callbacks.on_message_arrived_object, topic, message_data, FileType::JSON);
                     return;
                 }
                 _muttex->unlock();
@@ -246,7 +190,6 @@ void Client::message_arrived(mqtt::const_message_ptr msg)
                 message_data.string.data = payload.c_str();
                 message_data.string.size = payload.size();
                 _message_arrived_cb(_message_object, topic, message_data, FileType::STRING_UTF8);
-                //_callbacks.on_message_arrived(_callbacks.on_message_arrived_object, topic, message_data, FileType::STRING_UTF8);
                 return;
             }
         }
@@ -263,7 +206,6 @@ void Client::message_arrived(mqtt::const_message_ptr msg)
         message_data.binary.data = payload.c_str();
         message_data.binary.size = payload.size();
         _message_arrived_cb(_message_object, topic, message_data, FileType::JPG);
-        //_callbacks.on_message_arrived(_callbacks.on_message_arrived_object, topic, message_data, FileType::JPG);
         return;
     }
 
@@ -279,7 +221,6 @@ void Client::message_arrived(mqtt::const_message_ptr msg)
         message_data.binary.data = payload.c_str();
         message_data.binary.size = payload.size();
         _message_arrived_cb(_message_object, topic, message_data, FileType::PNG);
-        //_callbacks.on_message_arrived(_callbacks.on_message_arrived_object, topic, message_data, FileType::PNG);
         return;
     }
 
@@ -294,7 +235,6 @@ void Client::message_arrived(mqtt::const_message_ptr msg)
         message_data.binary.data = payload.c_str();
         message_data.binary.size = payload.size();
         _message_arrived_cb(_message_object, topic, message_data, FileType::GIF);
-        //_callbacks.on_message_arrived(_callbacks.on_message_arrived_object, topic, message_data, FileType::GIF);
         return;
     }
 
@@ -303,7 +243,6 @@ void Client::message_arrived(mqtt::const_message_ptr msg)
         message_data.binary.data = payload.c_str();
         message_data.binary.size = payload.size();
         _message_arrived_cb(_message_object, topic, message_data, FileType::BINARY);
-        //_callbacks.on_message_arrived(_callbacks.on_message_arrived_object, topic, message_data, FileType::BINARY);
         return;
     }
 }
@@ -311,7 +250,6 @@ void Client::message_arrived(mqtt::const_message_ptr msg)
 void Client::delivery_complete(mqtt::delivery_token_ptr token)
 {
     _delivery_complete_cb(_message_object, token);
-    //_callbacks.on_delivery_complete(_callbacks.on_delivery_complete_object, token);
 }
 
 bool Client::connect(const mqtt::connect_options &connect_options)
@@ -319,7 +257,6 @@ bool Client::connect(const mqtt::connect_options &connect_options)
     try
     {
         _client.connect(connect_options, nullptr, _connect_listener);
-        //_client.connect(connect_options, nullptr, _listeners.connect_listener);
     }
     catch (const mqtt::exception& exc)
     {
@@ -335,7 +272,6 @@ bool Client::disconnect()
     try
     {
         _client.disconnect(nullptr, _disconect_listener)->wait();
-        //_client.disconnect(nullptr, _listeners.disconect_listener)->wait();
     }
     catch (const mqtt::exception& exc)
     {
@@ -349,17 +285,14 @@ bool Client::disconnect()
 void Client::subscribe(const std::string topic, const int QOS)
 {
     _client.subscribe(topic, QOS, nullptr, _subscribe_listener);
-    //_client.subscribe(topic, QOS, nullptr, _listeners.subscribe_listener);
 }
 
 void Client::unsubscribe(const std::string topic)
 {
     _client.unsubscribe(topic, nullptr, _unsubscribe_listener);
-    //_client.unsubscribe(topic, nullptr, _listeners.unsubscribe_listener);
 }
 
 void Client::publish(const std::string topic, const std::string message)
 {
     _client.publish(mqtt::make_message(topic, message), nullptr, _publish_listener);
-    //_client.publish(mqtt::make_message(topic, message), nullptr, _listeners.publish_listener);
 }
