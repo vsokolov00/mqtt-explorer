@@ -11,3 +11,5 @@ simulator/simulator
 */libs/
 *.a
 *.so
+client/build/*
+simulator/build/*

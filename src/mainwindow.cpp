@@ -143,9 +143,9 @@ void MainWindow::on_chooseFile_clicked()
         {
 
         }
-        QTextStream in(&file);
+        //QTextStream in(file);
         QStringList message;
-        message << in.readAll();
+        //message << in.readAll();
 
         ui->msg_to_publish->setPlainText(message.join("\n"));
     }

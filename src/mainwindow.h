@@ -54,6 +54,7 @@ private:
     MessageController* message_controller;
     ConnectionController* conn_controller;
     SubscriptionController* sub_constroller;
+
 };
 
 #endif // MAINWINDOW_H

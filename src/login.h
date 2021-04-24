@@ -1,5 +1,5 @@
-#ifndef LOGIN_H
-#define LOGIN_H
+
+#pragma once
 
 #include <QMainWindow>
 #include "connectioncontroller.h"
@@ -24,4 +24,3 @@ private:
     Ui::Login *ui;
     ConnectionController* cc;
 };
-#endif // LOGIN_H
