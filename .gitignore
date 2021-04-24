@@ -10,3 +10,4 @@ simulator/simulator
 */build/
 */libs/
 *.a
+*.so
