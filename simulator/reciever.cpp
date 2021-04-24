@@ -153,15 +153,28 @@ void Reciever::on_connection_failure(const mqtt::token &token)
 
 void Reciever::on_subscribe_success(const mqtt::token &token)
 {
-    if (Log::verbose)
+    const mqtt::string_collection *topics = token.get_topics().get();
+    if (topics == nullptr)
     {
-        std::cerr << "LOG: Reciever subscribed successfuly to topic: " << token.get_topics() << std::endl;
+        return;
+    }
+    for (unsigned i = 0; i < topics->size(); i++)
+    {
+        Log::message("Reciever subscribed successfuly to topic: " + (*topics)[i]);
     }
 }
 
 void Reciever::on_subscribe_failure(const mqtt::token &token)
 {
-    std::cerr << "WARNING: Reciever could not subscribe to topic: " << token.get_topics() << std::endl;
+    const mqtt::string_collection *topics = token.get_topics().get();
+    if (topics == nullptr)
+    {
+        return;
+    }
+    for (unsigned i = 0; i < topics->size(); i++)
+    {
+        Log::warning("Reciever could not subscribe to topic: " + (*topics)[i]);
+    }
 }
 
 bool Reciever::start_recieving(const mqtt::connect_options &connect_options)
