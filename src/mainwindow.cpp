@@ -15,6 +15,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete main_model;
     delete main_controller;
+    delete conn_controller;
 }
 
 void MainWindow::init_models()
@@ -29,13 +30,16 @@ void MainWindow::init_models()
 void MainWindow::init_controllers()
 {
     main_controller = new MainController(*main_model);
+    conn_controller = new ConnectionController();
+    pub_controller = new PublishController();
+    sub_constroller = new SubscriptionController();
 }
 
 void MainWindow::login()
 {
-    auto l = new Login(this);
+    auto l = new Login(this, conn_controller);
     l->show();
-    connect(l,&Login::login_successfull, this, &MainWindow::show_main_window);
+    connect(l, &Login::login_successfull, this, &MainWindow::show_main_window);
 }
 
 
@@ -63,22 +67,31 @@ void MainWindow::item_selection()
         }
         ui->listWidget->addItems(messages);
         ui->listWidget->update();
-        //ui->path->setText(main_model->getPath(*item));
+        ui->path->setText(main_model->getPath(*item));
     }
 }
 
 //PUBLISH MESSAGE
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_publish_clicked()
 {
     QString topic = ui->path->text();
     QVariant qv = ui->msg_to_publish->toPlainText();
 
-    main_controller->message_recieved(topic.toStdString(), qv, FileType::STRING_UTF8);
-    item_selection();
+    if (pub_controller->publish_msg(topic.toStdString(), qv))
+    {
+        main_controller->message_recieved(topic.toStdString(), qv, FileType::STRING_UTF8);
+        item_selection();
+    }
 }
 
 //SUBSCRIBE TO THE TOPIC
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_subscribe_clicked()
 {
     std::cout << "Subscribe" << std::endl;
+}
+
+//UNSUBSCRIBE
+void MainWindow::on_unsubscribe_clicked()
+{
+    std::cout << "Unubscribe" << std::endl;
 }

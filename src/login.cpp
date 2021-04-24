@@ -1,9 +1,10 @@
 #include "login.h"
 #include "ui_login.h"
 
-Login::Login(QWidget *parent)
+Login::Login(QWidget *parent, ConnectionController *cc)
     : QMainWindow(parent),
-      ui(new Ui::Login)
+      ui(new Ui::Login),
+      cc(cc)
 {
     ui->setupUi(this);
     ui->protocol->addItem("mqtt://");
@@ -19,13 +20,19 @@ Login::~Login()
     delete ui;
 }
 
-
 void Login::on_connect_clicked()
-{
-    if (ui->user->text() == "admin" && ui->password->text() == "admin") {
+{   
+    if (cc->connect(ui->protocol->currentIndex(),
+                    ui->host->text().toStdString(),
+                    ui->port->text().toStdString(),
+                    ui->user->text().toStdString(),
+                    ui->password->text().toStdString()))
+    {
         emit login_successfull();
         this->hide();
-    } else {
+    }
+    else
+    {
         //unsuccessful log in
     }
 }

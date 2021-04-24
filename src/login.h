@@ -2,6 +2,7 @@
 #define LOGIN_H
 
 #include <QMainWindow>
+#include "connectioncontroller.h"
 
 namespace Ui { class Login; }
 
@@ -10,7 +11,7 @@ class Login: public QMainWindow
     Q_OBJECT
 
 public:
-    Login(QWidget *parent = nullptr);
+    Login(QWidget *parent = nullptr, ConnectionController *cc = nullptr);
     ~Login();
 
 private slots:
@@ -21,5 +22,6 @@ signals:
 
 private:
     Ui::Login *ui;
+    ConnectionController* cc;
 };
 #endif // LOGIN_H

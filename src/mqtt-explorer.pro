@@ -19,17 +19,23 @@ OBJECTS_DIR=build/  #Intermediate object files directory
 MOC_DIR=view/       #Generated UI *.[cpp,h] files
 
 SOURCES += \
+    connectioncontroller.cpp \
     login.cpp \
     main.cpp \
     maincontroller.cpp \
     mainwindow.cpp \
     mqttreemodel.cpp \
+    publishcontroller.cpp \
+    subscriptioncontroller.cpp \
     treeitem.cpp
 
 HEADERS += \
+    connectioncontroller.h \
     maincontroller.h \
     mainwindow.h \
     mqttreemodel.h \
+    publishcontroller.h \
+    subscriptioncontroller.h \
     treeitem.h \
     login.h
 

@@ -7,6 +7,8 @@
 #include <QFileSystemModel>
 
 #include "maincontroller.h"
+#include "publishcontroller.h"
+#include "subscriptioncontroller.h"
 #include "mqttreemodel.h"
 #include "login.h"
 
@@ -30,16 +32,22 @@ public:
 
     void show_main_window();
 
-    void item_selection();
+    void item_selection(); 
 
 private slots:
-    void on_pushButton_clicked();
-    void on_pushButton_2_clicked();
+    void on_publish_clicked();
+    void on_subscribe_clicked();
+
+    void on_unsubscribe_clicked();
 
 private:
     Ui::MainWindow *ui;
     TreeModel* main_model;
+
     MainController* main_controller;
+    ConnectionController* conn_controller;
+    PublishController* pub_controller;
+    SubscriptionController* sub_constroller;
 };
 
 #endif // MAINWINDOW_H
