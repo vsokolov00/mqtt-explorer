@@ -5,6 +5,7 @@
 #include <QVector>
 #include <algorithm>
 
+
 class TreeItem
 {
 public:
@@ -21,17 +22,20 @@ public:
     TreeItem *supertopic();
 
     QVector<TreeItem*> getSubtopics();
-    void addMessage(QVariant msg);
+    void addMessage(QVariant msg, int type);
     int getMessageCnt();
 
     QString getName();
-    QVector<QVariant> getMessages();
     QString getPath();
+    std::vector<std::tuple<QVariant, QString>> getMessages();
 
 private:
+    std::vector<QString> types = {"bin", "text", "json", "image"};
     const int MSGLIMIT = 20;
     int message_cnt;
-    QVector<QVariant> msg_history;
+    //QVector<QVariant> msg_history;
+
+    std::vector<std::tuple<QVariant, QString>> msg_history;
 
     QVector<TreeItem*> m_childItems;
     QVector<QVariant> m_itemData;

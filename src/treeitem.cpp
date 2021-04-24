@@ -63,15 +63,15 @@ int TreeItem::getMessageCnt()
     return message_cnt;
 }
 
-void TreeItem::addMessage(QVariant msg)
+void TreeItem::addMessage(QVariant msg, int type)
 {
     this->message_cnt++;
     this->m_itemData[1] = msg;
-    if (msg_history.count() > MSGLIMIT)
+    if (msg_history.size() > MSGLIMIT)
     {
         msg_history.erase(msg_history.begin());
     }
-    this->msg_history.append(msg);
+    this->msg_history.push_back(std::make_tuple(msg, types[type]));
 }
 
 QString TreeItem::getName()
@@ -79,7 +79,7 @@ QString TreeItem::getName()
     return this->m_itemData[0].toString();
 }
 
-QVector<QVariant> TreeItem::getMessages()
+std::vector<std::tuple<QVariant, QString>> TreeItem::getMessages()
 {
     return msg_history;
 }

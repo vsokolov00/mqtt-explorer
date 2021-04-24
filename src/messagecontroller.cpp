@@ -1,18 +1,18 @@
-#include "maincontroller.h"
+#include "messagecontroller.h"
 #include <iostream>
 
-MainController::MainController(TreeModel& m)
+MessageController::MessageController(TreeModel& m)
     : model(m)
 {
     root_topics = {};
 }
 
-MainController::~MainController()
+MessageController::~MessageController()
 {
 
 }
 
-void MainController::message_recieved(std::string topic_path, QVariant& data, FileType type)
+void MessageController::message_recieved(std::string topic_path, QVariant& data, FileType type)
 {
     std::vector<std::string> topics = this->parse_topic_path(topic_path);
     TreeItem* supertopic = find_topic(topics[0], root_topics);
@@ -24,7 +24,7 @@ void MainController::message_recieved(std::string topic_path, QVariant& data, Fi
         if (topics.size() == 1)
         {
             auto t = find_topic(topics[0], root_topics);
-            t->addMessage(data.toString());
+            t->addMessage(data.toString(), (int)type);
             model.layoutChanged();
             return;
         }
@@ -38,37 +38,37 @@ void MainController::message_recieved(std::string topic_path, QVariant& data, Fi
             {
                 if (topics.size() == 1)
                 {
-                    subtopic->addMessage(data.toString());
+                    subtopic->addMessage(data.toString(), (int)type);
                 }
                 topics.erase(topics.begin());
                 supertopic = subtopic;
                 continue;
             } else {
-                create_hierarchy(*supertopic, topics, false, data);
+                create_hierarchy(*supertopic, topics, false, data, type);
                 break;
             }
         }
     } else
     {
-        create_hierarchy(this->model.getRoot(), topics, true, data);
+        create_hierarchy(this->model.getRoot(), topics, true, data, type);
     }
 
     model.layoutChanged();
 }
 
 //creates hierarchy of new topics that didn't exist before
-void MainController::create_hierarchy(TreeItem& supertopic, std::vector<std::string> topics, bool new_root_topic, QVariant& data)
+void MessageController::create_hierarchy(TreeItem& supertopic, std::vector<std::string> topics, bool new_root_topic, QVariant& data, FileType type)
 {
     TreeItem* supertop = &supertopic;
     for (std::string& topic : topics)
     {
         if (topic == topics.back())
         {
-            supertop = &add_child(*supertop, topic, {}); //TODO different data
-            supertop->addMessage(data.toString());
+            supertop = &add_subtopic(*supertop, topic, {});
+            supertop->addMessage(data.toString(), (int)type);
 
         } else {
-            supertop = &add_child(*supertop, topic, {});
+            supertop = &add_subtopic(*supertop, topic, {});
         }
         if (new_root_topic) {
             this->root_topics.push_back(supertop);
@@ -80,7 +80,7 @@ void MainController::create_hierarchy(TreeItem& supertopic, std::vector<std::str
 }
 
 //adds topic to the model and returns pointer to the item of this topic
-TreeItem& MainController::add_child(TreeItem& supertopic, std::string topic_name, QVariant data = {})
+TreeItem& MessageController::add_subtopic(TreeItem& supertopic, std::string topic_name, QVariant data = {})
 {
     auto child = new TreeItem({QString::fromStdString(topic_name), data}, &supertopic);
     supertopic.appendSubtopic(child);
@@ -88,7 +88,7 @@ TreeItem& MainController::add_child(TreeItem& supertopic, std::string topic_name
     return *child;
 }
 
-std::vector<std::string> MainController::parse_topic_path(std::string path)
+std::vector<std::string> MessageController::parse_topic_path(std::string path)
 {
     const char delimeter = '/';
     std::string buff{""};
@@ -104,7 +104,7 @@ std::vector<std::string> MainController::parse_topic_path(std::string path)
     return topics;
 }
 
-TreeItem* MainController::find_topic(std::string name, const QVector<TreeItem*>& topics)
+TreeItem* MessageController::find_topic(std::string name, const QVector<TreeItem*>& topics)
 {
     for (auto t : topics)
     {
@@ -116,4 +116,45 @@ TreeItem* MainController::find_topic(std::string name, const QVector<TreeItem*>&
     return nullptr;
 }
 
+bool MessageController::publish_msg(std::string topic, QVariant msg)
+{
+    //publish&wait for feedback
+    if (this->file_chosen)
+    {
+        //send chosen file
+        this->message_recieved(topic, this->get_message(), this->get_message_type());
+    }
+    else
+    {
+        this->message_recieved(topic, msg, FileType::STRING_UTF8);
+    }
+
+    sleep(1);
+    return true;
+}
+
+void MessageController::set_message(QVariant content, FileType type)
+{
+    this->file_to_publish = content;
+    this->file_type = type;
+}
+
+QVariant& MessageController::get_message()
+{
+    return file_to_publish;
+}
+
+FileType MessageController::get_message_type()
+{
+    return file_type;
+}
+
+void MessageController::set_file_chosen()
+{
+    this->file_chosen = true;
+}
+void MessageController::set_file_not_chosen()
+{
+    this->file_chosen = false;
+}
 

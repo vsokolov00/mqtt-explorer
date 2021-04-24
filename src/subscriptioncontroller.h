@@ -8,6 +8,7 @@ class SubscriptionController
 public:
     SubscriptionController();
     bool subscribe(std::string topic);
+    bool unsubscribe(std::string topic);
 };
 
 #endif // SUBSCRIPTIONCONTROLLER_H

@@ -135,3 +135,4 @@ QString TreeModel::getPath(TreeItem& t)
     return pathStr;
 }
 
+
