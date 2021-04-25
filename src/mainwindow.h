@@ -3,17 +3,21 @@
 
 #include <iostream>
 
+#include <QApplication>
 #include <QMainWindow>
 #include <QFileSystemModel>
 #include <QFileDialog>
 #include <QImageReader>
 #include <QPixmap>
 #include <QStringList>
+#include <QBuffer>
+#include <QString>
 
-#include "messagecontroller.h"
-#include "subscriptioncontroller.h"
+#include "client.h"
 #include "mqttreemodel.h"
-#include "login.h"
+#include "log.h"
+#include "message_publisher.h"
+#include "message_displayer.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -25,36 +29,36 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-
-    void init_models();
-    void init_controllers();
-    void login();
-
-    void show_main_window();
-
-    void item_selection(); 
-
 private slots:
     void on_publish_clicked();
     void on_subscribe_clicked();
-
     void on_unsubscribe_clicked();
-
     void on_chooseFile_clicked();
-
     void on_clear_clicked();
 
 private:
-    Ui::MainWindow *ui;
-    TreeModel* main_model;
+    Ui::MainWindow *_ui = nullptr;
+    TreeModel* _tree_model = nullptr;
+    Client *_client = nullptr;
+    MessagePublisher *_message_publisher = nullptr;
+    MessageDisplayer *_message_displayer = nullptr;
 
-    MessageController* message_controller;
-    ConnectionController* conn_controller;
-    SubscriptionController* sub_constroller;
+public:
+    MainWindow();
+    ~MainWindow();
+    
+    void register_client(Client *client);
+    MessageDisplayer *get_message_displayer() const;
 
+    void item_selection();
+
+    void subscription_success(const std::string &topic);
+    void subscription_failure(const std::string &topic);
+
+    void unsubscription_success(const std::string &topic);
+    void unsubscription_failure(const std::string &topic);
+
+    void connection_lost();
 };
 
 #endif // MAINWINDOW_H

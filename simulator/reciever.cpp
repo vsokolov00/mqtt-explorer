@@ -2,7 +2,7 @@
 #include "reciever.h"
 
 Reciever::Reciever(const std::string &server_address, const std::string &id) 
-         : _client(server_address, id, FileType::JSON, this, &Reciever::on_connected_cb, &Reciever::on_connection_failure_cb,
+         : _client(server_address, id, FileType::JSON, this, &Reciever::on_connection_success_cb, &Reciever::on_connection_failure_cb,
            &Reciever::on_connection_lost_cb, &Reciever::dummy_cb, &Reciever::dummy_cb, this, &Reciever::on_message_arrived_cb, 
            &Reciever::on_delivery_complete_dummy_cb, &Reciever::dummy_cb, &Reciever::dummy_cb, this, &Reciever::on_subscribe_success_cb,
            &Reciever::on_subscribe_failure_cb, &Reciever::dummy_cb, &Reciever::dummy_cb) 
@@ -15,7 +15,7 @@ Reciever::~Reciever()
     delete _mutex;
 }
 
-void Reciever::on_connected_cb(void *object, const std::string &cause)
+void Reciever::on_connection_success_cb(void *object, const std::string &cause)
 {
     Reciever *reciever = static_cast<Reciever *>(object);
     reciever->on_connected(cause);
@@ -160,7 +160,7 @@ void Reciever::on_subscribe_success(const mqtt::token &token)
     }
     for (unsigned i = 0; i < topics->size(); i++)
     {
-        Log::message("Reciever subscribed successfuly to topic: " + (*topics)[i]);
+        Log::log("Reciever subscribed successfuly to topic: " + (*topics)[i]);
     }
 }
 

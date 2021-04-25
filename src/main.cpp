@@ -1,17 +1,26 @@
 //#include "login.h"
 #include "mainwindow.h"
 
+#include "program.h"
+
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
+    QApplication application(argc, argv);
 
-    QApplication a(argc, argv);
-    MainWindow w;
+    Program program;
+    try
+    {
+        program.init();
+    }
+    catch (std::bad_alloc &e)
+    {
+        (void)e;
+        program.~Program();
+        exit(99);
+    }
+    program.start();
 
-    w.init_controllers();
-    w.init_models();
-    w.login();
-
-    return a.exec();
+    return application.exec();
 }

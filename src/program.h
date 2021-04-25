@@ -1,12 +1,22 @@
 
 #pragma once
 
-#include "login.h"
+#include <QApplication>
+#include <thread>
+
 #include "mainwindow.h"
 #include "client.h"
+#include "connectioncontroller.h"
+#include "messagecontroller.h"
+#include "subscriptioncontroller.h"
+#include "mqttreemodel.h"
+#include "log.h"
+#include "login.h"
 
-class Program
+class Program : public QObject
 {
+    Q_OBJECT
+
     private:
         Login *_login_window = nullptr;
         MainWindow *_main_window = nullptr;
@@ -15,12 +25,15 @@ class Program
         MessageController *_message_controller = nullptr;
         SubscriptionController *_subscription_controller = nullptr;
 
-        TreeModel *_tree_model = nullptr;
         Client *_client = nullptr;
+        std::mutex *_mutex;
 
     public:
-        Program();
+        Program() = default;
         ~Program();
+        Program(const Program&) = delete;
 
-        void init_program();
+        void init();
+        void start();
+        void login_info_entered_cb();
 };

@@ -1,100 +1,113 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QApplication>
-
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+MainWindow::MainWindow() : QMainWindow(nullptr), _ui(new Ui::MainWindow) 
 {
-    ui->setupUi(this);
+    Log::log("Main window initialization starting...");
+    
+    _tree_model = new TreeModel(this);
+    _message_displayer = new MessageDisplayer(_tree_model);
+
+    _ui->setupUi(this);
+    _ui->messageList->setModel(_tree_model);
+    _ui->messageList->setColumnWidth(0, _ui->messageList->size().rwidth() * 0.6);
+    _ui->img_label->setVisible(false);
+    _ui->listWidget->setWrapping(false);
+    _ui->clear->setVisible(false);
+
+    connect(_ui->messageList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::item_selection);
+
+    Log::log("Main window initialization complete.");
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
-    delete main_model;
-    delete message_controller;
-    delete conn_controller;
+    delete _ui;
+    delete _tree_model;
+    delete _message_publisher;
 }
 
-void MainWindow::init_models()
+void MainWindow::register_client(Client *client)
 {
-    main_model = new TreeModel(this);
-    ui->messageList->setModel(main_model);
-    message_controller = new MessageController(*main_model);
-    //some built-in QT stuff for selection of treeview items
-    connect(ui->messageList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::item_selection);
+    _client = client;
+    _message_publisher = new MessagePublisher(_client);
 }
 
-void MainWindow::init_controllers()
+MessageDisplayer *MainWindow::get_message_displayer() const
 {
-    message_controller = new MessageController(*main_model);
-    conn_controller = new ConnectionController();
-    sub_constroller = new SubscriptionController();
-}
-
-void MainWindow::login()
-{
-    auto l = new Login(this, conn_controller);
-    l->show();
-    connect(l, &Login::login_successfull, this, &MainWindow::show_main_window);
-}
-
-
-void MainWindow::show_main_window()
-{       
-    this->show();
-    ui->messageList->setColumnWidth(0, ui->messageList->size().rwidth() * 0.6);
-    ui->img_label->setVisible(false);
-    ui->listWidget->setWrapping(false);
-    ui->clear->setVisible(false);
+    return _message_displayer;
 }
 
 void MainWindow::item_selection()
 {
-    ui->listWidget->clear();
-    const bool hasCurrent = ui->messageList->selectionModel()->currentIndex().isValid();
+    _ui->listWidget->clear();
+    const bool hasCurrent = _ui->messageList->selectionModel()->currentIndex().isValid();
 
     if (hasCurrent)
     {
-        auto qindex = ui->messageList->selectionModel()->currentIndex();
-        auto item = main_model->getItem(qindex);
+        auto qindex = _ui->messageList->selectionModel()->currentIndex();
+        auto item = _tree_model->getItem(qindex);
         auto history = item->getMessages();
         QStringList messages;
 
-        for (auto [message, type] : history)
+        for (std::tuple<QVariant, QString> &tuple : history)
         {
-            auto tmp = type + ": " + message.toString();
+            auto tmp = std::get<1>(tuple) + ": " + std::get<0>(tuple).toString();
             messages << tmp;
         }
-        ui->listWidget->addItems(messages);
-        ui->listWidget->update();
-        ui->path->setText(main_model->getPath(*item));
+        _ui->listWidget->addItems(messages);
+        _ui->listWidget->update();
+        _ui->path->setText(_tree_model->getPath(*item));
     }
 }
 
 void MainWindow::on_publish_clicked()
 {
-    QString topic = ui->path->text();
-    QVariant qv = ui->msg_to_publish->toPlainText();
+    QString topic = _ui->path->text();
+    QVariant qv = _ui->msg_to_publish->toPlainText();
 
-    if (message_controller->publish_msg(topic.toStdString(), ui->msg_to_publish->toPlainText()))
-    {
-        item_selection();
-        emit on_clear_clicked();
-
-    }
+    _client->publish(topic.toStdString(), _ui->msg_to_publish->toPlainText().toStdString());
 }
 
 void MainWindow::on_subscribe_clicked()
 {
-    std::cout << "Subscribe" << std::endl;
+    Log::log("Subscribing to topic: ???"); //TODO
+    _client->subscribe("hello_world/test/topic", 1);
+}
+
+void MainWindow::subscription_success(const std::string &topic)
+{
+    (void)topic;
+    // TODO display a message (green for X seconds) with the subscribed topic
+}
+
+void MainWindow::subscription_failure(const std::string &topic)
+{
+    (void)topic;
+    // TODO display a message (red for X seconds) with the subscribed topic
 }
 
 void MainWindow::on_unsubscribe_clicked()
 {
-    std::cout << "Unubscribe" << std::endl;
+    Log::log("Unsubscribing to topic: ???"); //TODO
+    _client->unsubscribe("hello_world/test/topic");
+}
+
+void MainWindow::unsubscription_success(const std::string &topic)
+{
+    (void)topic;
+    // TODO display a message (green for X seconds) with the unsubscribed topic
+}
+
+void MainWindow::unsubscription_failure(const std::string &topic)
+{
+    (void)topic;
+    // TODO display a message (red for X seconds) with the unsubscribed topic
+}
+
+void MainWindow::connection_lost()
+{
+    // TODO display some message with reconnect button and leave to login screen button (probably named Exit...)
 }
 
 void MainWindow::on_chooseFile_clicked()
@@ -115,21 +128,21 @@ void MainWindow::on_chooseFile_clicked()
         if(reader.read(&img))
         {
             // display chosen image
-            int w = ui->img_label->width();
-            int h = ui->img_label->height();
+            int w = _ui->img_label->width();
+            int h = _ui->img_label->height();
             QPixmap image = QPixmap::fromImage(img);
 
-            ui->img_label->setPixmap(image.scaled(w, h, Qt::KeepAspectRatio));
-            ui->img_label->setVisible(true);
-            ui->msg_to_publish->setVisible(false);
+            _ui->img_label->setPixmap(image.scaled(w, h, Qt::KeepAspectRatio));
+            _ui->img_label->setVisible(true);
+            _ui->msg_to_publish->setVisible(false);
             //----------------------
             QBuffer buffer(&msg);
             buffer.open(QIODevice::WriteOnly);
             img.save(&buffer);
 
-            message_controller->set_message(QVariant(msg), FileType::IMAGE);
-            message_controller->set_file_chosen();
-            ui->clear->setVisible(true);
+            //message_controller->set_message(QVariant(msg), FileType::ALL_IMAGES);
+            //message_controller->set_file_chosen();
+            _ui->clear->setVisible(true);
         }
     }
     else if (type == "json" || type == "xml")
@@ -147,17 +160,17 @@ void MainWindow::on_chooseFile_clicked()
         QStringList message;
         //message << in.readAll();
 
-        ui->msg_to_publish->setPlainText(message.join("\n"));
+        _ui->msg_to_publish->setPlainText(message.join("\n"));
     }
 }
 
 
 void MainWindow::on_clear_clicked()
 {
-    message_controller->set_message({}, FileType::NONE);\
-    message_controller->set_file_not_chosen();
+    //message_controller->set_message({}, FileType::ALL);
+    //message_controller->set_file_not_chosen();
 
-    ui->img_label->setVisible(false);
-    ui->msg_to_publish->setPlainText("");
-    ui->msg_to_publish->setVisible(true);
+    _ui->img_label->setVisible(false);
+    _ui->msg_to_publish->setPlainText("");
+    _ui->msg_to_publish->setVisible(true);
 }

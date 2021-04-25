@@ -69,9 +69,9 @@ union MessageData
 };
 
 using OnConnectionSuccessCB = void(*)(void *, const std::string&);
-using OnMessageArrivedCallback = void(*)(void *, const std::string&, const MessageData&, FileType);
-using OnConnectionLostCallback = void(*)(void *, const std::string&);
-using OnDeliveryCompleteCallback = void(*)(void *, mqtt::delivery_token_ptr);
+using OnMessageArrivedCB = void(*)(void *, const std::string&, const MessageData&, FileType);
+using OnConnectionLostCB = void(*)(void *, const std::string&);
+using OnDeliveryCompleteCB = void(*)(void *, mqtt::delivery_token_ptr);
 
 class Client : public virtual mqtt::callback
 {
@@ -102,13 +102,13 @@ class Client : public virtual mqtt::callback
 
         void *_connection_object;
         OnConnectionSuccessCB _connection_success_cb;
-        OnConnectionLostCallback _connection_lost_cb;
+        OnConnectionLostCB _connection_lost_cb;
         Listener _connect_listener;
         Listener _disconect_listener;
 
         void *_message_object;
-        OnMessageArrivedCallback _message_arrived_cb;
-        OnDeliveryCompleteCallback _delivery_complete_cb;
+        OnMessageArrivedCB _message_arrived_cb;
+        OnDeliveryCompleteCB _delivery_complete_cb;
         Listener _publish_listener;
 
         Listener _subscribe_listener;
@@ -120,17 +120,17 @@ class Client : public virtual mqtt::callback
     public:
         Client(const std::string server_address, const std::string &id, FileType single_file_type,
                void *connection_object, OnConnectionSuccessCB connected_cb, OnConnectionFailureCB connection_failure_cb,
-               OnConnectionLostCallback connection_lost_cb, OnDisconectSucessCB disconnect_success_cb, 
-               OnDisconectFailureCB disconnect_failure_cb, void *message_object, OnMessageArrivedCallback message_arrived_cb, 
-               OnDeliveryCompleteCallback delivery_completed_cb, OnPublishSucessCB publish_success_cb, OnPublishFailureCB publish_failure_cb,
+               OnConnectionLostCB connection_lost_cb, OnDisconectSucessCB disconnect_success_cb, 
+               OnDisconectFailureCB disconnect_failure_cb, void *message_object, OnMessageArrivedCB message_arrived_cb, 
+               OnDeliveryCompleteCB delivery_completed_cb, OnPublishSucessCB publish_success_cb, OnPublishFailureCB publish_failure_cb,
                void *subscription_object, OnSubscribeSucessCB subscribe_success_cb, OnSubscribeFailureCB subscribe_failure_cb,
                OnUnsubscribeSucessCB unsubscribe_success_cb, OnUnsubscribeFailureCB unsubscribe_failure_cb);
 
         Client(const std::string server_address, const std::string &id, ParsingLevel level,
                void *connection_object, OnConnectionSuccessCB connected_cb, OnConnectionFailureCB connection_failure_cb,
-               OnConnectionLostCallback connection_lost_cb, OnDisconectSucessCB disconnect_success_cb, 
-               OnDisconectFailureCB disconnect_failure_cb, void *message_object, OnMessageArrivedCallback message_arrived_cb, 
-               OnDeliveryCompleteCallback delivery_completed_cb, OnPublishSucessCB publish_success_cb, OnPublishFailureCB publish_failure_cb,
+               OnConnectionLostCB connection_lost_cb, OnDisconectSucessCB disconnect_success_cb, 
+               OnDisconectFailureCB disconnect_failure_cb, void *message_object, OnMessageArrivedCB message_arrived_cb, 
+               OnDeliveryCompleteCB delivery_completed_cb, OnPublishSucessCB publish_success_cb, OnPublishFailureCB publish_failure_cb,
                void *subscription_object, OnSubscribeSucessCB subscribe_success_cb, OnSubscribeFailureCB subscribe_failure_cb,
                OnUnsubscribeSucessCB unsubscribe_success_cb, OnUnsubscribeFailureCB unsubscribe_failure_cb);
 

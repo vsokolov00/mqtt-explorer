@@ -15,7 +15,7 @@
 class Reciever
 {
     public:
-        static void on_connected_cb(void *object, const std::string &cause);
+        static void on_connection_success_cb(void *object, const std::string &cause);
         static void on_message_arrived_cb(void *object, const std::string &topic, const MessageData &message, FileType type);
         static void on_connection_lost_cb(void *object, const std::string &cause);
         static void on_delivery_complete_dummy_cb(void *object, mqtt::delivery_token_ptr token);

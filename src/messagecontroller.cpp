@@ -1,160 +1,93 @@
 #include "messagecontroller.h"
 #include <iostream>
 
-MessageController::MessageController(TreeModel& m)
-    : model(m)
+MessageController::MessageController(MainWindow *main_window) : _main_window(main_window) { }
+
+void MessageController::on_message_arrived_cb(void *object, const std::string &topic, const MessageData &message, FileType type)
 {
-    root_topics = {};
+    MessageController *message_controller = static_cast<MessageController *>(object);
+    message_controller->on_message_arrived(topic, message, type);
 }
 
-MessageController::~MessageController()
+void MessageController::on_publish_success_cb(void *object, const mqtt::token &token)
 {
-
+    MessageController *message_controller = static_cast<MessageController *>(object);
+    message_controller->on_publish_success(token);
 }
 
-void MessageController::message_recieved(std::string topic_path, QVariant& data, FileType type)
+void MessageController::on_publish_failure_cb(void *object, const mqtt::token &token)
 {
-    std::vector<std::string> topics = this->parse_topic_path(topic_path);
-    TreeItem* supertopic = find_topic(topics[0], root_topics);
+    MessageController *message_controller = static_cast<MessageController *>(object);
+    message_controller->on_publish_failure(token);
+}
 
-    //the first topic of the topic path was used before
-    if (supertopic != nullptr)
-    {
-        //add message to existing first level topic
-        if (topics.size() == 1)
-        {
-            auto t = find_topic(topics[0], root_topics);
-            t->addMessage(data.toString(), (int)type);
-            model.layoutChanged();
-            return;
-        }
-        topics.erase(topics.begin());
+void MessageController::on_delivery_complete_cb(void *object, mqtt::delivery_token_ptr token)
+{
+    MessageController *message_controller = static_cast<MessageController *>(object);
+    message_controller->on_delivery_complete(token);
+}
 
-        while (topics.size())
-        {
-            auto subtopic = find_topic(topics[0], supertopic->getSubtopics());
-            //if subtopic was already used, eliminate duplication
-            if (subtopic != nullptr)
-            {
-                if (topics.size() == 1)
-                {
-                    subtopic->addMessage(data.toString(), (int)type);
-                }
-                topics.erase(topics.begin());
-                supertopic = subtopic;
-                continue;
-            } else {
-                create_hierarchy(*supertopic, topics, false, data, type);
-                break;
-            }
-        }
-    } else
+void MessageController::on_message_arrived(const std::string &topic, const MessageData &message, FileType type)
+{
+    Log::log("Message arrived on topic: " + topic);
+    std::string string_message;
+    QByteArray binary_message;
+
+    switch (type)
     {
-        create_hierarchy(this->model.getRoot(), topics, true, data, type);
+        case FileType::STRING_UTF8:
+            string_message = std::string(message.string.data, message.string.size);
+            _main_window->get_message_displayer()->display_string(topic, string_message);
+            break;
+
+        case FileType::JSON:
+            _main_window->get_message_displayer()->display_json(topic, string_message);
+            break;
+
+        case FileType::GIF:
+        case FileType::JPG:
+        case FileType::PNG:
+            binary_message = QByteArray(message.binary.data, message.binary.size);
+            _main_window->get_message_displayer()->display_image(topic, binary_message);
+            break;
+
+        case FileType::BINARY:
+            binary_message = QByteArray(message.binary.data, message.binary.size);
+            _main_window->get_message_displayer()->display_image(topic, binary_message);
+            break;
+        
+        default:
+            break;
     }
-
-    model.layoutChanged();
 }
 
-//creates hierarchy of new topics that didn't exist before
-void MessageController::create_hierarchy(TreeItem& supertopic, std::vector<std::string> topics, bool new_root_topic, QVariant& data, FileType type)
+void MessageController::on_publish_success(const mqtt::token &token)
 {
-    TreeItem* supertop = &supertopic;
-    for (std::string& topic : topics)
+    _main_window->get_message_displayer()->publish_success(token.get_message_id());
+    Log::message("Successful message publish: ");
+}
+
+void MessageController::on_publish_failure(const mqtt::token &token)
+{
+    (void)token;
+
+    _main_window->get_message_displayer()->publish_failure(token.get_message_id());
+    Log::message("Message publish failed: ");
+}
+
+void MessageController::on_delivery_complete(mqtt::delivery_token_ptr token)
+{
+    if (token.get() == nullptr)
     {
-        if (topic == topics.back())
-        {
-            supertop = &add_subtopic(*supertop, topic, {});
-            supertop->addMessage(data.toString(), (int)type);
-
-        } else {
-            supertop = &add_subtopic(*supertop, topic, {});
-        }
-        if (new_root_topic) {
-            this->root_topics.push_back(supertop);
-
-            new_root_topic = false;
-        }
+        return;
     }
-
+    
+    _main_window->get_message_displayer()->delivery_complete(token.get()->get_message_id());
 }
 
-//adds topic to the model and returns pointer to the item of this topic
-TreeItem& MessageController::add_subtopic(TreeItem& supertopic, std::string topic_name, QVariant data = {})
+void parse_json_message(Json::Value *root, std::string &parsed_string)
 {
-    auto child = new TreeItem({QString::fromStdString(topic_name), data}, &supertopic);
-    supertopic.appendSubtopic(child);
-
-    return *child;
+    (void)root;
+    parsed_string = "";
+    //TODO for me...
 }
-
-std::vector<std::string> MessageController::parse_topic_path(std::string path)
-{
-    const char delimeter = '/';
-    std::string buff{""};
-    std::vector<std::string> topics;
-
-    for(auto n:path)
-    {
-        if(n != delimeter) buff+=n; else
-        if(n == delimeter && buff != "") { topics.push_back(buff); buff = "";}
-    }
-    if(buff != "") topics.push_back(buff);
-
-    return topics;
-}
-
-TreeItem* MessageController::find_topic(std::string name, const QVector<TreeItem*>& topics)
-{
-    for (auto t : topics)
-    {
-        if (t->data(0).toString() == QString::fromStdString(name))
-        {
-            return t;
-        }
-    }
-    return nullptr;
-}
-
-bool MessageController::publish_msg(std::string topic, QVariant msg)
-{
-    //publish&wait for feedback
-    if (this->file_chosen)
-    {
-        //send chosen file
-        this->message_recieved(topic, this->get_message(), this->get_message_type());
-    }
-    else
-    {
-        this->message_recieved(topic, msg, FileType::STRING_UTF8);
-    }
-
-    sleep(1);
-    return true;
-}
-
-void MessageController::set_message(QVariant content, FileType type)
-{
-    this->file_to_publish = content;
-    this->file_type = type;
-}
-
-QVariant& MessageController::get_message()
-{
-    return file_to_publish;
-}
-
-FileType MessageController::get_message_type()
-{
-    return file_type;
-}
-
-void MessageController::set_file_chosen()
-{
-    this->file_chosen = true;
-}
-void MessageController::set_file_not_chosen()
-{
-    this->file_chosen = false;
-}
-

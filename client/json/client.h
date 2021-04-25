@@ -73,9 +73,9 @@ union MessageData
 };
 
 using OnConnectionSuccessCB = void(*)(void *, const std::string&);
-using OnMessageArrivedCallback = void(*)(void *, const std::string&, const MessageData&, FileType);
-using OnConnectionLostCallback = void(*)(void *, const std::string&);
-using OnDeliveryCompleteCallback = void(*)(void *, mqtt::delivery_token_ptr);
+using OnMessageArrivedCB = void(*)(void *, const std::string&, const MessageData&, FileType);
+using OnConnectionLostCB = void(*)(void *, const std::string&);
+using OnDeliveryCompleteCB = void(*)(void *, mqtt::delivery_token_ptr);
 
 class Callbacks
 {
@@ -84,21 +84,21 @@ class Callbacks
         OnConnectionSuccessCB on_connected;
 
         void *on_message_arrived_object;
-        OnMessageArrivedCallback on_message_arrived;
+        OnMessageArrivedCB on_message_arrived;
 
         void *on_connection_lost_object;
-        OnConnectionLostCallback on_connection_lost;
+        OnConnectionLostCB on_connection_lost;
 
         void *on_delivery_complete_object;
-        OnDeliveryCompleteCallback on_delivery_complete;
+        OnDeliveryCompleteCB on_delivery_complete;
     
         Callbacks(void *on_connected_object, OnConnectionSuccessCB on_connected, 
-                  void *on_message_arrived_object, OnMessageArrivedCallback on_message_arrived, 
-                  void *on_connection_lost_object, OnConnectionLostCallback on_connection_lost, 
-                  void *on_delivery_complete_object, OnDeliveryCompleteCallback on_delivery_complete);
+                  void *on_message_arrived_object, OnMessageArrivedCB on_message_arrived, 
+                  void *on_connection_lost_object, OnConnectionLostCB on_connection_lost, 
+                  void *on_delivery_complete_object, OnDeliveryCompleteCB on_delivery_complete);
         
-        Callbacks(void *object, OnConnectionSuccessCB on_connected, OnMessageArrivedCallback on_message_arrived, 
-                  OnConnectionLostCallback on_connection_lost, OnDeliveryCompleteCallback on_delivery_complete);
+        Callbacks(void *object, OnConnectionSuccessCB on_connected, OnMessageArrivedCB on_message_arrived, 
+                  OnConnectionLostCB on_connection_lost, OnDeliveryCompleteCB on_delivery_complete);
 };
 
 class Client : public virtual mqtt::callback

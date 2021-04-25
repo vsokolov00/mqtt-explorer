@@ -27,9 +27,9 @@ void Client::dummy_cb(void *object, const mqtt::token& token)
 
 Client::Client(const std::string server_address, const std::string &id, FileType single_file_type,
                void *connection_object, OnConnectionSuccessCB connected_cb, OnConnectionFailureCB connection_failure_cb,
-               OnConnectionLostCallback connection_lost_cb, OnDisconectSucessCB disconnect_success_cb, 
-               OnDisconectFailureCB disconnect_failure_cb, void *message_object, OnMessageArrivedCallback message_arrived_cb, 
-               OnDeliveryCompleteCallback delivery_completed_cb, OnPublishSucessCB publish_success_cb, OnPublishFailureCB publish_failure_cb,
+               OnConnectionLostCB connection_lost_cb, OnDisconectSucessCB disconnect_success_cb, 
+               OnDisconectFailureCB disconnect_failure_cb, void *message_object, OnMessageArrivedCB message_arrived_cb, 
+               OnDeliveryCompleteCB delivery_completed_cb, OnPublishSucessCB publish_success_cb, OnPublishFailureCB publish_failure_cb,
                void *subscription_object, OnSubscribeSucessCB subscribe_success_cb, OnSubscribeFailureCB subscribe_failure_cb,
                OnUnsubscribeSucessCB unsubscribe_success_cb, OnUnsubscribeFailureCB unsubscribe_failure_cb)
        : _client(server_address, id),
@@ -65,9 +65,9 @@ Client::Client(const std::string server_address, const std::string &id, FileType
 
 Client::Client(const std::string server_address, const std::string &id, ParsingLevel level,
                void *connection_object, OnConnectionSuccessCB connected_cb, OnConnectionFailureCB connection_failure_cb,
-               OnConnectionLostCallback connection_lost_cb, OnDisconectSucessCB disconnect_success_cb, 
-               OnDisconectFailureCB disconnect_failure_cb, void *message_object, OnMessageArrivedCallback message_arrived_cb, 
-               OnDeliveryCompleteCallback delivery_completed_cb, OnPublishSucessCB publish_success_cb, OnPublishFailureCB publish_failure_cb,
+               OnConnectionLostCB connection_lost_cb, OnDisconectSucessCB disconnect_success_cb, 
+               OnDisconectFailureCB disconnect_failure_cb, void *message_object, OnMessageArrivedCB message_arrived_cb, 
+               OnDeliveryCompleteCB delivery_completed_cb, OnPublishSucessCB publish_success_cb, OnPublishFailureCB publish_failure_cb,
                void *subscription_object, OnSubscribeSucessCB subscribe_success_cb, OnSubscribeFailureCB subscribe_failure_cb,
                OnUnsubscribeSucessCB unsubscribe_success_cb, OnUnsubscribeFailureCB unsubscribe_failure_cb)
        : _client(server_address, id), _level(level),

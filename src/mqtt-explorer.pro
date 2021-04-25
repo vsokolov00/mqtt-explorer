@@ -12,7 +12,7 @@ CONFIG += c++17
 INCLUDEPATH = ./mqtt_paho/libs/
 INCLUDEPATH += ./mqtt_paho/headers/
 INCLUDEPATH += .
-LIBS = -fPIC
+LIBS = -fPIC -L. -lclient -lpaho-mqttpp3 -lpaho-mqtt3a -lpaho-mqtt3as -lpaho-mqtt3c -lpaho-mqtt3cs
 
 DESTDIR=bin/        #Target file directory
 OBJECTS_DIR=build/  #Intermediate object files directory
@@ -26,7 +26,11 @@ SOURCES += \
     messagecontroller.cpp \
     mqttreemodel.cpp \
     subscriptioncontroller.cpp \
-    treeitem.cpp
+    treeitem.cpp \
+    program.cpp \
+    log.cpp \
+    message_displayer.cpp \
+    message_publisher.cpp
 
 HEADERS += \
     connectioncontroller.h \
@@ -35,7 +39,11 @@ HEADERS += \
     mqttreemodel.h \
     subscriptioncontroller.h \
     treeitem.h \
-    login.h
+    login.h \
+    program.h \
+    log.h \
+    message_displayer.h \
+    message_publisher.h
 
 FORMS += \
     view/ui/login.ui \

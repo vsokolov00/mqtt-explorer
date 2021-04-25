@@ -6,46 +6,45 @@
 #include <QVector>
 #include <QList>
 #include <QBuffer>
+#include <QByteArray>
 
 #include <string>
-#include <string.h>
-#include <unistd.h>
 
-enum class FileType : short
+#include "mainwindow.h"
+#include "json/json-forwards.h"
+#include "json/json.h"
+#include "client.h"
+
+/*enum class FileType : short
 {
     NONE = -1,
     BINARY = 0,
     STRING_UTF8,
     JSON,
     IMAGE
-};
+};*/
 
 class MessageController
 {
-public:
-    MessageController(TreeModel& m);
-    ~MessageController();
-    void message_recieved(std::string topic_path, QVariant& data, FileType msg_type);
-    bool publish_msg(std::string topic, QVariant msg);
+    public:
+        static void on_message_arrived_cb(void *object, const std::string &topic, const MessageData &message, FileType type);
+        static void on_publish_success_cb(void *object, const mqtt::token &token);
+        static void on_publish_failure_cb(void *object, const mqtt::token &token);
+        static void on_delivery_complete_cb(void *object, mqtt::delivery_token_ptr token);
 
-    void set_file_chosen();
-    void set_file_not_chosen();
+    private:
+        MainWindow *_main_window;
 
-    void set_message(QVariant, FileType type);
-    FileType get_message_type();
-    QVariant& get_message();
-private:
-    QVector<TreeItem*> root_topics;
-    TreeModel& model;
+        void parse_json_message(Json::Value *root, std::string &parsed_string);
 
-    bool file_chosen = false;
-    QVariant file_to_publish;
-    FileType file_type;
+    public:
+        MessageController(MainWindow *main_window);
+        ~MessageController() = default;
 
-    std::vector<std::string> parse_topic_path(std::string path);
-    TreeItem* find_topic(std::string name, const QVector<TreeItem*>& topics);
-    TreeItem& add_subtopic(TreeItem& supertopic, std::string topic_name, QVariant data);
-    void create_hierarchy(TreeItem& supertopic, std::vector<std::string> topics, bool new_root, QVariant& qv, FileType type);
+        void on_message_arrived(const std::string &topic, const MessageData &message, FileType type);
+        void on_publish_success(const mqtt::token &token);
+        void on_publish_failure(const mqtt::token &token);
+        void on_delivery_complete(mqtt::delivery_token_ptr token);
 };
 
 #endif // MESSAGECONTROLLER_H
