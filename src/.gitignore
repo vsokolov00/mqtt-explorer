@@ -6,8 +6,9 @@ mqtt-explorer
 *.autosave
 *.a
 *.core
-*.moc
-*.o
+view/moc*
+view/*.moc
+build/*.o
 *.obj
 *.orig
 *.rej
