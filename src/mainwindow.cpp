@@ -13,9 +13,12 @@ MainWindow::MainWindow(TreeModel *tree_model, MainWidgetModel *main_widget_model
     _tree_model->setParent(this);
     _main_widget_model->setParent(this);
 
+    qRegisterMetaType<QList<QPersistentModelIndex>>("QList<QPersistentModelIndex>");
+    qRegisterMetaType<QAbstractItemModel::LayoutChangeHint>("QAbstractItemModel::LayoutChangeHint");
+
     _ui->setupUi(this);
     _ui->messageList->setModel(_tree_model);
-    _ui->messageList->setColumnWidth(0, _ui->messageList->size().rwidth() * 0.6);
+    _ui->messageList->setColumnWidth(0, _ui->messageList->size().rwidth() * 0.2);
     _ui->img_label->setVisible(false);
     _ui->listWidget->setWrapping(false);
     _ui->clear->setVisible(false);
@@ -63,15 +66,17 @@ void MainWindow::on_publish_clicked()
 
 void MainWindow::on_subscribe_clicked()
 {
-    Log::log("Subscribing to topic: ???"); //TODO
-    _subscription_controller->subscribe("hello_world/test/topic", 1);
+    std::string topic = _ui->topic->text().toStdString();
+    Log::log("Subscribing to topic: " + topic);
+    _subscription_controller->subscribe(topic, 1);
 }
 
 
 void MainWindow::on_unsubscribe_clicked()
 {
-    Log::log("Unsubscribing to topic: ???"); //TODO
-    _subscription_controller->unsubscribe("hello_world/test/topic");
+    std::string topic = _ui->topic->text().toStdString();
+    Log::log("Unsubscribing to topic: " + topic);
+    _subscription_controller->unsubscribe(topic);
 }
 
 void MainWindow::on_disconnect_clicked()
@@ -79,7 +84,7 @@ void MainWindow::on_disconnect_clicked()
     _connection_controller->disconnect();
 }
 
-void MainWindow::on_reconect_clicked()
+void MainWindow::on_reconnect_clicked()
 {
     _connection_controller->reconnect();
 }

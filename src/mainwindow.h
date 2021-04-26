@@ -43,7 +43,7 @@ private slots:
 
     //TODO
     void on_disconnect_clicked();
-    void on_reconect_clicked();
+    void on_reconnect_clicked();
 
 private:
     Ui::MainWindow *_ui = nullptr;

@@ -29,8 +29,6 @@ SOURCES += \
     treeitem.cpp \
     program.cpp \
     log.cpp \
-    message_displayer.cpp \
-    message_publisher.cpp \
     login_widget_model.cpp \
     main_widget_model.cpp
 
@@ -44,8 +42,6 @@ HEADERS += \
     login.h \
     program.h \
     log.h \
-    message_displayer.h \
-    message_publisher.h \
     login_widget_model.h \
     main_widget_model.h
 

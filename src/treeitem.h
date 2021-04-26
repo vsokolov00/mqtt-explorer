@@ -22,7 +22,7 @@ public:
     TreeItem *supertopic();
 
     QVector<TreeItem*> getSubtopics();
-    void addMessage(QVariant msg, int type);
+    void addMessage(QVariant message, int type);
     int getMessageCnt();
 
     QString getName();

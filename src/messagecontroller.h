@@ -29,6 +29,14 @@ class MessageController
         MainWidgetModel *_main_widget_model = nullptr;
         Client *_client = nullptr;
 
+        QVector<TreeItem *> _topics;
+    
+        std::vector<std::string> parse_topic_path(std::string path);
+        TreeItem* find_topic(std::string name, const QVector<TreeItem*>& topics);
+        TreeItem& add_subtopic(TreeItem& supertopic, std::string topic_name, QVariant data);
+        TreeItem *create_hierarchy(TreeItem& supertopic, std::vector<std::string> topics, bool new_root);
+        TreeItem *get_topic(std::string topic_path);
+
         void parse_json_message(Json::Value *root, std::string &parsed_string);
 
     public:
