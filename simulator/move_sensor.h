@@ -9,6 +9,10 @@
 #include "base_device.h"
 #include "mqtt/client.h"
 
+/**
+ * @class Represents a move sensor device, which has period used as minumal period from the based class and maximum period of
+ *        change which is published. A move sensor can also have a field of view where the movement is detected.
+ **/
 class MoveSensor : PublishingDevice
 {
     private:

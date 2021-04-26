@@ -16,6 +16,10 @@ const unsigned VALVES_FLAG{0b10000000};
 const unsigned THERMOSTAT_FLAG{0b10000000};
 const unsigned LOCKS_FLAG{0b100000000};
 
+/**
+ * @struct Used for parsing the command line arguments with default values for configuraton file and server address,
+ *         the device flags are constructed by the @see parse_arguments function
+ **/
 struct Options
 {
     unsigned device_flags;
@@ -23,4 +27,9 @@ struct Options
     std::string server_addres = "tcp://localhost:1883";
 };
 
+/**
+ * @brief Parses the command line arguments.
+ * @param argc number of argunets including the name of the program.
+ * @param options [out] the parsed options retrieved by parsing the command line arguments.
+ */
 void parse_arguments(int argc, char **argv, Options &options);

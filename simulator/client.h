@@ -7,10 +7,17 @@
 #include "json/json-forwards.h"
 #include "json/json.h"
 
-
+/**
+ * @brief Callback when operation succeeds
+ **/
 using OnSuccessCallback = void(*)(void *, const mqtt::token&);
+
+/**
+ * @brief Callback when operation fails
+ **/
 using OnFailureCallback = void(*)(void *, const mqtt::token&);
 
+// specific callbacks
 using OnConnectionFailureCB = OnFailureCallback;
 using OnSubscribeSucessCB = OnSuccessCallback;
 using OnSubscribeFailureCB = OnFailureCallback;
@@ -21,6 +28,7 @@ using OnPublishFailureCB = OnFailureCallback;
 using OnDisconectSucessCB = OnSuccessCallback;
 using OnDisconectFailureCB = OnFailureCallback;
 
+
 class Listener : public virtual mqtt::iaction_listener
 {
     private:
@@ -28,8 +36,8 @@ class Listener : public virtual mqtt::iaction_listener
         OnSuccessCallback _on_success_callback;
         OnFailureCallback _on_failure_callback;
 
-        void on_failure(const mqtt::token& tok) override;
-        void on_success(const mqtt::token& tok) override;
+        void on_failure(const mqtt::token& token) override;
+        void on_success(const mqtt::token& token) override;
 
     public:
         Listener(void *class_object, OnSuccessCallback on_success_callback, OnFailureCallback on_failure_callback);
