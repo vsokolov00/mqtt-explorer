@@ -47,7 +47,6 @@ void Program::init()
 
 void Program::start()
 {
-    _run = true;
     _login_view->show();
 }
 
@@ -107,20 +106,25 @@ void Program::connect(const std::string &server_address, const std::string &id,
         Log::log("Connecting client...");
         if (_client->connect(connection_options))
         {
-            _login_widget_model->connection_failed();        
+            // TODO
+            _login_widget_model->connection_failed();
+            return;
         }
 
     _mutex->lock(); // wait for connection to complete
 
-    Log::log("Switching windows...");
-    
-    Log::log("Closing login window...");
-    _login_view->hide();
-    Log::log("Login window hidden.");
+    if (_connection_controller->get_connection_status())
+    {
+        Log::log("Switching windows...");
 
-    Log::log("Opening main window...");
-    _main_view->show();
-    Log::log("Main window opened.");
+        Log::log("Closing login window...");
+        _login_view->hide();
+        Log::log("Login window hidden.");
+
+        Log::log("Opening main window...");
+        _main_view->show();
+        Log::log("Main window opened.");
+    }
 }
 
 void Program::disconnect()

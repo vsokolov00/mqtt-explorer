@@ -37,6 +37,7 @@ class ConnectionController
 
         mqtt::connect_options _connection_options;
         bool _reconnect = false;
+        bool _connection_status = false;
 
     public:
         ConnectionController(std::mutex *mutex, CBObject connection_object, ConnectCB connection_cb, DisconnectCB disconnect_cb,
@@ -44,6 +45,7 @@ class ConnectionController
         ~ConnectionController() = default;
 
         void register_client(Client *client);
+        bool get_connection_status();
 
         void on_connection_success(const std::string &cause);
         void on_connection_failure(const mqtt::token &token);

@@ -153,3 +153,8 @@ void MainWindow::on_clear_clicked()
     _ui->msg_to_publish->setPlainText("");
     _ui->msg_to_publish->setVisible(true);
 }
+
+void MainWindow::on_exit_clicked()
+{
+    _connection_controller->go_to_login_view();
+}

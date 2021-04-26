@@ -1,6 +1,6 @@
 
 #include "callbacks.h"
-
+/*
 void ListnerCallback::on_failure_cb(void *object, const mqtt::token& token)
 {
 	ListnerCallback *listener = static_cast<ListnerCallback *>(object);
@@ -24,3 +24,4 @@ void ListnerCallback::on_failure(const mqtt::token& token)
 	(void)token;
 	//dummy
 }
+*/

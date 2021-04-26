@@ -26,13 +26,12 @@ class Program
         static void disconnect_cb(void * object);
 
     private:
-        bool _run = false;
-
         Client *_client = nullptr;
         TreeModel *_tree_model = nullptr;
         MainWidgetModel *_main_widget_model = nullptr;
         LoginWidgetModel *_login_widget_model = nullptr;
 
+        //DashboardView *_dashboard_view;
         Login *_login_view = nullptr;
         MainWindow *_main_view = nullptr;
 

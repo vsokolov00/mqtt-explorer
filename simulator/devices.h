@@ -14,6 +14,9 @@
 
 #include <vector>
 
+/**
+ * @struct Holds all devices, that can be simulated by the simulator.
+ **/
 struct Devices
 {
     public:

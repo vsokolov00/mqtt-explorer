@@ -63,7 +63,7 @@ int TreeItem::getMessageCnt()
     return message_cnt;
 }
 
-void TreeItem::addMessage(QVariant message, int type)
+void TreeItem::addMessage(QVariant message, int type) //TODO check types
 {
     this->message_cnt++;
     this->m_itemData[1] = message;

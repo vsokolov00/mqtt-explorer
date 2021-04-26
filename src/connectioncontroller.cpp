@@ -36,6 +36,11 @@ void ConnectionController::on_disconnection_failure_cb(void *object, const mqtt:
     connection_controller->on_disconnection_failure(token);
 }
 
+bool ConnectionController::get_connection_status()
+{
+    return _connection_status;
+}
+
 void ConnectionController::on_connection_success(const std::string &cause)
 {
     (void)cause;
@@ -43,6 +48,7 @@ void ConnectionController::on_connection_success(const std::string &cause)
     
     if (!_reconnect)
     {
+        _connection_status = true;
         _mutex->unlock();
     }
 }
@@ -55,6 +61,8 @@ void ConnectionController::on_connection_failure(const mqtt::token &token)
     {
         _login_widget_model->connection_failed(token.get_connect_response().is_session_present(), 
                                                std::string(token.get_connect_response().get_server_uri()));
+        _connection_status = false;
+        _mutex->unlock();
     }
     else
     {

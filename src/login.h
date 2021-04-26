@@ -17,7 +17,7 @@ namespace Ui { class Login; }
 
 class Program;
 
-//TODO rename to MainView and the file to main_view.h
+//TODO rename to LoginView and the file to lpogin_view.h
 class Login: public QMainWindow
 {
     Q_OBJECT

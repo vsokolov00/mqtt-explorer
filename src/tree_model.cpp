@@ -6,7 +6,6 @@ TreeModel::TreeModel(QObject *parent)
     rootItem = new TreeItem({tr("Topic"), tr("Last message")});
 }
 
-
 TreeModel::~TreeModel()
 {
     delete rootItem;
