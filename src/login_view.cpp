@@ -10,14 +10,14 @@ LoginView::LoginView(LoginWidgetModel *login_widget_model, ConnectionController 
 
     _login_widget_model->setParent(this);
 
-    //TODO add true/false to start clean session
-    //TODO add text with connection ID
     _ui->protocol->addItem("tcp://");
     _ui->protocol->addItem("mqtt://");
     _ui->host->setText("test.mosquitto.org");
     _ui->port->setText("1883");
     _ui->user->setText("");
     _ui->password->setText("");
+    _ui->clean_session->setChecked(true);
+    _ui->connection_id->setText("id_123_ab");
 }
 
 LoginView::~LoginView()
@@ -34,8 +34,8 @@ void LoginView::on_connect_clicked()
     //TODO start login countdown - loading cirle
 
     Log::log("Calling connect.");
-    _connection_controller->connect(server_address, "id_123_ab", _ui->user->text().toStdString(), 
-                                    _ui->password->text().toStdString(), true);
+    _connection_controller->connect(server_address, _ui->connection_id->text().toStdString(), _ui->user->text().toStdString(),
+                                    _ui->password->text().toStdString(), _ui->clean_session->checkState());
     
     //TODO remove just a demonstration
     //std::this_thread::sleep_for(std::chrono::seconds(3));
