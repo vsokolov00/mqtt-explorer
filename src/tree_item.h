@@ -1,5 +1,5 @@
-#ifndef TREEITEM_H
-#define TREEITEM_H
+#ifndef TREE_ITEM_H
+#define TREE_ITEM_H
 
 #include <QVariant>
 #include <QVector>
@@ -43,4 +43,4 @@ private:
     QString full_path;
 };
 
-#endif // TREEITEM_H
+#endif // TREE_ITEM_H

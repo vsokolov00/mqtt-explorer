@@ -11,12 +11,12 @@
 #include "login_widget_model.h"
 #include "tree_model.h"
 
-#include "mainwindow.h"
-#include "login.h"
+#include "main_view.h"
+#include "login_view.h"
 
-#include "connectioncontroller.h"
-#include "messagecontroller.h"
-#include "subscriptioncontroller.h"
+#include "connection_controller.h"
+#include "message_controller.h"
+#include "subscription_controller.h"
 
 class Program
 {
@@ -32,8 +32,8 @@ class Program
         LoginWidgetModel *_login_widget_model = nullptr;
 
         //DashboardView *_dashboard_view;
-        Login *_login_view = nullptr;
-        MainWindow *_main_view = nullptr;
+        LoginView *_login_view = nullptr;
+        MainView *_main_view = nullptr;
 
         ConnectionController *_connection_controller = nullptr;
         MessageController *_message_controller = nullptr;

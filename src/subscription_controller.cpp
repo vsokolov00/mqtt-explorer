@@ -1,4 +1,4 @@
-#include "subscriptioncontroller.h"
+#include "subscription_controller.h"
 
 SubscriptionController::SubscriptionController(MainWidgetModel *main_widget_model) 
                        : _main_widget_model (main_widget_model) {}

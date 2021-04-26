@@ -1,4 +1,4 @@
-#include "messagecontroller.h"
+#include "message_controller.h"
 #include <iostream>
 
 MessageController::MessageController(TreeModel *tree_model, MainWidgetModel *main_widget_model) 

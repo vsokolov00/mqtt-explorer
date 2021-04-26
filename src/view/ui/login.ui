@@ -122,7 +122,11 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="host"/>
+            <widget class="QLineEdit" name="host">
+             <property name="text">
+              <string>test.mosquitto.org</string>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QWidget" name="horizontalWidget_4" native="true">
@@ -224,7 +228,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>

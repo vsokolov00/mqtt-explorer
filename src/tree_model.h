@@ -3,7 +3,7 @@
 
 #include <QAbstractItemModel>
 #include <QModelIndex>
-#include "treeitem.h"
+#include "tree_item.h"
 
 class TreeModel : public QAbstractItemModel
 {

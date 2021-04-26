@@ -1,5 +1,5 @@
 //#include "login.h"
-#include "mainwindow.h"
+#include "main_view.h"
 
 #include "program.h"
 

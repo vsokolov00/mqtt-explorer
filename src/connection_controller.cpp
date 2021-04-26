@@ -1,4 +1,4 @@
-#include "connectioncontroller.h"
+#include "connection_controller.h"
 
 ConnectionController::ConnectionController(std::mutex *mutex, CBObject connection_object, ConnectCB connection_cb, 
                                            DisconnectCB disconnect_cb, MainWidgetModel *main_widget_model, 

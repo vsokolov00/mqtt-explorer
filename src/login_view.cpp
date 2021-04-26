@@ -1,9 +1,8 @@
-#include "login.h"
+#include "login_view.h"
 #include "ui_login.h"
 #include "program.h"
 
-//TODO rename to LoginView and the file to login_view.cpp
-Login::Login(LoginWidgetModel *login_widget_model, ConnectionController *connection_cotroller) 
+LoginView::LoginView(LoginWidgetModel *login_widget_model, ConnectionController *connection_cotroller)
       : QMainWindow(nullptr), _ui(new Ui::Login), _login_widget_model(login_widget_model), 
         _connection_controller(connection_cotroller)
 {
@@ -15,21 +14,21 @@ Login::Login(LoginWidgetModel *login_widget_model, ConnectionController *connect
     //TODO add text with connection ID
     _ui->protocol->addItem("tcp://");
     _ui->protocol->addItem("mqtt://");
-    _ui->host->setText("localhost");
+    _ui->host->setText("test.mosquitto.org");
     _ui->port->setText("1883");
-    _ui->user->setText("admin");
-    _ui->password->setText("admin");
+    _ui->user->setText("");
+    _ui->password->setText("");
 }
 
-Login::~Login()
+LoginView::~LoginView()
 {
     delete _ui;
 }
 
-void Login::on_connect_clicked()
+void LoginView::on_connect_clicked()
 {   
     Log::log("On connected clicked.");
-    std::string server_address = (_ui->protocol->currentIndex() == 0 ? "tcp://" : "mqtt://") + 
+    std::string server_address = (_ui->protocol->currentIndex() == 0 ? "tcp://" : "") +
                                   _ui->host->text().toStdString() + ":" + _ui->port->text().toStdString();
 
     //TODO start login countdown - loading cirle

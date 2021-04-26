@@ -11,14 +11,14 @@
 #include "client.h"
 #include "log.h"
 #include "login_widget_model.h"
-#include "connectioncontroller.h"
+#include "connection_controller.h"
 
 namespace Ui { class Login; }
 
 class Program;
 
 //TODO rename to LoginView and the file to lpogin_view.h
-class Login: public QMainWindow
+class LoginView: public QMainWindow
 {
     Q_OBJECT
 
@@ -33,6 +33,6 @@ class Login: public QMainWindow
         ConnectionController *_connection_controller = nullptr;
 
     public:
-        Login(LoginWidgetModel *login_widget_model, ConnectionController *connection_cotroller);
-        ~Login();
+        LoginView(LoginWidgetModel *login_widget_model, ConnectionController *connection_cotroller);
+        ~LoginView();
 };

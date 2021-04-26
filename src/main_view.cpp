@@ -1,8 +1,7 @@
-#include "mainwindow.h"
+#include "main_view.h"
 #include "ui_mainwindow.h"
 
-// TODO rename to MainView, the file to main_view.cpp
-MainWindow::MainWindow(TreeModel *tree_model, MainWidgetModel *main_widget_model, ConnectionController *connection_controller,
+MainView::MainView(TreeModel *tree_model, MainWidgetModel *main_widget_model, ConnectionController *connection_controller,
                        MessageController *message_controller, SubscriptionController *subscription_controller) 
            : QMainWindow(nullptr), _ui(new Ui::MainWindow), _tree_model(tree_model), _main_widget_model(main_widget_model),
              _connection_controller(connection_controller), _message_controller(message_controller), 
@@ -23,17 +22,17 @@ MainWindow::MainWindow(TreeModel *tree_model, MainWidgetModel *main_widget_model
     _ui->listWidget->setWrapping(false);
     _ui->clear->setVisible(false);
 
-    connect(_ui->messageList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::item_selection);
+    connect(_ui->messageList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainView::item_selection);
 
     Log::log("Main window initialization complete.");
 }
 
-MainWindow::~MainWindow()
+MainView::~MainView()
 {
     delete _ui;
 }
 
-void MainWindow::item_selection()
+void MainView::item_selection()
 {
     _ui->listWidget->clear();
     const bool hasCurrent = _ui->messageList->selectionModel()->currentIndex().isValid();
@@ -56,7 +55,7 @@ void MainWindow::item_selection()
     }
 }
 
-void MainWindow::on_publish_clicked()
+void MainView::on_publish_clicked()
 {
     QString topic = _ui->path->text();
     QVariant qv = _ui->msg_to_publish->toPlainText();
@@ -64,7 +63,7 @@ void MainWindow::on_publish_clicked()
     _message_controller->publish(topic.toStdString(), _ui->msg_to_publish->toPlainText().toStdString());
 }
 
-void MainWindow::on_subscribe_clicked()
+void MainView::on_subscribe_clicked()
 {
     std::string topic = _ui->topic->text().toStdString();
     Log::log("Subscribing to topic: " + topic);
@@ -72,24 +71,24 @@ void MainWindow::on_subscribe_clicked()
 }
 
 
-void MainWindow::on_unsubscribe_clicked()
+void MainView::on_unsubscribe_clicked()
 {
     std::string topic = _ui->topic->text().toStdString();
     Log::log("Unsubscribing to topic: " + topic);
     _subscription_controller->unsubscribe(topic);
 }
 
-void MainWindow::on_disconnect_clicked()
+void MainView::on_disconnect_clicked()
 {
     _connection_controller->disconnect();
 }
 
-void MainWindow::on_reconnect_clicked()
+void MainView::on_reconnect_clicked()
 {
     _connection_controller->reconnect();
 }
 
-void MainWindow::on_chooseFile_clicked()
+void MainView::on_chooseFile_clicked()
 {
     QString file_name = QFileDialog::getOpenFileName(this, "Choose the message content", QDir::homePath(), tr("Messages (*.png *.xml *.jpg *.json *.txt)"));
     QFile file(file_name);
@@ -144,7 +143,7 @@ void MainWindow::on_chooseFile_clicked()
 }
 
 
-void MainWindow::on_clear_clicked()
+void MainView::on_clear_clicked()
 {
     //message_controller->set_message({}, FileType::ALL);
     //message_controller->set_file_not_chosen();
@@ -154,7 +153,7 @@ void MainWindow::on_clear_clicked()
     _ui->msg_to_publish->setVisible(true);
 }
 
-void MainWindow::on_exit_clicked()
+void MainView::on_exit_clicked()
 {
     _connection_controller->go_to_login_view();
 }

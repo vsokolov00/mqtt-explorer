@@ -19,9 +19,9 @@
 #include "tree_model.h"
 #include "main_widget_model.h"
 
-#include "connectioncontroller.h"
-#include "messagecontroller.h"
-#include "subscriptioncontroller.h"
+#include "connection_controller.h"
+#include "message_controller.h"
+#include "subscription_controller.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -30,7 +30,7 @@ class MainWindow;
 QT_END_NAMESPACE
 
 // TODO rename to MainView, the file to main_view.h
-class MainWindow : public QMainWindow
+class MainView : public QMainWindow
 {
     Q_OBJECT
 
@@ -57,9 +57,9 @@ private:
     SubscriptionController *_subscription_controller = nullptr;
 
 public:
-    MainWindow(TreeModel *tree_model, MainWidgetModel *main_widget_model, ConnectionController *connection_controller,
+    MainView(TreeModel *tree_model, MainWidgetModel *main_widget_model, ConnectionController *connection_controller,
                MessageController *message_controller, SubscriptionController *subscription_controller);
-    ~MainWindow();
+    ~MainView();
 
     void item_selection();
 };

@@ -1,4 +1,4 @@
-#include "treeitem.h"
+#include "tree_item.h"
 
 TreeItem::TreeItem(const QVector<QVariant> &data, TreeItem *parent)
     : m_itemData(data), m_parentItem(parent)

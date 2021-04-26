@@ -38,9 +38,9 @@ void Program::init()
     _subscription_controller = new SubscriptionController(_main_widget_model);
     _message_controller = new MessageController(_tree_model, _main_widget_model);
 
-    _main_view = new MainWindow(_tree_model, _main_widget_model, _connection_controller, 
+    _main_view = new MainView(_tree_model, _main_widget_model, _connection_controller, 
                                 _message_controller, _subscription_controller);
-    _login_view = new Login(_login_widget_model, _connection_controller);
+    _login_view = new LoginView(_login_widget_model, _connection_controller);
 
     Log::log("Program initialization complete.");
 }
