@@ -19,6 +19,7 @@
 #include "tree_model.h"
 #include "main_widget_model.h"
 
+#include "connectioncontroller.h"
 #include "messagecontroller.h"
 #include "subscriptioncontroller.h"
 
@@ -40,21 +41,24 @@ private slots:
     void on_chooseFile_clicked();
     void on_clear_clicked();
 
+    //TODO
+    void on_disconnect_clicked();
+    void on_reconect_clicked();
+
 private:
     Ui::MainWindow *_ui = nullptr;
 
     TreeModel *_tree_model = nullptr;
     MainWidgetModel *_main_widget_model = nullptr;
 
+    ConnectionController *_connection_controller = nullptr;
     MessageController *_message_controller = nullptr;
     SubscriptionController *_subscription_controller = nullptr;
 
 public:
-    MainWindow(TreeModel *tree_model, MainWidgetModel *main_widget_model, 
+    MainWindow(TreeModel *tree_model, MainWidgetModel *main_widget_model, ConnectionController *connection_controller,
                MessageController *message_controller, SubscriptionController *subscription_controller);
     ~MainWindow();
 
     void item_selection();
-
-    void connection_lost();
 };

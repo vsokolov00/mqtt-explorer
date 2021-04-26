@@ -2,10 +2,11 @@
 #include "ui_mainwindow.h"
 
 // TODO rename to MainView, the file to main_view.cpp
-MainWindow::MainWindow(TreeModel *tree_model, MainWidgetModel *main_widget_model, 
+MainWindow::MainWindow(TreeModel *tree_model, MainWidgetModel *main_widget_model, ConnectionController *connection_controller,
                        MessageController *message_controller, SubscriptionController *subscription_controller) 
            : QMainWindow(nullptr), _ui(new Ui::MainWindow), _tree_model(tree_model), _main_widget_model(main_widget_model),
-             _message_controller(message_controller), _subscription_controller(subscription_controller)
+             _connection_controller(connection_controller), _message_controller(message_controller), 
+             _subscription_controller(subscription_controller)
 {
     Log::log("Main window initialization starting...");
     
@@ -73,9 +74,14 @@ void MainWindow::on_unsubscribe_clicked()
     _subscription_controller->unsubscribe("hello_world/test/topic");
 }
 
-void MainWindow::connection_lost()
+void MainWindow::on_disconnect_clicked()
 {
-    // TODO display some message with reconnect button and leave to login screen button (probably named Exit...)
+    _connection_controller->disconnect();
+}
+
+void MainWindow::on_reconect_clicked()
+{
+    _connection_controller->reconnect();
 }
 
 void MainWindow::on_chooseFile_clicked()

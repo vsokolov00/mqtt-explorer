@@ -5,8 +5,13 @@
 #include <thread>
 
 #include "client.h"
-#include "mainwindow.h"
 #include "login_widget_model.h"
+#include "main_widget_model.h"
+#include "log.h"
+
+using CBObject = void *;
+using ConnectCB = void(*)(void *, const std::string&, const std::string&, const mqtt::connect_options&);
+using DisconnectCB = void(*)(void *);
 
 class ConnectionController
 {
@@ -21,14 +26,24 @@ class ConnectionController
 
     private:
         std::mutex *_mutex;
+        Client *_client;
 
-        bool _connection_success = false;
-        bool _connection_exist = true;
-        std::string _server_address;
+        CBObject _connection_object = nullptr;
+        ConnectCB _connection_cb = nullptr;
+        DisconnectCB _disconnect_cb = nullptr;
+
+        MainWidgetModel *_main_widget_model;
+        LoginWidgetModel *_login_widget_model;
+
+        mqtt::connect_options _connection_options;
+        bool _reconnect = false;
 
     public:
-        ConnectionController(std::mutex *mutex);
+        ConnectionController(std::mutex *mutex, CBObject connection_object, ConnectCB connection_cb, DisconnectCB disconnect_cb,
+                             MainWidgetModel *main_widget_model, LoginWidgetModel *login_widget_model);
         ~ConnectionController() = default;
+
+        void register_client(Client *client);
 
         void on_connection_success(const std::string &cause);
         void on_connection_failure(const mqtt::token &token);
@@ -38,10 +53,9 @@ class ConnectionController
 
         void on_connection_lost(const std::string &cause);
 
-        void connect(const std::string &server_address, const std::string &user_name, const std::string &password,
-                     bool clean_session);
-
-        bool get_connection_status();
-        bool get_connection_existance();
-        std::string get_server_address() const;
+        void connect(const std::string &server_address, const std::string &id, const std::string &user_name, 
+                     const std::string &password, bool clean_session);
+        void disconnect();
+        void reconnect();
+        void go_to_login_view();
 };

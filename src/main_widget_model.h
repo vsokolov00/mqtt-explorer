@@ -32,4 +32,8 @@ class MainWidgetModel : public QAbstractItemModel
         void unsubscription_failure(const std::string &topic);
 
         void delivery_complete(int message_id);
+
+        void connection_lost();
+        void reconnect_failed(bool connection_exist, const std::string &server_address);
+        void reconnect_failed();
 };

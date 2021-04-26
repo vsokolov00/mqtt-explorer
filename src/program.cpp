@@ -8,8 +8,20 @@ Program::~Program()
     delete _main_view;
     delete _message_controller;
     delete _login_view;
-    delete _client;
     delete _mutex;
+}
+
+void Program::connect_cb(void *object, const std::string &server_address, const std::string &id, 
+                         const mqtt::connect_options &connection_options)
+{
+    Program *program = static_cast<Program *>(object);
+    program->connect(server_address, id, connection_options);
+}
+
+void Program::disconnect_cb(void *object)
+{
+    Program *program = static_cast<Program *>(object);
+    program->disconnect();
 }
 
 void Program::init()
@@ -21,11 +33,13 @@ void Program::init()
     _main_widget_model = new MainWidgetModel(nullptr);
     _login_widget_model = new LoginWidgetModel(nullptr);
 
-    _connection_controller = new ConnectionController(_mutex);
+    _connection_controller = new ConnectionController(_mutex, this, &Program::connect_cb, &Program::disconnect_cb,
+                                                      _main_widget_model, _login_widget_model);
     _subscription_controller = new SubscriptionController(_main_widget_model);
     _message_controller = new MessageController(_tree_model, _main_widget_model);
 
-    _main_view = new MainWindow(_tree_model, _main_widget_model, _message_controller, _subscription_controller);
+    _main_view = new MainWindow(_tree_model, _main_widget_model, _connection_controller, 
+                                _message_controller, _subscription_controller);
     _login_view = new Login(_login_widget_model, _connection_controller);
 
     Log::log("Program initialization complete.");
@@ -33,16 +47,32 @@ void Program::init()
 
 void Program::start()
 {
-    _login_view->get_login_info(this);
+    _run = true;
+    _login_view->show();
 }
 
-void Program::login_info_entered_cb()
+void Program::quit()
 {
-    Log::log("Creating client with server address " + _login_view->get_server_address());
+    if (_client != nullptr)
+    {
+        if (_client->disconnect())
+        {
+            Log::error("Disconnection failed.");
+            delete _client;
+        }
+        _mutex->lock();
+        delete _client;
+    }
+}
+
+void Program::connect(const std::string &server_address, const std::string &id, 
+                                 const mqtt::connect_options &connection_options)
+{
+    Log::log("Creating client with server address " + server_address);
 
     try
     {
-        _client = new Client(_login_view->get_server_address(), _login_view->get_id(), FileType::ALL, 
+        _client = new Client(server_address, id, FileType::ALL, 
                              _connection_controller, &ConnectionController::on_connection_success_cb, 
                              &ConnectionController::on_connection_failure_cb, &ConnectionController::on_connection_lost_cb,
                              &ConnectionController::on_disconnection_success_cb, 
@@ -63,36 +93,43 @@ void Program::login_info_entered_cb()
     catch (const mqtt::exception &e)
     {
         Log::error("Wrong server address data: " + std::string(e.what()));
-        _login_view->connection_failed();
+        _login_widget_model->connection_failed();
         return;
     }
+    Log::log("Client created.");
 
     _message_controller->register_client(_client);
     _subscription_controller->register_client(_client);
-    Log::log("Client created.");
+    _connection_controller->register_client(_client);
+    Log::log("Client registered.");
 
     _mutex->lock();
         Log::log("Connecting client...");
-        if (_client->connect(_login_view->get_connection_options()))
+        if (_client->connect(connection_options))
         {
-            _login_view->connection_failed();        
+            _login_widget_model->connection_failed();        
         }
-    _mutex->lock();
+
+    _mutex->lock(); // wait for connection to complete
 
     Log::log("Switching windows...");
-    if (_connection_controller->get_connection_status())
-    {
-        Log::log("Closing login window...");
-        _login_view->hide();
-        Log::log("Login window hidden.");
+    
+    Log::log("Closing login window...");
+    _login_view->hide();
+    Log::log("Login window hidden.");
 
-        Log::log("Opening main window...");
-        _main_view->show();
-        Log::log("Main window opened.");
-    }
-    else
-    {
-        _login_view->connection_failed(_connection_controller->get_connection_existance(), 
-                                       _connection_controller->get_server_address());
-    }
+    Log::log("Opening main window...");
+    _main_view->show();
+    Log::log("Main window opened.");
+}
+
+void Program::disconnect()
+{
+    _mutex->lock();
+    delete _client;
+    _client = nullptr;
+
+    _mutex->unlock();
+    _main_view->hide();
+    _login_view->show();
 }

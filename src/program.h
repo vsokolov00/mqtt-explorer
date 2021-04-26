@@ -18,12 +18,16 @@
 #include "messagecontroller.h"
 #include "subscriptioncontroller.h"
 
-
-class Program : public QObject
+class Program
 {
-    Q_OBJECT
+    public:
+        static void connect_cb(void *object, const std::string &server_address, const std::string &id, 
+                                          const mqtt::connect_options &connection_options);
+        static void disconnect_cb(void * object);
 
     private:
+        bool _run = false;
+
         Client *_client = nullptr;
         TreeModel *_tree_model = nullptr;
         MainWidgetModel *_main_widget_model = nullptr;
@@ -45,5 +49,9 @@ class Program : public QObject
 
         void init();
         void start();
-        void login_info_entered_cb();
+        void quit();
+
+        void connect(const std::string &server_address, const std::string &id, 
+                     const mqtt::connect_options &connection_options);
+        void disconnect();
 };

@@ -21,4 +21,7 @@ class LoginWidgetModel : public QAbstractItemModel
 
         int rowCount(const QModelIndex &parent = QModelIndex()) const override;
         int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+
+        void connection_failed(bool connection_exist, const std::string &server_address);
+        void connection_failed();
 };
