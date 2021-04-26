@@ -1,5 +1,5 @@
-#ifndef MQTTREEMODEL_H
-#define MQTTREEMODEL_H
+
+#pragma once
 
 #include <QAbstractItemModel>
 #include <QModelIndex>
@@ -32,4 +32,3 @@ private:
     TreeItem *rootItem;
 };
 
-#endif // MQTTREEMODEL_H

@@ -4,7 +4,7 @@
 #include <QApplication>
 #include <QByteArray>
 
-#include "mqttreemodel.h"
+#include "tree_model.h"
 #include "client.h"
 
 class MessageDisplayer
@@ -27,9 +27,4 @@ class MessageDisplayer
         void display_json(const std::string &topic, const std::string &json_file);
         void display_image(const std::string &topic, const QByteArray &image);
         void display_binary(const std::string &topic, const QByteArray &binary_file);
-
-        void publish_success(int message_id);
-        void publish_failure(int message_id);
-
-        void delivery_complete(int message_id);
 };

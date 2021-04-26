@@ -92,24 +92,6 @@ void MessageDisplayer::display_binary(const std::string &topic, const QByteArray
     //TODO
 }
 
-void MessageDisplayer::publish_success(int message_id)
-{
-    (void)message_id;
-    // TODO register the ID and wait for delivery complete
-}
-
-void MessageDisplayer::publish_failure(int message_id)
-{
-    (void)message_id;
-    //TODO inform the user
-}
-
-void MessageDisplayer::delivery_complete(int message_id)
-{
-    (void)message_id;
-    //TODO find the ID and mark the message as delivered
-}
-
 //TODO recycle this
 /*void MessageController::message_recieved(std::string topic_path, QVariant& data, FileType type)
 {

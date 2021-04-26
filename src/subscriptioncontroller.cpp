@@ -1,6 +1,7 @@
 #include "subscriptioncontroller.h"
 
-SubscriptionController::SubscriptionController(MainWindow *main_window) : _main_window(main_window) {}
+SubscriptionController::SubscriptionController(MainWidgetModel *main_widget_model) 
+                       : _main_widget_model (main_widget_model) {}
 
 void SubscriptionController::on_subscribe_success_cb(void *object, const mqtt::token &token)
 {
@@ -35,7 +36,7 @@ void SubscriptionController::on_subscribe_success(const mqtt::token &token)
     for (unsigned i = 0; i < topics->size(); i++)
     {
         Log::log("Successful subscription to topic: " + (*topics)[i]);
-        _main_window->subscription_success((*topics)[i]);
+        _main_widget_model->subscription_success((*topics)[i]);
     }
 }
 
@@ -49,7 +50,7 @@ void SubscriptionController::on_subscribe_failure(const mqtt::token &token)
     for (unsigned i = 0; i < topics->size(); i++)
     {
         Log::log("Unsuccessful subscription to topic: " + (*topics)[i]);
-        _main_window->subscription_failure((*topics)[i]);
+        _main_widget_model->subscription_failure((*topics)[i]);
     }
 }
 
@@ -63,7 +64,7 @@ void SubscriptionController::on_unsubscribe_success(const mqtt::token &token)
     for (unsigned i = 0; i < topics->size(); i++)
     {
         Log::log("Successful unsubscription of topic: " + (*topics)[i]);
-        _main_window->unsubscription_success((*topics)[i]);
+        _main_widget_model->unsubscription_success((*topics)[i]);
     }
 }
 
@@ -77,6 +78,21 @@ void SubscriptionController::on_unsubscribe_failure(const mqtt::token &token)
     for (unsigned i = 0; i < topics->size(); i++)
     {
         Log::log("Unsuccessful unsubscription of topic: " + (*topics)[i]);
-        _main_window->unsubscription_failure((*topics)[i]);
+        _main_widget_model->unsubscription_failure((*topics)[i]);
     }
+}
+
+void SubscriptionController::register_client(Client *client)
+{
+    _client = client;
+}
+
+void SubscriptionController::subscribe(const std::string &topic, int QOS)
+{
+    _client->subscribe(topic, QOS);
+}
+
+void SubscriptionController::unsubscribe(const std::string &topic)
+{
+    _client->unsubscribe(topic);
 }

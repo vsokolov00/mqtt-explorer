@@ -1,8 +1,7 @@
-#ifndef MESSAGECONTROLLER_H
-#define MESSAGECONTROLLER_H
+
+#pragma once
 
 #include <treeitem.h>
-#include <mqttreemodel.h>
 #include <QVector>
 #include <QList>
 #include <QBuffer>
@@ -10,19 +9,12 @@
 
 #include <string>
 
-#include "mainwindow.h"
+#include "log.h"
 #include "json/json-forwards.h"
 #include "json/json.h"
 #include "client.h"
-
-/*enum class FileType : short
-{
-    NONE = -1,
-    BINARY = 0,
-    STRING_UTF8,
-    JSON,
-    IMAGE
-};*/
+#include "main_widget_model.h"
+#include "tree_model.h"
 
 class MessageController
 {
@@ -33,18 +25,22 @@ class MessageController
         static void on_delivery_complete_cb(void *object, mqtt::delivery_token_ptr token);
 
     private:
-        MainWindow *_main_window;
+        TreeModel *_tree_model = nullptr;
+        MainWidgetModel *_main_widget_model = nullptr;
+        Client *_client = nullptr;
 
         void parse_json_message(Json::Value *root, std::string &parsed_string);
 
     public:
-        MessageController(MainWindow *main_window);
+        MessageController(TreeModel *tree_model, MainWidgetModel *main_widget_model);
         ~MessageController() = default;
+
+        void register_client(Client *client);
+
+        void publish(const std::string &topic, const std::string &message);
 
         void on_message_arrived(const std::string &topic, const MessageData &message, FileType type);
         void on_publish_success(const mqtt::token &token);
         void on_publish_failure(const mqtt::token &token);
         void on_delivery_complete(mqtt::delivery_token_ptr token);
 };
-
-#endif // MESSAGECONTROLLER_H

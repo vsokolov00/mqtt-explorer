@@ -2,9 +2,15 @@
 #include "ui_login.h"
 #include "program.h"
 
-Login::Login() : QMainWindow(nullptr), _ui(new Ui::Login)
+//TODO rename to MainView and the file to main_view.cpp
+Login::Login(LoginWidgetModel *login_widget_model, ConnectionController *connection_cotroller) 
+      : QMainWindow(nullptr), _ui(new Ui::Login), _login_widget_model(login_widget_model), 
+        _connection_controller(connection_cotroller)
 {
     _ui->setupUi(this);
+
+    _login_widget_model->setParent(this);
+
     //TODO add true/false to start clean session
     //TODO add text with connection ID
     _ui->protocol->addItem("tcp://");
@@ -30,7 +36,7 @@ void Login::on_connect_clicked()
 {   
     Log::log("On connected clicked.");
     _server_address = (_ui->protocol->currentIndex() == 0 ? "tcp://" : "mqtt://") + _ui->host->text().toStdString() + ":"
-                                                                                 + _ui->port->text().toStdString();
+                                                                                  + _ui->port->text().toStdString();
 
     _id = "id_123_ab"; //TODO
     _connection_options.set_clean_session(true);

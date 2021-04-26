@@ -24,26 +24,30 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     messagecontroller.cpp \
-    mqttreemodel.cpp \
+    tree_model.cpp \
     subscriptioncontroller.cpp \
     treeitem.cpp \
     program.cpp \
     log.cpp \
     message_displayer.cpp \
-    message_publisher.cpp
+    message_publisher.cpp \
+    login_widget_model.cpp \
+    main_widget_model.cpp
 
 HEADERS += \
     connectioncontroller.h \
     mainwindow.h \
     messagecontroller.h \
-    mqttreemodel.h \
+    tree_model.h \
     subscriptioncontroller.h \
     treeitem.h \
     login.h \
     program.h \
     log.h \
     message_displayer.h \
-    message_publisher.h
+    message_publisher.h \
+    login_widget_model.h \
+    main_widget_model.h
 
 FORMS += \
     view/ui/login.ui \

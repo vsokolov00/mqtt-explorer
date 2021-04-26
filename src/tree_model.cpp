@@ -1,4 +1,4 @@
-#include "mqttreemodel.h"
+#include "tree_model.h"
 
 TreeModel::TreeModel(QObject *parent)
     : QAbstractItemModel(parent)

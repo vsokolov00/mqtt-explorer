@@ -38,6 +38,7 @@ void ConnectionController::on_connection_success(const std::string &cause)
 
     _connection_success = true;
     _mutex->unlock();
+    Log::log("Mutex unlocked.");
 }
 
 void ConnectionController::on_connection_failure(const mqtt::token &token)
@@ -67,7 +68,7 @@ void ConnectionController::on_connection_lost(const std::string &cause)
     (void)cause;
     Log::log("Connection lost.");
     //TODO
-    //_main_window->connection_lost();
+    //_main_view->connection_lost();
 }
 
 

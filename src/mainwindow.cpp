@@ -1,12 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow() : QMainWindow(nullptr), _ui(new Ui::MainWindow) 
+// TODO rename to MainView, the file to main_view.cpp
+MainWindow::MainWindow(TreeModel *tree_model, MainWidgetModel *main_widget_model, 
+                       MessageController *message_controller, SubscriptionController *subscription_controller) 
+           : QMainWindow(nullptr), _ui(new Ui::MainWindow), _tree_model(tree_model), _main_widget_model(main_widget_model),
+             _message_controller(message_controller), _subscription_controller(subscription_controller)
 {
     Log::log("Main window initialization starting...");
     
-    _tree_model = new TreeModel(this);
-    _message_displayer = new MessageDisplayer(_tree_model);
+    _tree_model->setParent(this);
+    _main_widget_model->setParent(this);
 
     _ui->setupUi(this);
     _ui->messageList->setModel(_tree_model);
@@ -23,19 +27,6 @@ MainWindow::MainWindow() : QMainWindow(nullptr), _ui(new Ui::MainWindow)
 MainWindow::~MainWindow()
 {
     delete _ui;
-    delete _tree_model;
-    delete _message_publisher;
-}
-
-void MainWindow::register_client(Client *client)
-{
-    _client = client;
-    _message_publisher = new MessagePublisher(_client);
-}
-
-MessageDisplayer *MainWindow::get_message_displayer() const
-{
-    return _message_displayer;
 }
 
 void MainWindow::item_selection()
@@ -66,43 +57,20 @@ void MainWindow::on_publish_clicked()
     QString topic = _ui->path->text();
     QVariant qv = _ui->msg_to_publish->toPlainText();
 
-    _client->publish(topic.toStdString(), _ui->msg_to_publish->toPlainText().toStdString());
+    _message_controller->publish(topic.toStdString(), _ui->msg_to_publish->toPlainText().toStdString());
 }
 
 void MainWindow::on_subscribe_clicked()
 {
     Log::log("Subscribing to topic: ???"); //TODO
-    _client->subscribe("hello_world/test/topic", 1);
+    _subscription_controller->subscribe("hello_world/test/topic", 1);
 }
 
-void MainWindow::subscription_success(const std::string &topic)
-{
-    (void)topic;
-    // TODO display a message (green for X seconds) with the subscribed topic
-}
-
-void MainWindow::subscription_failure(const std::string &topic)
-{
-    (void)topic;
-    // TODO display a message (red for X seconds) with the subscribed topic
-}
 
 void MainWindow::on_unsubscribe_clicked()
 {
     Log::log("Unsubscribing to topic: ???"); //TODO
-    _client->unsubscribe("hello_world/test/topic");
-}
-
-void MainWindow::unsubscription_success(const std::string &topic)
-{
-    (void)topic;
-    // TODO display a message (green for X seconds) with the unsubscribed topic
-}
-
-void MainWindow::unsubscription_failure(const std::string &topic)
-{
-    (void)topic;
-    // TODO display a message (red for X seconds) with the unsubscribed topic
+    _subscription_controller->unsubscribe("hello_world/test/topic");
 }
 
 void MainWindow::connection_lost()

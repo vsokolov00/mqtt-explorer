@@ -6,12 +6,15 @@
 
 #include "client.h"
 #include "log.h"
+#include "login_widget_model.h"
+#include "connectioncontroller.h"
 
 namespace Ui { class Login; }
 
 class Program;
 
-class Login: public QMainWindow //TODO rename class and file to login_window
+//TODO rename to MainView and the file to main_view.h
+class Login: public QMainWindow
 {
     Q_OBJECT
 
@@ -24,12 +27,16 @@ class Login: public QMainWindow //TODO rename class and file to login_window
     private:
         Ui::Login *_ui = nullptr;
 
+        LoginWidgetModel *_login_widget_model = nullptr;
+
+        ConnectionController *_connection_controller = nullptr;
+
         mqtt::connect_options _connection_options;
         std::string _server_address;
         std::string _id;
 
     public:
-        Login();
+        Login(LoginWidgetModel *login_widget_model, ConnectionController *connection_cotroller);
         ~Login();
 
         void get_login_info(Program *program);

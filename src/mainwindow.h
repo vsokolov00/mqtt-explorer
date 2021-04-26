@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+
+#pragma once
 
 #include <iostream>
 
@@ -14,10 +14,13 @@
 #include <QString>
 
 #include "client.h"
-#include "mqttreemodel.h"
 #include "log.h"
-#include "message_publisher.h"
-#include "message_displayer.h"
+
+#include "tree_model.h"
+#include "main_widget_model.h"
+
+#include "messagecontroller.h"
+#include "subscriptioncontroller.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -25,6 +28,7 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
+// TODO rename to MainView, the file to main_view.h
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -38,27 +42,19 @@ private slots:
 
 private:
     Ui::MainWindow *_ui = nullptr;
-    TreeModel* _tree_model = nullptr;
-    Client *_client = nullptr;
-    MessagePublisher *_message_publisher = nullptr;
-    MessageDisplayer *_message_displayer = nullptr;
+
+    TreeModel *_tree_model = nullptr;
+    MainWidgetModel *_main_widget_model = nullptr;
+
+    MessageController *_message_controller = nullptr;
+    SubscriptionController *_subscription_controller = nullptr;
 
 public:
-    MainWindow();
+    MainWindow(TreeModel *tree_model, MainWidgetModel *main_widget_model, 
+               MessageController *message_controller, SubscriptionController *subscription_controller);
     ~MainWindow();
-    
-    void register_client(Client *client);
-    MessageDisplayer *get_message_displayer() const;
 
     void item_selection();
 
-    void subscription_success(const std::string &topic);
-    void subscription_failure(const std::string &topic);
-
-    void unsubscription_success(const std::string &topic);
-    void unsubscription_failure(const std::string &topic);
-
     void connection_lost();
 };
-
-#endif // MAINWINDOW_H

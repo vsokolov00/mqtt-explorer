@@ -3,8 +3,9 @@
 
 #include <string>
 #include "client.h"
-#include "mainwindow.h"
 #include "log.h"
+#include "main_widget_model.h"
+
 
 class SubscriptionController
 {
@@ -16,10 +17,17 @@ class SubscriptionController
         static void on_unsubscribe_failure_cb(void *object, const mqtt::token &token);
 
     private:
-        MainWindow *_main_window;
+        MainWidgetModel *_main_widget_model = nullptr;
+        Client *_client = nullptr;
 
     public:
-        SubscriptionController(MainWindow *main_window);
+        SubscriptionController(MainWidgetModel *main_widget_model);
+        ~SubscriptionController() = default;
+
+        void register_client(Client *client);
+
+        void subscribe(const std::string &topic, int QOS);
+        void unsubscribe(const std::string &topic);
 
         void on_subscribe_success(const mqtt::token &token);
         void on_subscribe_failure(const mqtt::token &token);
