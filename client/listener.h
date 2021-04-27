@@ -22,6 +22,10 @@ using OnPublishFailureCB = OnFailureCallback;
 using OnDisconectSucessCB = OnSuccessCallback;
 using OnDisconectFailureCB = OnFailureCallback;
 
+/**
+ * @class A Listener callback class which derives from the virtual mqtt class, overrides the virtual methods
+ *        to call registered success/failure callbacks.
+ **/
 class Listener : public virtual mqtt::iaction_listener
 {
     private:
@@ -29,8 +33,8 @@ class Listener : public virtual mqtt::iaction_listener
         OnSuccessCallback _on_success_callback;
         OnFailureCallback _on_failure_callback;
 
-        void on_failure(const mqtt::token& tok) override;
-        void on_success(const mqtt::token& tok) override;
+        void on_failure(const mqtt::token& token) override;
+        void on_success(const mqtt::token& token) override;
 
     public:
         Listener(void *class_object, OnSuccessCallback on_success_callback, OnFailureCallback on_failure_callback);
