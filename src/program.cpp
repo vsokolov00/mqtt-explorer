@@ -55,6 +55,7 @@ void Program::quit()
         {
             Log::error("Disconnection failed.");
             delete _client;
+            return;
         }
         _mutex->lock();
         delete _client;
@@ -120,6 +121,7 @@ void Program::connect(const std::string &server_address, const std::string &id,
             return;
         }
         _mutex->lock(); // wait for connection to complete
+        _mutex->unlock(); // open the mutex for next possible connection
 
     if (_connection_controller->get_connection_status())
     {
