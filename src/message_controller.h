@@ -29,7 +29,7 @@ class MessageController
         MainWidgetModel *_main_widget_model = nullptr;
         Client *_client = nullptr;
 
-        QVector<TreeItem *> _topics;
+        QVector<TreeItem *> _root_topics;
     
         std::vector<std::string> parse_topic_path(std::string path);
         TreeItem* find_topic(std::string name, const QVector<TreeItem*>& topics);

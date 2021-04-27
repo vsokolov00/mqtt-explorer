@@ -1,7 +1,7 @@
 
 #include "main_widget_model.h"
 
-MainWidgetModel::MainWidgetModel(QObject *parent) : QAbstractItemModel(parent) {}
+MainWidgetModel::MainWidgetModel(QObject *parent) : QAbstractItemModel(parent){}
 
 QVariant MainWidgetModel::data(const QModelIndex &index, int role) const
 {
@@ -75,6 +75,11 @@ void MainWidgetModel::delivery_complete(int message_id)
     (void)message_id;
     //TODO find the ID and mark the message as delivered
 }
+
+//void MainWidgetModel::update_history()
+//{
+
+//}
 
 
 void MainWidgetModel::subscription_success(const std::string &topic)

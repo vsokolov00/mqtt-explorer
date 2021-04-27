@@ -2,4 +2,7 @@
     <qresource prefix="/images">
         <file>mqtt-logo.png</file>
     </qresource>
+    <qresource prefix="/gifs">
+        <file>loader.gif</file>
+    </qresource>
 </RCC>

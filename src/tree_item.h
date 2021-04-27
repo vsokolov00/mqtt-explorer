@@ -31,7 +31,7 @@ public:
 
 private:
     std::vector<QString> types = {"bin", "text", "json", "image"};
-    const int MSGLIMIT = 20;
+    const unsigned MSGLIMIT = 20;
     int message_cnt;
     //QVector<QVariant> msg_history;
 

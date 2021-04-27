@@ -31,14 +31,21 @@ void LoginView::on_connect_clicked()
     std::string server_address = (_ui->protocol->currentIndex() == 0 ? "tcp://" : "") +
                                   _ui->host->text().toStdString() + ":" + _ui->port->text().toStdString();
 
+
     //TODO start login countdown - loading cirle
+//    QLabel *lbl =_ui->loading;
+//    lbl->setFixedSize(QSize(100,100));
+//    QMovie *movie = new QMovie(":gifs/loader.gif");
+//    lbl->setMovie(movie);
+//    lbl->show();
+//    movie->start();
 
     Log::log("Calling connect.");
     _connection_controller->connect(server_address, _ui->connection_id->text().toStdString(), _ui->user->text().toStdString(),
                                     _ui->password->text().toStdString(), _ui->clean_session->checkState());
     
     //TODO remove just a demonstration
-    //std::this_thread::sleep_for(std::chrono::seconds(3));
-    //_connection_controller->disconnect();
+//    std::this_thread::sleep_for(std::chrono::seconds(3));
+//    _connection_controller->disconnect();
 }
 

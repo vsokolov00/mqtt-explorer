@@ -129,7 +129,8 @@ QString TreeModel::getPath(TreeItem& t)
     for (auto &t : path)
     {
         pathStr += t;
-        pathStr += "/";
+        if (t != path[path.size() - 1])
+            pathStr += "/";
     }
     return pathStr;
 }

@@ -27,11 +27,17 @@
         </property>
         <item>
          <widget class="QTreeView" name="messageList">
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
           </property>
           <attribute name="headerCascadingSectionResizes">
            <bool>true</bool>
+          </attribute>
+          <attribute name="headerDefaultSectionSize">
+           <number>100</number>
           </attribute>
          </widget>
         </item>
@@ -219,7 +225,7 @@
      <x>0</x>
      <y>0</y>
      <width>1118</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>

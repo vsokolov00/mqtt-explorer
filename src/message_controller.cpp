@@ -58,7 +58,8 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
     }
 
     topic_item->addMessage(variant, static_cast<int>(type));
-    _tree_model->layoutChanged();
+    emit _tree_model->layoutChanged();
+
 }
 
 void MessageController::on_publish_success(const mqtt::token &token)
@@ -117,7 +118,7 @@ TreeItem *MessageController::create_hierarchy(TreeItem& supertopic, std::vector<
             supertop = &add_subtopic(*supertop, topic, {});
         }
         if (new_root_topic) {
-            this->_topics.push_back(supertop);
+            this->_root_topics.push_back(supertop);
 
             new_root_topic = false;
         }
@@ -166,7 +167,7 @@ TreeItem* MessageController::find_topic(std::string name, const QVector<TreeItem
 TreeItem *MessageController::get_topic(std::string topic_path)
 {
     std::vector<std::string> topics = parse_topic_path(topic_path);
-    TreeItem* supertopic = find_topic(topics[0], _topics);
+    TreeItem* supertopic = find_topic(topics[0], _root_topics);
     TreeItem* found_topic;
 
     //the first topic of the topic path was used before
@@ -175,7 +176,7 @@ TreeItem *MessageController::get_topic(std::string topic_path)
         //add message to existing first level topic
         if (topics.size() == 1)
         {
-            return find_topic(topics[0], _topics);
+            return find_topic(topics[0], _root_topics);
         }
         topics.erase(topics.begin());
 

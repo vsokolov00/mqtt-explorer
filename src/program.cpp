@@ -122,7 +122,9 @@ void Program::connect(const std::string &server_address, const std::string &id,
         Log::log("Login window hidden.");
 
         Log::log("Opening main window...");
-        _main_view->show();
+
+        _main_view->display();
+        //_main_view->show();
         Log::log("Main window opened.");
     }
 }

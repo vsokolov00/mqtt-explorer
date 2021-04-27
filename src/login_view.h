@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <QMovie>
 #include <QMainWindow>
 #include <string>
 
@@ -17,7 +18,7 @@ namespace Ui { class Login; }
 
 class Program;
 
-//TODO rename to LoginView and the file to lpogin_view.h
+
 class LoginView: public QMainWindow
 {
     Q_OBJECT

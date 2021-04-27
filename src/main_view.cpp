@@ -17,11 +17,6 @@ MainView::MainView(TreeModel *tree_model, MainWidgetModel *main_widget_model, Co
 
     _ui->setupUi(this);
     _ui->messageList->setModel(_tree_model);
-    _ui->messageList->setColumnWidth(0, _ui->messageList->size().rwidth() * 0.2);
-    _ui->img_label->setVisible(false);
-    _ui->listWidget->setWrapping(false);
-    _ui->clear->setVisible(false);
-
     connect(_ui->messageList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainView::item_selection);
 
     Log::log("Main window initialization complete.");
@@ -30,6 +25,15 @@ MainView::MainView(TreeModel *tree_model, MainWidgetModel *main_widget_model, Co
 MainView::~MainView()
 {
     delete _ui;
+}
+
+void MainView::display()
+{
+    this->show();
+    _ui->messageList->setColumnWidth(0, _ui->messageList->size().width() * 0.6);
+    _ui->img_label->setVisible(false);
+    _ui->listWidget->setWrapping(false);
+    _ui->clear->setVisible(false);
 }
 
 void MainView::item_selection()
@@ -146,7 +150,7 @@ void MainView::on_chooseFile_clicked()
 void MainView::on_clear_clicked()
 {
     //message_controller->set_message({}, FileType::ALL);
-    //message_controller->set_file_not_chosen();
+//    message_controller->set_file_not_chosen();
 
     _ui->img_label->setVisible(false);
     _ui->msg_to_publish->setPlainText("");

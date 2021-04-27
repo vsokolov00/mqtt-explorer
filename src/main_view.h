@@ -62,4 +62,5 @@ public:
     ~MainView();
 
     void item_selection();
+    void display();
 };
