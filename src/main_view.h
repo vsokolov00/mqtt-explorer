@@ -12,6 +12,7 @@
 #include <QStringList>
 #include <QBuffer>
 #include <QString>
+#include <QMessageBox>
 
 #include "client.h"
 #include "log.h"
@@ -72,4 +73,7 @@ public slots:
     void subscribe_success_popup_set(QString s);
     void unsubscribe_failure_popup_set(QString s);
     void unsubscribe_success_popup_set(QString s);
+    void connection_lost_dialog();
+    void reconnection_failed_dialog();
+    void connection_failure_popup_set(QString, bool);
 };

@@ -13,7 +13,6 @@
 #include "json/json-forwards.h"
 #include "json/json.h"
 #include "client.h"
-#include "main_widget_model.h"
 #include "tree_model.h"
 #include <QItemSelectionModel>
 
@@ -29,7 +28,6 @@ class MessageController : public QObject
 
     private:
         TreeModel *_tree_model = nullptr;
-        MainWidgetModel *_main_widget_model = nullptr;
         Client *_client = nullptr;
 
         QVector<TreeItem *> _root_topics;
@@ -43,7 +41,7 @@ class MessageController : public QObject
         void parse_json_message(Json::Value *root, std::string &parsed_string);
 
     public:
-        MessageController(TreeModel *tree_model, MainWidgetModel *main_widget_model);
+        MessageController(TreeModel *tree_model);
         ~MessageController() = default;
 
         void register_client(Client *client);

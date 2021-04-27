@@ -1,7 +1,6 @@
 #include "subscription_controller.h"
 
-SubscriptionController::SubscriptionController(MainWidgetModel *main_widget_model) 
-                       : _main_widget_model (main_widget_model) {}
+SubscriptionController::SubscriptionController() {}
 
 void SubscriptionController::on_subscribe_success_cb(void *object, const mqtt::token &token)
 {

@@ -30,8 +30,7 @@ SOURCES += \
     tree_model.cpp \
     program.cpp \
     log.cpp \
-    login_widget_model.cpp \
-    main_widget_model.cpp
+    login_widget_model.cpp
 
 HEADERS += \
     connection_controller.h \
@@ -44,8 +43,7 @@ HEADERS += \
     tree_model.h \
     program.h \
     log.h \
-    login_widget_model.h \
-    main_widget_model.h
+    login_widget_model.h
 
 FORMS += \
     view/ui/login.ui \

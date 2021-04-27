@@ -6,15 +6,16 @@
 
 #include "client.h"
 #include "login_widget_model.h"
-#include "main_widget_model.h"
 #include "log.h"
 
 using CBObject = void *;
 using ConnectCB = void(*)(void *, const std::string&, const std::string&, const mqtt::connect_options&);
 using DisconnectCB = void(*)(void *);
 
-class ConnectionController
+class ConnectionController : public QObject
 {
+    Q_OBJECT
+
     public:
         static void on_connection_success_cb(void *object, const std::string &cause);
         static void on_connection_failure_cb(void *object, const mqtt::token &token);
@@ -32,7 +33,6 @@ class ConnectionController
         ConnectCB _connection_cb = nullptr;
         DisconnectCB _disconnect_cb = nullptr;
 
-        MainWidgetModel *_main_widget_model;
         LoginWidgetModel *_login_widget_model;
 
         mqtt::connect_options _connection_options;
@@ -40,8 +40,7 @@ class ConnectionController
         bool _connection_status = false;
 
     public:
-        ConnectionController(std::mutex *mutex, CBObject connection_object, ConnectCB connection_cb, DisconnectCB disconnect_cb,
-                             MainWidgetModel *main_widget_model, LoginWidgetModel *login_widget_model);
+        ConnectionController(std::mutex *mutex, CBObject connection_object, ConnectCB connection_cb, DisconnectCB disconnect_cb, LoginWidgetModel *login_widget_model);
         ~ConnectionController() = default;
 
         void register_client(Client *client);
@@ -60,4 +59,10 @@ class ConnectionController
         void disconnect();
         void reconnect();
         void go_to_login_view();
+
+    signals:
+        void connection_lost();
+        void reconnect_failed(bool connection_exist, const std::string &server_address);
+        void reconnect_failed();
+        void connection_failed(QString, bool);
 };

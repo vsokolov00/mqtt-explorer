@@ -12,7 +12,7 @@ void LoginWidgetModel::connection_failed(bool connection_exist, const std::strin
     // if the connection_exist is true, then inform also about this
 }
 
-void LoginWidgetModel::connection_failed()
-{
-    //TODO display red message
-}
+//void LoginWidgetModel::connection_failed()
+//{
+//    //TODO display red message
+//}

@@ -1,10 +1,10 @@
 #include "connection_controller.h"
 
 ConnectionController::ConnectionController(std::mutex *mutex, CBObject connection_object, ConnectCB connection_cb, 
-                                           DisconnectCB disconnect_cb, MainWidgetModel *main_widget_model, 
+                                           DisconnectCB disconnect_cb,
                                            LoginWidgetModel *login_widget_model) 
                      : _mutex(mutex), _connection_object(connection_object), _connection_cb(connection_cb),
-                       _disconnect_cb(disconnect_cb), _main_widget_model(main_widget_model), 
+                       _disconnect_cb(disconnect_cb),
                        _login_widget_model(login_widget_model) {}
 
 void ConnectionController::on_connection_success_cb(void *object, const std::string &cause)
@@ -45,6 +45,8 @@ void ConnectionController::on_connection_success(const std::string &cause)
 {
     (void)cause;
     Log::log("Connection succeeded.");
+
+
     
     if (!_reconnect)
     {
@@ -59,15 +61,14 @@ void ConnectionController::on_connection_failure(const mqtt::token &token)
 
     if (!_reconnect)
     {
-        _login_widget_model->connection_failed(token.get_connect_response().is_session_present(), 
-                                               std::string(token.get_connect_response().get_server_uri()));
+        emit connection_failed(QString::fromStdString(std::string(token.get_connect_response().get_server_uri())), token.get_connect_response().is_session_present());
+
         _connection_status = false;
         _mutex->unlock();
     }
     else
     {
-        _main_widget_model->reconnect_failed(token.get_connect_response().is_session_present(), 
-                                             std::string(token.get_connect_response().get_server_uri()));
+        emit reconnect_failed();
     }
 }
 
@@ -91,7 +92,7 @@ void ConnectionController::on_connection_lost(const std::string &cause)
 {
     (void)cause;
     Log::log("Connection lost.");
-    _main_widget_model->connection_lost();
+    emit connection_lost();
 }
 
 void ConnectionController::register_client(Client *client)
@@ -124,7 +125,7 @@ void ConnectionController::reconnect()
     _reconnect = true;
     if (_client->connect(_connection_options))
     {
-        _main_widget_model->reconnect_failed();
+        emit reconnect_failed();
     }
 }
 

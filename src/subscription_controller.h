@@ -4,7 +4,7 @@
 #include <string>
 #include "client.h"
 #include "log.h"
-#include "main_widget_model.h"
+#include <QObject>
 
 
 class SubscriptionController : public QObject
@@ -18,11 +18,10 @@ class SubscriptionController : public QObject
         static void on_unsubscribe_failure_cb(void *object, const mqtt::token &token);
 
     private:
-        MainWidgetModel *_main_widget_model = nullptr;
         Client *_client = nullptr;
 
     public:
-        SubscriptionController(MainWidgetModel *main_widget_model);
+        SubscriptionController();
         ~SubscriptionController() = default;
 
         void register_client(Client *client);

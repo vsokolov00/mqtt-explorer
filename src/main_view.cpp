@@ -25,9 +25,12 @@ MainView::MainView(TreeModel *tree_model, ConnectionController *connection_contr
     connect(_message_controller, &MessageController::publish_failure, this, &MainView::publish_failure_popup_set);
     connect(_subscription_controller, SIGNAL(subscription_success(QString)), this, SLOT(subscribe_success_popup_set(QString)));
     connect(_subscription_controller, SIGNAL(unsubscription_success(QString)), this, SLOT(unsubscribe_success_popup_set(QString)));
-
     connect(_subscription_controller, SIGNAL(subscription_failure(QString)), this, SLOT(subscribe_failure_popup_set(QString)));
     connect(_subscription_controller, SIGNAL(unsubscription_failure(QString)), this, SLOT(unsubscribe_failure_popup_set(QString)));
+    connect(_connection_controller, SIGNAL(connection_failed(QString, bool)), this, SLOT(connection_failure_popup_set(QString, bool)));
+
+    //connect(_message_controller, &MessageController::publish_success, this, &MainView::connection_lost_dialog);
+
 
     Log::log("Main window initialization complete.");
 }
@@ -219,5 +222,54 @@ void MainView::show_popup()
     pop_up->setGeometry(app_position.x() / 2 + window_size.rwidth() - popup_size.rwidth(),
                         app_position.y() / 2 + 20, popup_size.rwidth(), popup_size.rheight());
     pop_up->show();
+}
+
+void MainView::connection_lost_dialog()
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Connection was lost", "Try to reconnect?",
+                                QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes)
+    {
+        Log::log("Trying to reconnect.");
+        _connection_controller->reconnect();
+    }
+    else
+    {
+        Log::log("Disconnect from the server.");
+        _connection_controller->go_to_login_view();
+    }
+}
+
+void MainView::reconnection_failed_dialog()
+{
+    //TODO display a window reconnect failed with reconnect button and got to login page
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Reconnection failed", "Try again?",
+                                QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes)
+    {
+        Log::log("Trying to reconnect...");
+        _connection_controller->reconnect();
+    }
+    else
+    {
+        Log::log("Disconnecting from the server...");
+        _connection_controller->go_to_login_view();
+    }
+}
+
+void MainView::connection_failure_popup_set(QString s, bool connection_exist)
+{
+    if (connection_exist)
+    {
+        pop_up->set_pop_up("Connection to the " + s + " server failed. \nConnection already exists.", false);
+    }
+    else
+    {
+        pop_up->set_pop_up("Connection to the " + s + " server failed.", false);
+    }
+
+    show_popup();
 }
 

@@ -7,7 +7,6 @@
 #include "log.h"
 
 #include "client.h"
-#include "main_widget_model.h"
 #include "login_widget_model.h"
 #include "tree_model.h"
 
@@ -28,7 +27,6 @@ class Program
     private:
         Client *_client = nullptr;
         TreeModel *_tree_model = nullptr;
-        MainWidgetModel *_main_widget_model = nullptr;
         LoginWidgetModel *_login_widget_model = nullptr;
 
         //DashboardView *_dashboard_view;
