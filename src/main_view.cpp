@@ -28,9 +28,8 @@ MainView::MainView(TreeModel *tree_model, ConnectionController *connection_contr
     connect(_subscription_controller, SIGNAL(subscription_failure(QString)), this, SLOT(subscribe_failure_popup_set(QString)));
     connect(_subscription_controller, SIGNAL(unsubscription_failure(QString)), this, SLOT(unsubscribe_failure_popup_set(QString)));
     connect(_connection_controller, SIGNAL(connection_failed(QString,bool)), this, SLOT(connection_failure_popup_set(QString,bool)));
-    connect(_connection_controller, SIGNAL(connection_failed()), this, SLOT(connection_failure_popup_set()));
     connect(_connection_controller, SIGNAL(connection_success()), this, SLOT(connection_success_popup_set()));
-
+    connect(_connection_controller, SIGNAL(connection_failed()), this, SLOT(connection_failure_popup_set()));
 
     Log::log("Main window initialization complete.");
 }
@@ -131,12 +130,11 @@ void MainView::on_chooseFile_clicked()
             _ui->img_label->setVisible(true);
             _ui->msg_to_publish->setVisible(false);
             //----------------------
-            QBuffer buffer(&msg);
-            buffer.open(QIODevice::WriteOnly);
-            img.save(&buffer);
+            file.open(QIODevice::ReadOnly);
+            msg = file.readAll();
 
-            //message_controller->set_message(QVariant(msg), FileType::ALL_IMAGES);
-            //message_controller->set_file_chosen();
+            _message_controller->set_message(QVariant(msg), FileType::ALL_IMAGES);
+            _message_controller->set_file_chosen();
             _ui->clear->setVisible(true);
         }
     }
@@ -151,9 +149,9 @@ void MainView::on_chooseFile_clicked()
         {
 
         }
-        //QTextStream in(file);
+        QTextStream in(&file);
         QStringList message;
-        //message << in.readAll();
+        message << in.readAll();
 
         _ui->msg_to_publish->setPlainText(message.join("\n"));
     }

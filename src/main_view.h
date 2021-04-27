@@ -10,6 +10,7 @@
 #include <QImageReader>
 #include <QPixmap>
 #include <QStringList>
+#include <QTextStream>
 #include <QBuffer>
 #include <QString>
 #include <QMessageBox>

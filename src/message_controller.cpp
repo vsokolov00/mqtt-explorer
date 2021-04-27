@@ -205,3 +205,28 @@ TreeItem *MessageController::get_topic(std::string topic_path)
 
     return found_topic;
 }
+
+void MessageController::set_message(QVariant content, FileType type)
+{
+    this->file_to_publish = content;
+    this->file_type = type;
+}
+
+QVariant& MessageController::get_message()
+{
+    return file_to_publish;
+}
+
+FileType MessageController::get_message_type()
+{
+    return file_type;
+}
+
+void MessageController::set_file_chosen()
+{
+    this->file_chosen = true;
+}
+void MessageController::set_file_not_chosen()
+{
+    this->file_chosen = false;
+}

@@ -43,6 +43,8 @@ void LoginView::on_connect_clicked()
     Log::log("Calling connect.");
     _connection_controller->connect(server_address, _ui->connection_id->text().toStdString(), _ui->user->text().toStdString(),
                                     _ui->password->text().toStdString(), _ui->clean_session->checkState());
+
+    connect(_connection_controller, SIGNAL(connection_failed()), this, SLOT(connection_failure_popup_set()));
     
     //TODO remove just a demonstration
 //    std::this_thread::sleep_for(std::chrono::seconds(3));
@@ -62,7 +64,7 @@ void LoginView::show_popup()
 void LoginView::connection_failure_popup_set()
 {
 
-    pop_up->set_pop_up("Connection failed", false);
+    pop_up->set_pop_up("Connection failed.", false);
 
     show_popup();
 }

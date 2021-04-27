@@ -31,6 +31,10 @@ class MessageController : public QObject
         Client *_client = nullptr;
 
         QVector<TreeItem *> _root_topics;
+
+        bool file_chosen;
+        QVariant file_to_publish;
+        FileType file_type;
     
         std::vector<std::string> parse_topic_path(std::string path);
         TreeItem* find_topic(std::string name, const QVector<TreeItem*>& topics);
@@ -52,6 +56,14 @@ class MessageController : public QObject
         void on_publish_success(const mqtt::token &token);
         void on_publish_failure(const mqtt::token &token);
         void on_delivery_complete(mqtt::delivery_token_ptr token);
+
+        void set_file_chosen();
+        void set_file_not_chosen();
+
+        void set_message(QVariant, FileType type);
+        FileType get_message_type();
+        QVariant& get_message();
+
     signals:
         void publish_success();
         void publish_failure();
