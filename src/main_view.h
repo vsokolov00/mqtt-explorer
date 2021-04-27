@@ -15,9 +15,9 @@
 
 #include "client.h"
 #include "log.h"
+#include "popup.h"
 
 #include "tree_model.h"
-#include "main_widget_model.h"
 
 #include "connection_controller.h"
 #include "message_controller.h"
@@ -50,17 +50,26 @@ private:
     Ui::MainWindow *_ui = nullptr;
 
     TreeModel *_tree_model = nullptr;
-    MainWidgetModel *_main_widget_model = nullptr;
 
     ConnectionController *_connection_controller = nullptr;
     MessageController *_message_controller = nullptr;
     SubscriptionController *_subscription_controller = nullptr;
 
+    PopUp* pop_up;
+    void show_popup();
+
 public:
-    MainView(TreeModel *tree_model, MainWidgetModel *main_widget_model, ConnectionController *connection_controller,
+    MainView(TreeModel *tree_model, ConnectionController *connection_controller,
                MessageController *message_controller, SubscriptionController *subscription_controller);
     ~MainView();
 
     void item_selection();
     void display();
+public slots:
+    void publish_success_popup_set();
+    void publish_failure_popup_set();
+    void subscribe_failure_popup_set(QString s);
+    void subscribe_success_popup_set(QString s);
+    void unsubscribe_failure_popup_set(QString s);
+    void unsubscribe_success_popup_set(QString s);
 };

@@ -1,23 +1,33 @@
 #include "main_view.h"
 #include "ui_mainwindow.h"
+#include <iostream>
 
-MainView::MainView(TreeModel *tree_model, MainWidgetModel *main_widget_model, ConnectionController *connection_controller,
+MainView::MainView(TreeModel *tree_model, ConnectionController *connection_controller,
                        MessageController *message_controller, SubscriptionController *subscription_controller) 
-           : QMainWindow(nullptr), _ui(new Ui::MainWindow), _tree_model(tree_model), _main_widget_model(main_widget_model),
+           : QMainWindow(nullptr), _ui(new Ui::MainWindow), _tree_model(tree_model),
              _connection_controller(connection_controller), _message_controller(message_controller), 
              _subscription_controller(subscription_controller)
 {
     Log::log("Main window initialization starting...");
     
     _tree_model->setParent(this);
-    _main_widget_model->setParent(this);
+
+    pop_up = new PopUp(this);
 
     qRegisterMetaType<QList<QPersistentModelIndex>>("QList<QPersistentModelIndex>");
     qRegisterMetaType<QAbstractItemModel::LayoutChangeHint>("QAbstractItemModel::LayoutChangeHint");
 
     _ui->setupUi(this);
     _ui->messageList->setModel(_tree_model);
+
     connect(_ui->messageList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainView::item_selection);
+    connect(_message_controller, &MessageController::publish_success, this, &MainView::publish_success_popup_set);
+    connect(_message_controller, &MessageController::publish_failure, this, &MainView::publish_failure_popup_set);
+    connect(_subscription_controller, SIGNAL(subscription_success(QString)), this, SLOT(subscribe_success_popup_set(QString)));
+    connect(_subscription_controller, SIGNAL(unsubscription_success(QString)), this, SLOT(unsubscribe_success_popup_set(QString)));
+
+    connect(_subscription_controller, SIGNAL(subscription_failure(QString)), this, SLOT(subscribe_failure_popup_set(QString)));
+    connect(_subscription_controller, SIGNAL(unsubscription_failure(QString)), this, SLOT(unsubscribe_failure_popup_set(QString)));
 
     Log::log("Main window initialization complete.");
 }
@@ -161,3 +171,53 @@ void MainView::on_exit_clicked()
 {
     _connection_controller->go_to_login_view();
 }
+
+void MainView::publish_success_popup_set()
+{
+    QString text = "Message published successfully!";
+    pop_up->set_pop_up(text, true);
+    show_popup();
+}
+
+void MainView::publish_failure_popup_set()
+{
+    QString text = "Message was not published!";
+    pop_up->set_pop_up(text, false);
+    show_popup();
+}
+
+void MainView::subscribe_success_popup_set(QString s)
+{
+    pop_up->set_pop_up("Successful subscription to topic: " + s, true);
+    show_popup();
+}
+
+void MainView::subscribe_failure_popup_set(QString s)
+{
+    pop_up->set_pop_up("Unsuccessful subscription to topic: " + s, false);
+    show_popup();
+}
+
+void MainView::unsubscribe_success_popup_set(QString s)
+{
+    pop_up->set_pop_up("Successful UNsubscription to topic: " + s, true);
+    show_popup();
+}
+
+void MainView::unsubscribe_failure_popup_set(QString s)
+{
+    pop_up->set_pop_up("Unsuccessful UNsubscription to topic: " + s, false);
+    show_popup();
+}
+
+
+void MainView::show_popup()
+{
+    auto window_size = this->size();
+    auto app_position =  this->mapToGlobal(this->pos());
+    auto popup_size = pop_up->size();
+    pop_up->setGeometry(app_position.x() / 2 + window_size.rwidth() - popup_size.rwidth(),
+                        app_position.y() / 2 + 20, popup_size.rwidth(), popup_size.rheight());
+    pop_up->show();
+}
+

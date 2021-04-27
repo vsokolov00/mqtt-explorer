@@ -8,8 +8,6 @@ LoginView::LoginView(LoginWidgetModel *login_widget_model, ConnectionController 
 {
     _ui->setupUi(this);
 
-    _login_widget_model->setParent(this);
-
     _ui->protocol->addItem("tcp://");
     _ui->protocol->addItem("mqtt://");
     _ui->host->setText("test.mosquitto.org");

@@ -30,16 +30,17 @@ void Program::init()
     _mutex = new std::mutex();
 
     _tree_model = new TreeModel(nullptr);
-    _main_widget_model = new MainWidgetModel(nullptr);
-    _login_widget_model = new LoginWidgetModel(nullptr);
+//    _main_widget_model = new MainWidgetModel();
+    _login_widget_model = new LoginWidgetModel();
 
     _connection_controller = new ConnectionController(_mutex, this, &Program::connect_cb, &Program::disconnect_cb,
                                                       _main_widget_model, _login_widget_model);
     _subscription_controller = new SubscriptionController(_main_widget_model);
     _message_controller = new MessageController(_tree_model, _main_widget_model);
 
-    _main_view = new MainView(_tree_model, _main_widget_model, _connection_controller, 
+    _main_view = new MainView(_tree_model, _connection_controller,
                                 _message_controller, _subscription_controller);
+    _main_widget_model = new MainWidgetModel();
     _login_view = new LoginView(_login_widget_model, _connection_controller);
 
     Log::log("Program initialization complete.");

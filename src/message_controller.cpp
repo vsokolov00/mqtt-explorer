@@ -59,12 +59,12 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
 
     topic_item->addMessage(variant, static_cast<int>(type));
     emit _tree_model->layoutChanged();
-
 }
 
 void MessageController::on_publish_success(const mqtt::token &token)
 {
-    _main_widget_model->publish_success(token.get_message_id());
+    // TODO register the ID and wait for delivery complete
+    emit publish_success();
     Log::log("Message published successfuly.");
 }
 
@@ -72,7 +72,7 @@ void MessageController::on_publish_failure(const mqtt::token &token)
 {
     (void)token;
 
-    _main_widget_model->publish_failure(token.get_message_id());
+    //_main_widget_model->publish_failure(token.get_message_id());
     Log::log("Publishing failed.");
 }
 
@@ -83,7 +83,7 @@ void MessageController::on_delivery_complete(mqtt::delivery_token_ptr token)
         return;
     }
     
-    _main_widget_model->delivery_complete(token.get()->get_message_id());
+    //_main_widget_model->delivery_complete(token.get()->get_message_id());
 }
 
 void MessageController::register_client(Client *client)

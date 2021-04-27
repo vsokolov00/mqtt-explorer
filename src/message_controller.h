@@ -15,9 +15,12 @@
 #include "client.h"
 #include "main_widget_model.h"
 #include "tree_model.h"
+#include <QItemSelectionModel>
 
-class MessageController
+class MessageController : public QObject
 {
+    Q_OBJECT
+
     public:
         static void on_message_arrived_cb(void *object, const std::string &topic, const MessageData &message, FileType type);
         static void on_publish_success_cb(void *object, const mqtt::token &token);
@@ -51,4 +54,8 @@ class MessageController
         void on_publish_success(const mqtt::token &token);
         void on_publish_failure(const mqtt::token &token);
         void on_delivery_complete(mqtt::delivery_token_ptr token);
+    signals:
+        void publish_success();
+        void publish_failure();
+
 };

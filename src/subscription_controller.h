@@ -7,8 +7,9 @@
 #include "main_widget_model.h"
 
 
-class SubscriptionController
+class SubscriptionController : public QObject
 {
+    Q_OBJECT
     public:
         static void on_subscribe_success_cb(void *object, const mqtt::token &token);
         static void on_subscribe_failure_cb(void *object, const mqtt::token &token);
@@ -34,4 +35,9 @@ class SubscriptionController
 
         void on_unsubscribe_success(const mqtt::token &token);
         void on_unsubscribe_failure(const mqtt::token &token);
+    signals:
+        void subscription_success(const QString& topic);
+        void subscription_failure(const QString& topic);
+        void unsubscription_success(const QString& topic);
+        void unsubscription_failure(const QString& topic);
 };

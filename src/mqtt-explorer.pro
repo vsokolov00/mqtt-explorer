@@ -24,6 +24,7 @@ SOURCES += \
     main.cpp \
     main_view.cpp \
     message_controller.cpp \
+    popup.cpp \
     subscription_controller.cpp \
     tree_item.cpp \
     tree_model.cpp \
@@ -37,6 +38,7 @@ HEADERS += \
     login_view.h \
     main_view.h \
     message_controller.h \
+    popup.h \
     subscription_controller.h \
     tree_item.h \
     tree_model.h \
