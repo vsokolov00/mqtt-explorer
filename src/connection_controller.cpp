@@ -1,11 +1,9 @@
 #include "connection_controller.h"
 
 ConnectionController::ConnectionController(std::mutex *mutex, CBObject connection_object, ConnectCB connection_cb, 
-                                           DisconnectCB disconnect_cb,
-                                           LoginWidgetModel *login_widget_model) 
+                                           DisconnectCB disconnect_cb)
                      : _mutex(mutex), _connection_object(connection_object), _connection_cb(connection_cb),
-                       _disconnect_cb(disconnect_cb),
-                       _login_widget_model(login_widget_model) {}
+                       _disconnect_cb(disconnect_cb){}
 
 void ConnectionController::on_connection_success_cb(void *object, const std::string &cause)
 {
@@ -45,8 +43,7 @@ void ConnectionController::on_connection_success(const std::string &cause)
 {
     (void)cause;
     Log::log("Connection succeeded.");
-
-
+    emit connection_success();
     
     if (!_reconnect)
     {
@@ -61,7 +58,8 @@ void ConnectionController::on_connection_failure(const mqtt::token &token)
 
     if (!_reconnect)
     {
-        emit connection_failed(QString::fromStdString(std::string(token.get_connect_response().get_server_uri())), token.get_connect_response().is_session_present());
+        //emit connection_failed(QString::fromStdString(std::string(token.get_connect_response().get_server_uri())), token.get_connect_response().is_session_present());
+        emit connection_failed();
 
         _connection_status = false;
         _mutex->unlock();

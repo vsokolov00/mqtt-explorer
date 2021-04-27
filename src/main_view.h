@@ -76,4 +76,6 @@ public slots:
     void connection_lost_dialog();
     void reconnection_failed_dialog();
     void connection_failure_popup_set(QString, bool);
+    void connection_failure_popup_set();
+    void connection_success_popup_set();
 };

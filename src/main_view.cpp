@@ -27,9 +27,9 @@ MainView::MainView(TreeModel *tree_model, ConnectionController *connection_contr
     connect(_subscription_controller, SIGNAL(unsubscription_success(QString)), this, SLOT(unsubscribe_success_popup_set(QString)));
     connect(_subscription_controller, SIGNAL(subscription_failure(QString)), this, SLOT(subscribe_failure_popup_set(QString)));
     connect(_subscription_controller, SIGNAL(unsubscription_failure(QString)), this, SLOT(unsubscribe_failure_popup_set(QString)));
-    connect(_connection_controller, SIGNAL(connection_failed(QString, bool)), this, SLOT(connection_failure_popup_set(QString, bool)));
-
-    //connect(_message_controller, &MessageController::publish_success, this, &MainView::connection_lost_dialog);
+    connect(_connection_controller, SIGNAL(connection_failed(QString,bool)), this, SLOT(connection_failure_popup_set(QString,bool)));
+    connect(_connection_controller, SIGNAL(connection_failed()), this, SLOT(connection_failure_popup_set()));
+    connect(_connection_controller, SIGNAL(connection_success()), this, SLOT(connection_success_popup_set()));
 
 
     Log::log("Main window initialization complete.");
@@ -219,7 +219,7 @@ void MainView::show_popup()
     auto window_size = this->size();
     auto app_position =  this->mapToGlobal(this->pos());
     auto popup_size = pop_up->size();
-    pop_up->setGeometry(app_position.x() / 2 + window_size.rwidth() - popup_size.rwidth(),
+    pop_up->setGeometry(app_position.x() / 2 + window_size.rwidth() - (popup_size.rwidth() + 30),
                         app_position.y() / 2 + 20, popup_size.rwidth(), popup_size.rheight());
     pop_up->show();
 }
@@ -270,6 +270,18 @@ void MainView::connection_failure_popup_set(QString s, bool connection_exist)
         pop_up->set_pop_up("Connection to the " + s + " server failed.", false);
     }
 
+    show_popup();
+}
+
+void MainView::connection_failure_popup_set()
+{
+    pop_up->set_pop_up("Connection failed.", false);
+    show_popup();
+}
+
+void MainView::connection_success_popup_set()
+{
+    pop_up->set_pop_up("Connection is successful!\nSession started..", true);
     show_popup();
 }
 

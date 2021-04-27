@@ -2,7 +2,7 @@
 #include <iostream>
 
 MessageController::MessageController(TreeModel *tree_model)
-                  : _tree_model(tree_model) { }
+                  : _tree_model(tree_model) {}
 
 void MessageController::on_message_arrived_cb(void *object, const std::string &topic, const MessageData &message, FileType type)
 {

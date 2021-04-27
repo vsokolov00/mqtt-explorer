@@ -11,8 +11,8 @@
 
 #include "client.h"
 #include "log.h"
-#include "login_widget_model.h"
 #include "connection_controller.h"
+#include "popup.h"
 
 namespace Ui { class Login; }
 
@@ -29,11 +29,16 @@ class LoginView: public QMainWindow
     private:
         Ui::Login *_ui = nullptr;
 
-        LoginWidgetModel *_login_widget_model = nullptr;
+        PopUp* pop_up;
 
         ConnectionController *_connection_controller = nullptr;
 
+        void show_popup();
+
     public:
-        LoginView(LoginWidgetModel *login_widget_model, ConnectionController *connection_cotroller);
+        LoginView(ConnectionController *connection_cotroller);
         ~LoginView();
+    public slots:
+        void connection_failure_popup_set();
+
 };

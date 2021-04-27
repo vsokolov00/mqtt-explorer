@@ -30,15 +30,14 @@ void Program::init()
     _mutex = new std::mutex();
 
     _tree_model = new TreeModel(nullptr);
-    _login_widget_model = new LoginWidgetModel();
 
-    _connection_controller = new ConnectionController(_mutex, this, &Program::connect_cb, &Program::disconnect_cb, _login_widget_model);
+    _connection_controller = new ConnectionController(_mutex, this, &Program::connect_cb, &Program::disconnect_cb);
     _subscription_controller = new SubscriptionController();
     _message_controller = new MessageController(_tree_model);
 
     _main_view = new MainView(_tree_model, _connection_controller,
                                 _message_controller, _subscription_controller);
-    _login_view = new LoginView(_login_widget_model, _connection_controller);
+    _login_view = new LoginView(_connection_controller);
 
     Log::log("Program initialization complete.");
 }
@@ -90,9 +89,12 @@ void Program::connect(const std::string &server_address, const std::string &id,
     catch (const mqtt::exception &e)
     {
         Log::error("Wrong server address data: " + std::string(e.what()));
-        //_login_widget_model->connection_failed();
 
+        emit _connection_controller->connection_failed();
         return;
+    }
+    catch(...) {
+        Log::error("Some error");
     }
     Log::log("Client created.");
 
@@ -103,14 +105,21 @@ void Program::connect(const std::string &server_address, const std::string &id,
 
     _mutex->lock();
         Log::log("Connecting client...");
-        if (_client->connect(connection_options))
-        {
-            // TODO
-            //login_widget_model->connection_failed();
+
+//        if (_client->connect(connection_options))
+//        {
+//            // TODO
+//            emit _connection_controller->connection_failed();
+//            return;
+//        }
+        try {
+            _client->connect(connection_options);
+        }  catch (const mqtt::exception& exc) {
+            emit _connection_controller->connection_failed();
+            Log::error("Connection failure.");
             return;
         }
-
-    _mutex->lock(); // wait for connection to complete
+        _mutex->lock(); // wait for connection to complete
 
     if (_connection_controller->get_connection_status())
     {
