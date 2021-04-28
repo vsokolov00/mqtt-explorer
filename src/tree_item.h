@@ -5,43 +5,44 @@
 #include <QVector>
 #include <algorithm>
 
+#include "client.h"
 
 class TreeItem
 {
-public:
-    explicit TreeItem(const QVector<QVariant> &data, TreeItem *parentItem = nullptr);
-    ~TreeItem();
+    private:
+        static const unsigned MSGLIMIT;
+        static const QString TYPES[4];
 
-    void appendSubtopic(TreeItem *child);
+    private:
+        int message_cnt;
 
-    TreeItem *getSubtopic(int row);
-    int subtopicCount() const;
-    int columnCount() const;
-    QVariant data(int column) const;
-    int row() const;
-    TreeItem *supertopic();
+        std::vector<std::tuple<QVariant, QString, bool>> msg_history;
 
-    QVector<TreeItem*> getSubtopics();
-    void addMessage(QVariant message, int type, bool our_message); //TODO type numbers changed!! see client.h enum FileType
-    int getMessageCnt();
+        QVector<TreeItem*> m_childItems;
+        QVector<QVariant> m_itemData;
+        TreeItem *m_parentItem;
+        QString full_path;
 
-    QString getName();
-    QString getPath();
-    std::vector<std::tuple<QVariant, QString, bool>> getMessages();
+    public:
+        explicit TreeItem(const QVector<QVariant> &data, TreeItem *parentItem = nullptr);
+        ~TreeItem();
 
-private:
-    static const unsigned MSGLIMIT = 10;
+        void appendSubtopic(TreeItem *child);
 
-    std::vector<QString> types = {"bin", "text", "json", "image"};
+        TreeItem *getSubtopic(int row);
+        int subtopicCount() const;
+        int columnCount() const;
+        QVariant data(int column) const;
+        int row() const;
+        TreeItem *supertopic();
 
-    int message_cnt;
+        QVector<TreeItem*> getSubtopics();
+        void addMessage(QVariant message, unsigned short type, bool our_message); //TODO type numbers changed!! see client.h enum FileType
+        int getMessageCnt();
 
-    std::vector<std::tuple<QVariant, QString, bool>> msg_history;
-
-    QVector<TreeItem*> m_childItems;
-    QVector<QVariant> m_itemData;
-    TreeItem *m_parentItem;
-    QString full_path;
+        QString getName();
+        QString getPath();
+        std::vector<std::tuple<QVariant, QString, bool>> getMessages();
 };
 
 #endif // TREE_ITEM_H

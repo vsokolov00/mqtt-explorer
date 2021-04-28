@@ -67,8 +67,10 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
             return;
     }
 
-    topic_item->addMessage(variant, static_cast<int>(type), our_message);
-
+    Log::log("Adding message.");
+    topic_item->addMessage(variant, static_cast<unsigned short>(type), our_message);
+    
+    Log::log("Updating model.");
     emit _tree_model->layoutChanged();
     emit message_arrived();
 }

@@ -1,5 +1,8 @@
 #include "tree_item.h"
 
+const unsigned TreeItem::MSGLIMIT = 10;
+const QString TreeItem::TYPES[4] = {"binary", "text", "json", "image"};
+
 TreeItem::TreeItem(const QVector<QVariant> &data, TreeItem *parent)
     : m_itemData(data), m_parentItem(parent)
 {
@@ -79,7 +82,7 @@ int TreeItem::getMessageCnt()
     return message_cnt;
 }
 
-void TreeItem::addMessage(QVariant message, int type, bool our_message) //TODO check types
+void TreeItem::addMessage(QVariant message, unsigned short type, bool our_message)
 {
     //TODO remove, if true - mark the message as send by us, otherwise mark it as recieved from the borker
 
@@ -89,7 +92,7 @@ void TreeItem::addMessage(QVariant message, int type, bool our_message) //TODO c
     {
         msg_history.erase(msg_history.begin());
     }
-    this->msg_history.push_back(std::make_tuple(message, types[type], our_message));
+    this->msg_history.push_back(std::make_tuple(message, TYPES[(type >> 1) > 2 ? 3 : type >> 1], our_message));
 }
 
 QString TreeItem::getName()

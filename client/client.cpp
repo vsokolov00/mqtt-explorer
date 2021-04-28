@@ -1,14 +1,14 @@
 
 #include "client.h"
 
-ParsingLevel Client::BINARY = static_cast<ParsingLevel>(FileType::BINARY);
-ParsingLevel Client::STRING = static_cast<ParsingLevel>(FileType::STRING_UTF8);
-ParsingLevel Client::JSON = static_cast<ParsingLevel>(FileType::JSON);
-ParsingLevel Client::JPG = static_cast<ParsingLevel>(FileType::JPG);
-ParsingLevel Client::PNG = static_cast<ParsingLevel>(FileType::PNG);
-ParsingLevel Client::GIF = static_cast<ParsingLevel>(FileType::GIF);
-ParsingLevel Client::ALL_IMAGES = static_cast<ParsingLevel>(FileType::ALL_IMAGES);
-ParsingLevel Client::AS_BINARY = static_cast<ParsingLevel>(FileType::AS_BINARY);
+const ParsingLevel Client::BINARY = static_cast<ParsingLevel>(FileType::BINARY);
+const ParsingLevel Client::STRING = static_cast<ParsingLevel>(FileType::STRING_UTF8);
+const ParsingLevel Client::JSON = static_cast<ParsingLevel>(FileType::JSON);
+const ParsingLevel Client::JPG = static_cast<ParsingLevel>(FileType::JPG);
+const ParsingLevel Client::PNG = static_cast<ParsingLevel>(FileType::PNG);
+const ParsingLevel Client::GIF = static_cast<ParsingLevel>(FileType::GIF);
+const ParsingLevel Client::ALL_IMAGES = static_cast<ParsingLevel>(FileType::ALL_IMAGES);
+const ParsingLevel Client::AS_BINARY = static_cast<ParsingLevel>(FileType::AS_BINARY);
 
 void Client::add_parsing_level(ParsingLevel &current_levels, FileType file_type)
 {

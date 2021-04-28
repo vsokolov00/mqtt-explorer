@@ -52,14 +52,14 @@ using OnDeliveryCompleteCB = void(*)(void *, mqtt::delivery_token_ptr);
 class Client : public virtual mqtt::callback
 {
     private:
-        static ParsingLevel BINARY;
-        static ParsingLevel STRING;
-        static ParsingLevel JSON;
-        static ParsingLevel JPG;
-        static ParsingLevel PNG;
-        static ParsingLevel GIF;
-        static ParsingLevel ALL_IMAGES;
-        static ParsingLevel AS_BINARY;
+        static const ParsingLevel BINARY;
+        static const ParsingLevel STRING;
+        static const ParsingLevel JSON;
+        static const ParsingLevel JPG;
+        static const ParsingLevel PNG;
+        static const ParsingLevel GIF;
+        static const ParsingLevel ALL_IMAGES;
+        static const ParsingLevel AS_BINARY;
 
     public:
         static void add_parsing_level(ParsingLevel &current_levels, FileType file_type);
