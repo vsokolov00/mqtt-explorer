@@ -72,4 +72,5 @@ class MessageController : public QObject
     signals:
         void publish_success();
         void publish_failure();
+        void message_arrived();
 };

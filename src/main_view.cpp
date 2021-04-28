@@ -21,6 +21,7 @@ MainView::MainView(TreeModel *tree_model, ConnectionController *connection_contr
     _ui->messageList->setModel(_tree_model);
 
     connect(_ui->messageList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainView::item_selection);
+    connect(_message_controller, &MessageController::message_arrived, this, &MainView::item_selection);
     connect(_message_controller, &MessageController::publish_success, this, &MainView::publish_success_popup_set);
     connect(_message_controller, &MessageController::publish_failure, this, &MainView::publish_failure_popup_set);
     connect(_subscription_controller, SIGNAL(subscription_success(QString)), this, SLOT(subscribe_success_popup_set(QString)));
@@ -29,7 +30,7 @@ MainView::MainView(TreeModel *tree_model, ConnectionController *connection_contr
     connect(_subscription_controller, SIGNAL(unsubscription_failure(QString)), this, SLOT(unsubscribe_failure_popup_set(QString)));
     connect(_connection_controller, SIGNAL(connection_failed(QString,bool)), this, SLOT(connection_failure_popup_set(QString,bool)));
     connect(_connection_controller, SIGNAL(connection_success()), this, SLOT(connection_success_popup_set()));
-    connect(_connection_controller, SIGNAL(connection_failed()), this, SLOT(connection_failure_popup_set()));
+    //connect(_connection_controller, SIGNAL(connection_failed()), this, SLOT(connection_failure_popup_set()));
 
     Log::log("Main window initialization complete.");
 }

@@ -69,6 +69,7 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
 
     topic_item->addMessage(variant, static_cast<int>(type), our_message);
     emit _tree_model->layoutChanged();
+    emit message_arrived();
 }
 
 void MessageController::on_publish_success(const mqtt::token &token)
