@@ -129,8 +129,7 @@ TreeItem *MessageController::create_hierarchy(TreeItem& supertopic, std::vector<
     {
         if (topic == topics.back())
         {
-            return &add_subtopic(*supertop, topic, {});
-
+            supertop = &add_subtopic(*supertop, topic, {});
         } else {
             supertop = &add_subtopic(*supertop, topic, {});
         }
