@@ -8,6 +8,7 @@ ParsingLevel Client::JPG = static_cast<ParsingLevel>(FileType::JPG);
 ParsingLevel Client::PNG = static_cast<ParsingLevel>(FileType::PNG);
 ParsingLevel Client::GIF = static_cast<ParsingLevel>(FileType::GIF);
 ParsingLevel Client::ALL_IMAGES = static_cast<ParsingLevel>(FileType::ALL_IMAGES);
+ParsingLevel Client::AS_BINARY = static_cast<ParsingLevel>(FileType::AS_BINARY);
 
 void Client::add_parsing_level(ParsingLevel &current_levels, FileType file_type)
 {
@@ -179,16 +180,34 @@ void Client::message_arrived(mqtt::const_message_ptr msg)
                 if (_reader->parse(payload.c_str(), payload.c_str() + payload.size(), &root, nullptr))
                 {
                     _muttex->unlock();
-                    message_data.json = &root;
+
+                    if (_level & AS_BINARY)
+                    {
+                        message_data.binary.data = payload.c_str();
+                        message_data.binary.size = payload.size();
+                    }
+                    else
+                    {
+                        message_data.json = &root;
+                    }
                     _message_arrived_cb(_message_object, topic, message_data, FileType::JSON);
                     return;
                 }
                 _muttex->unlock();
             }
-            else if (_level & STRING)
+            
+            if (_level & STRING)
             {
-                message_data.string.data = payload.c_str();
-                message_data.string.size = payload.size();
+                if (_level & AS_BINARY)
+                {
+                    message_data.binary.data = payload.c_str();
+                    message_data.binary.size = payload.size();
+                }
+                else
+                {
+                    message_data.string.data = payload.c_str();
+                    message_data.string.size = payload.size();
+                }
                 _message_arrived_cb(_message_object, topic, message_data, FileType::STRING_UTF8);
                 return;
             }
@@ -292,7 +311,7 @@ void Client::unsubscribe(const std::string topic)
     _client.unsubscribe(topic, nullptr, _unsubscribe_listener);
 }
 
-void Client::publish(const std::string topic, const std::string message)
+int Client::publish(const std::string topic, const std::string message)
 {
-    _client.publish(mqtt::make_message(topic, message), nullptr, _publish_listener);
+    return _client.publish(mqtt::make_message(topic, message), nullptr, _publish_listener)->get_message_id();
 }

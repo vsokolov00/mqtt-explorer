@@ -11,14 +11,16 @@
 
 enum class FileType : unsigned short 
 {
-    ALL = 0xFFFF,
     BINARY = 0b1,
     STRING_UTF8 = 0b10,
     JSON = 0b100,
     JPG = 0b1000,
     PNG = 0b10000,
     GIF = 0b100000,
-    ALL_IMAGES = 0b111100
+    ALL_IMAGES = 0b111100,
+    ALL = 0b111111,
+    AS_BINARY = 0b1000000,
+    ALL_AS_BINARY = 0b1111111
 };
 
 using ParsingLevel = unsigned short;
@@ -57,6 +59,7 @@ class Client : public virtual mqtt::callback
         static ParsingLevel PNG;
         static ParsingLevel GIF;
         static ParsingLevel ALL_IMAGES;
+        static ParsingLevel AS_BINARY;
 
     public:
         static void add_parsing_level(ParsingLevel &current_levels, FileType file_type);
@@ -115,5 +118,5 @@ class Client : public virtual mqtt::callback
         bool disconnect();
         void subscribe(const std::string topic, const int QOS);
         void unsubscribe(const std::string topic);
-        void publish(const std::string topic, const std::string message);
+        int publish(const std::string topic, const std::string message);
 };

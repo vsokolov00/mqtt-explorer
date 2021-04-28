@@ -33,14 +33,24 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
     Log::log("Message arrived on topic: " + topic);
     QVariant variant;
     TreeItem *topic_item = get_topic(topic);
+    QJsonDocument json_document;
+    bool our_message = _message_map.count(_string_hash(std::string(message.binary.data, message.binary.size)));
 
     switch (type)
     {
         case FileType::STRING_UTF8:
-            variant = QVariant(QByteArray(message.string.data, message.string.size));
+            variant = QVariant(QByteArray(message.binary.data, message.binary.size));
             break;
 
         case FileType::JSON:
+            if (parse_json_message(message.binary, json_document))
+            {
+                variant = QVariant(json_document);
+            }
+            else
+            {
+                variant = QVariant(QByteArray(message.binary.data, message.binary.size));
+            }
             break;
 
         case FileType::GIF:
@@ -57,7 +67,7 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
             return;
     }
 
-    topic_item->addMessage(variant, static_cast<int>(type));
+    topic_item->addMessage(variant, static_cast<int>(type), our_message);
     emit _tree_model->layoutChanged();
 }
 
@@ -91,15 +101,21 @@ void MessageController::register_client(Client *client)
     _client = client;
 }
 
-void MessageController::parse_json_message(Json::Value *root, std::string &parsed_string)
+bool MessageController::parse_json_message(const Binary &binary_data, QJsonDocument &json_document)
 {
-    (void)root;
-    parsed_string = "";
-    //TODO for me...
+    QJsonParseError parse_error;
+    json_document = QJsonDocument::fromJson(QByteArray(binary_data.data, binary_data.size), &parse_error);
+    if (parse_error.error == QJsonParseError::NoError)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 void MessageController::publish(const std::string &topic, const std::string &message)
 {
+    _message_map[_string_hash(message)] = true;
     _client->publish(topic, message);
 }
 
@@ -208,25 +224,25 @@ TreeItem *MessageController::get_topic(std::string topic_path)
 
 void MessageController::set_message(QVariant content, FileType type)
 {
-    this->file_to_publish = content;
-    this->file_type = type;
+    this->_file_to_publish = content;
+    this->_file_type = type;
 }
 
 QVariant& MessageController::get_message()
 {
-    return file_to_publish;
+    return _file_to_publish;
 }
 
 FileType MessageController::get_message_type()
 {
-    return file_type;
+    return _file_type;
 }
 
 void MessageController::set_file_chosen()
 {
-    this->file_chosen = true;
+    this->_file_chosen = true;
 }
 void MessageController::set_file_not_chosen()
 {
-    this->file_chosen = false;
+    this->_file_chosen = false;
 }

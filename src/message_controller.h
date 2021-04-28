@@ -6,15 +6,17 @@
 #include <QList>
 #include <QBuffer>
 #include <QByteArray>
+#include <QItemSelectionModel>
+#include <QJsonDocument>
 
 #include <string>
+#include <unordered_map>
 
 #include "log.h"
 #include "json/json-forwards.h"
 #include "json/json.h"
 #include "client.h"
 #include "tree_model.h"
-#include <QItemSelectionModel>
 
 class MessageController : public QObject
 {
@@ -32,9 +34,12 @@ class MessageController : public QObject
 
         QVector<TreeItem *> _root_topics;
 
-        bool file_chosen;
-        QVariant file_to_publish;
-        FileType file_type;
+        std::hash<std::string> _string_hash;
+        std::map<std::size_t, bool> _message_map;
+
+        bool _file_chosen;
+        QVariant _file_to_publish;
+        FileType _file_type;
     
         std::vector<std::string> parse_topic_path(std::string path);
         TreeItem* find_topic(std::string name, const QVector<TreeItem*>& topics);
@@ -42,7 +47,7 @@ class MessageController : public QObject
         TreeItem *create_hierarchy(TreeItem& supertopic, std::vector<std::string> topics, bool new_root);
         TreeItem *get_topic(std::string topic_path);
 
-        void parse_json_message(Json::Value *root, std::string &parsed_string);
+        bool parse_json_message(const Binary &binary_data, QJsonDocument &json_document);
 
     public:
         MessageController(TreeModel *tree_model);
@@ -67,5 +72,4 @@ class MessageController : public QObject
     signals:
         void publish_success();
         void publish_failure();
-
 };

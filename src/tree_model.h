@@ -3,11 +3,17 @@
 
 #include <QAbstractItemModel>
 #include <QModelIndex>
+
+#include <map>
+
 #include "tree_item.h"
 
 class TreeModel : public QAbstractItemModel
 {
     Q_OBJECT
+private:
+    TreeItem *_rootItem;
+
 public:
     explicit TreeModel(QObject *parent);
     ~TreeModel();
@@ -28,7 +34,5 @@ public:
     TreeItem& getRoot();
 
     QString getPath(TreeItem& t);
-private:
-    TreeItem *rootItem;
 };
 

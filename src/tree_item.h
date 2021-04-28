@@ -22,7 +22,7 @@ public:
     TreeItem *supertopic();
 
     QVector<TreeItem*> getSubtopics();
-    void addMessage(QVariant message, int type); //TODO type numbers changed!! see client.h enum FileType
+    void addMessage(QVariant message, int type, bool our_message); //TODO type numbers changed!! see client.h enum FileType
     int getMessageCnt();
 
     QString getName();

@@ -69,7 +69,7 @@ void Program::connect(const std::string &server_address, const std::string &id,
 
     try
     {
-        _client = new Client(server_address, id, FileType::ALL, 
+        _client = new Client(server_address, id, FileType::ALL_AS_BINARY, 
                              _connection_controller, &ConnectionController::on_connection_success_cb, 
                              &ConnectionController::on_connection_failure_cb, &ConnectionController::on_connection_lost_cb,
                              &ConnectionController::on_disconnection_success_cb, 

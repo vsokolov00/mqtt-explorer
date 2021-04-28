@@ -3,10 +3,9 @@
 
 #include <string>
 
-#include "mqtt/async_client.h"
 #include "json/json-forwards.h"
 #include "json/json.h"
-
+#include "mqtt/async_client.h"
 
 using OnSuccessCallback = void(*)(void *, const mqtt::token&);
 using OnFailureCallback = void(*)(void *, const mqtt::token&);
@@ -21,6 +20,10 @@ using OnPublishFailureCB = OnFailureCallback;
 using OnDisconectSucessCB = OnSuccessCallback;
 using OnDisconectFailureCB = OnFailureCallback;
 
+/**
+ * @class A Listener callback class which derives from the virtual mqtt class, overrides the virtual methods
+ *        to call registered success/failure callbacks.
+ **/
 class Listener : public virtual mqtt::iaction_listener
 {
     private:
@@ -28,23 +31,26 @@ class Listener : public virtual mqtt::iaction_listener
         OnSuccessCallback _on_success_callback;
         OnFailureCallback _on_failure_callback;
 
-        void on_failure(const mqtt::token& tok) override;
-        void on_success(const mqtt::token& tok) override;
+        void on_failure(const mqtt::token& token) override;
+        void on_success(const mqtt::token& token) override;
 
     public:
         Listener(void *class_object, OnSuccessCallback on_success_callback, OnFailureCallback on_failure_callback);
 };
 
+
 enum class FileType : unsigned short 
 {
-    ALL = 0xFFFF,
     BINARY = 0b1,
     STRING_UTF8 = 0b10,
     JSON = 0b100,
     JPG = 0b1000,
     PNG = 0b10000,
     GIF = 0b100000,
-    ALL_IMAGES = 0b111100
+    ALL_IMAGES = 0b111100,
+    ALL = 0b111111,
+    AS_BINARY = 0b1000000,
+    ALL_AS_BINARY = 0b1111111
 };
 
 using ParsingLevel = unsigned short;
@@ -83,6 +89,7 @@ class Client : public virtual mqtt::callback
         static ParsingLevel PNG;
         static ParsingLevel GIF;
         static ParsingLevel ALL_IMAGES;
+        static ParsingLevel AS_BINARY;
 
     public:
         static void add_parsing_level(ParsingLevel &current_levels, FileType file_type);
@@ -141,5 +148,5 @@ class Client : public virtual mqtt::callback
         bool disconnect();
         void subscribe(const std::string topic, const int QOS);
         void unsubscribe(const std::string topic);
-        void publish(const std::string topic, const std::string message);
+        int publish(const std::string topic, const std::string message);
 };

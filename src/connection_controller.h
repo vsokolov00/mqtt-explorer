@@ -1,11 +1,12 @@
 
 #pragma once
 
+#include <QObject>
+
 #include <string>
 #include <thread>
 
 #include "client.h"
-#include <QObject>
 #include "log.h"
 
 using CBObject = void *;
