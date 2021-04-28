@@ -81,14 +81,15 @@ int TreeItem::getMessageCnt()
 
 void TreeItem::addMessage(QVariant message, int type, bool our_message) //TODO check types
 {
-    (void)our_message;//TODO remove, if true - mark the message as send by us, otherwise mark it as recieved from the borker
+    //TODO remove, if true - mark the message as send by us, otherwise mark it as recieved from the borker
+
     this->message_cnt++;
     this->m_itemData[1] = message;
     if (msg_history.size() > MSGLIMIT)
     {
         msg_history.erase(msg_history.begin());
     }
-    this->msg_history.push_back(std::make_tuple(message, types[type]));
+    this->msg_history.push_back(std::make_tuple(message, types[type], our_message));
 }
 
 QString TreeItem::getName()
@@ -96,7 +97,7 @@ QString TreeItem::getName()
     return this->m_itemData[0].toString();
 }
 
-std::vector<std::tuple<QVariant, QString>> TreeItem::getMessages()
+std::vector<std::tuple<QVariant, QString, bool>> TreeItem::getMessages()
 {
     return msg_history;
 }

@@ -23,13 +23,26 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (role != Qt::DisplayRole)
+    auto given_item = getItem(index);
+    auto msgs = given_item->getMessages();
+
+    if (role == Qt::BackgroundRole && !msgs.empty())
+    {
+        auto last_msg = msgs.back();
+        bool last_is_our = std::get<2>(last_msg);
+        if (last_is_our)
+        {
+            return QBrush(Qt::lightGray);
+        }
+    }
+    else if (role != Qt::DisplayRole)
         return QVariant();
 
     TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
 
     return item->data(index.column());
 }
+
 
 Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
 {

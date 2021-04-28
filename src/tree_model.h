@@ -3,6 +3,7 @@
 
 #include <QAbstractItemModel>
 #include <QModelIndex>
+#include <QBrush>
 
 #include <map>
 

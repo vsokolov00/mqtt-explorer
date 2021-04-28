@@ -68,6 +68,7 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
     }
 
     topic_item->addMessage(variant, static_cast<int>(type), our_message);
+
     emit _tree_model->layoutChanged();
     emit message_arrived();
 }
@@ -118,6 +119,7 @@ void MessageController::publish(const std::string &topic, const std::string &mes
 {
     _message_map[_string_hash(message)] = true;
     _client->publish(topic, message);
+
 }
 
 //creates hierarchy of new topics that didn't exist before

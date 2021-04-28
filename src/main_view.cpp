@@ -60,13 +60,16 @@ void MainView::item_selection()
         auto item = _tree_model->getItem(qindex);
         auto history = item->getMessages();
         QStringList messages;
-
-        for (std::tuple<QVariant, QString> &tuple : history)
+        for (std::tuple<QVariant, QString, bool> &tuple : history)
         {
             auto tmp = std::get<1>(tuple) + ": " + std::get<0>(tuple).toString();
-            messages << tmp;
+             _ui->listWidget->addItem(tmp);
+             auto item = _ui->listWidget->item(_ui->listWidget->count()-1);
+            if (std::get<2>(tuple)) //if our message
+            {
+                item->setBackgroundColor(Qt::lightGray);
+            }
         }
-        _ui->listWidget->addItems(messages);
         _ui->listWidget->update();
         _ui->path->setText(_tree_model->getPath(*item));
     }
@@ -83,6 +86,8 @@ void MainView::on_publish_clicked()
 void MainView::on_subscribe_clicked()
 {
     std::string topic = _ui->topic->text().toStdString();
+    topic = _message_controller->validate_topic_path(QString::fromStdString(topic)).toStdString();
+
     Log::log("Subscribing to topic: " + topic);
     _subscription_controller->subscribe(topic, 1);
 }

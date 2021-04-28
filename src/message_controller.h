@@ -6,6 +6,7 @@
 #include <QList>
 #include <QBuffer>
 #include <QByteArray>
+#include <QBrush>
 #include <QItemSelectionModel>
 #include <QJsonDocument>
 

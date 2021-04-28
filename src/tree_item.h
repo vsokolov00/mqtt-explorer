@@ -27,15 +27,16 @@ public:
 
     QString getName();
     QString getPath();
-    std::vector<std::tuple<QVariant, QString>> getMessages();
+    std::vector<std::tuple<QVariant, QString, bool>> getMessages();
 
 private:
-    std::vector<QString> types = {"bin", "text", "json", "image"};
-    const unsigned MSGLIMIT = 20;
-    int message_cnt;
-    //QVector<QVariant> msg_history;
+    static const unsigned MSGLIMIT = 10;
 
-    std::vector<std::tuple<QVariant, QString>> msg_history;
+    std::vector<QString> types = {"bin", "text", "json", "image"};
+
+    int message_cnt;
+
+    std::vector<std::tuple<QVariant, QString, bool>> msg_history;
 
     QVector<TreeItem*> m_childItems;
     QVector<QVariant> m_itemData;
