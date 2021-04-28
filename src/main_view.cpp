@@ -24,13 +24,14 @@ MainView::MainView(TreeModel *tree_model, ConnectionController *connection_contr
     connect(_message_controller, &MessageController::message_arrived, this, &MainView::item_selection);
     connect(_message_controller, &MessageController::publish_success, this, &MainView::publish_success_popup_set);
     connect(_message_controller, &MessageController::publish_failure, this, &MainView::publish_failure_popup_set);
+    connect(_message_controller, &MessageController::publish_success, this, &MainView::on_clear_clicked);
     connect(_subscription_controller, SIGNAL(subscription_success(QString)), this, SLOT(subscribe_success_popup_set(QString)));
     connect(_subscription_controller, SIGNAL(unsubscription_success(QString)), this, SLOT(unsubscribe_success_popup_set(QString)));
     connect(_subscription_controller, SIGNAL(subscription_failure(QString)), this, SLOT(subscribe_failure_popup_set(QString)));
     connect(_subscription_controller, SIGNAL(unsubscription_failure(QString)), this, SLOT(unsubscribe_failure_popup_set(QString)));
     connect(_connection_controller, SIGNAL(connection_failed(QString,bool)), this, SLOT(connection_failure_popup_set(QString,bool)));
     connect(_connection_controller, SIGNAL(connection_success()), this, SLOT(connection_success_popup_set()));
-    //connect(_connection_controller, SIGNAL(connection_failed()), this, SLOT(connection_failure_popup_set()));
+    connect(_ui->listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(display_full_message(QListWidgetItem*)));
 
     Log::log("Main window initialization complete.");
 }
@@ -62,7 +63,17 @@ void MainView::item_selection()
         QStringList messages;
         for (std::tuple<QVariant, QString, bool> &tuple : history)
         {
-            auto tmp = std::get<1>(tuple) + ": " + std::get<0>(tuple).toString();
+            QString tmp;
+            auto type = std::get<1>(tuple);
+            if (type == "image")
+            {
+                tmp = std::get<1>(tuple);
+            }
+            else
+            {
+                tmp = std::get<1>(tuple) + ": " + std::get<0>(tuple).toString();
+            }
+
              _ui->listWidget->addItem(tmp);
              auto item = _ui->listWidget->item(_ui->listWidget->count()-1);
             if (std::get<2>(tuple)) //if our message
@@ -80,7 +91,15 @@ void MainView::on_publish_clicked()
     QString topic = _ui->path->text();
     topic = _message_controller->validate_topic_path(topic);
 
-    _message_controller->publish(topic.toStdString(), _ui->msg_to_publish->toPlainText().toStdString());
+    if (_message_controller->is_file_chosen())
+    {
+        auto tmp = _message_controller->get_message().toByteArray();
+        _message_controller->publish(topic.toStdString(), tmp.toStdString());
+    }
+    else
+    {
+        _message_controller->publish(topic.toStdString(), _ui->msg_to_publish->toPlainText().toStdString());
+    }
 }
 
 void MainView::on_subscribe_clicked()
@@ -139,7 +158,7 @@ void MainView::on_chooseFile_clicked()
             file.open(QIODevice::ReadOnly);
             msg = file.readAll();
 
-            _message_controller->set_message(QVariant(msg), FileType::ALL_IMAGES);
+            _message_controller->set_message(QVariant(msg));
             _message_controller->set_file_chosen();
             _ui->clear->setVisible(true);
         }
@@ -166,9 +185,6 @@ void MainView::on_chooseFile_clicked()
 
 void MainView::on_clear_clicked()
 {
-    //message_controller->set_message({}, FileType::ALL);
-//    message_controller->set_file_not_chosen();
-
     _ui->img_label->setVisible(false);
     _ui->msg_to_publish->setPlainText("");
     _ui->msg_to_publish->setVisible(true);
@@ -181,6 +197,11 @@ void MainView::on_exit_clicked()
 
 void MainView::publish_success_popup_set()
 {
+    if (_message_controller->is_file_chosen())
+    {
+        _message_controller->set_file_not_chosen();
+
+    }
     QString text = "Message published successfully!";
     pop_up->set_pop_up(text, true);
     show_popup();
@@ -287,5 +308,35 @@ void MainView::connection_success_popup_set()
 {
     pop_up->set_pop_up("Connection is successful!\nSession started..", true);
     show_popup();
+}
+
+void MainView::display_full_message(QListWidgetItem* clicked_item)
+{
+    Log::log("Displaying full message in new window");
+
+    int i = _ui->listWidget->row(clicked_item);
+    auto qindex = _ui->messageList->selectionModel()->currentIndex();
+    auto item = _tree_model->getItem(qindex);
+    auto history = item->getMessages();
+    auto type = std::get<1>(history[i]);
+    auto msg = std::get<0>(history[i]);
+
+    if (type == "image")
+    {
+        QLabel* img = new QLabel(this);
+        img->setWindowFlags(Qt::Window);
+        auto tmp = msg.toByteArray();
+        QPixmap pix;
+        pix.loadFromData(tmp);
+        img->setPixmap(pix);
+        img->show();
+    } else if(type == "text" || type == "binary") //WHY text is binary?? TODO
+    {
+        QLabel* img = new QLabel(this);
+        img->setWindowFlags(Qt::Window);
+        auto tmp = msg.toString();
+        img->setText(tmp);
+        img->show();
+    }
 }
 

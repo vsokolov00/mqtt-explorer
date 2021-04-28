@@ -44,7 +44,7 @@
         <item>
          <widget class="QLineEdit" name="topic">
           <property name="text">
-           <string>Topic</string>
+           <string>surveillance/motion/cameras/home/main entrance</string>
           </property>
          </widget>
         </item>

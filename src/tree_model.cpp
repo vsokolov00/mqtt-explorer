@@ -134,7 +134,7 @@ QString TreeModel::getPath(TreeItem& t)
 
     while(tmp->supertopic() != _rootItem)
     {
-        path.push_back(t.supertopic()->getName());
+        path.push_back(tmp->supertopic()->getName());
         tmp = tmp->supertopic();
     }
 

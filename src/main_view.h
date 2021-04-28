@@ -14,6 +14,7 @@
 #include <QBuffer>
 #include <QString>
 #include <QMessageBox>
+#include <QListWidgetItem>
 
 #include "client.h"
 #include "log.h"
@@ -79,4 +80,5 @@ public slots:
     void connection_failure_popup_set(QString, bool);
     void connection_failure_popup_set();
     void connection_success_popup_set();
+    void display_full_message(QListWidgetItem*);
 };

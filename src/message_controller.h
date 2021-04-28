@@ -66,9 +66,9 @@ class MessageController : public QObject
 
         void set_file_chosen();
         void set_file_not_chosen();
+        bool is_file_chosen();
 
-        void set_message(QVariant, FileType type);
-        FileType get_message_type();
+        void set_message(QVariant);
         QVariant& get_message();
 
     signals:

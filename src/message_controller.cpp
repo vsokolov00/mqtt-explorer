@@ -121,7 +121,6 @@ void MessageController::publish(const std::string &topic, const std::string &mes
 {
     _message_map[_string_hash(message)] = true;
     _client->publish(topic, message);
-
 }
 
 //creates hierarchy of new topics that didn't exist before
@@ -226,20 +225,14 @@ TreeItem *MessageController::get_topic(std::string topic_path)
     return found_topic;
 }
 
-void MessageController::set_message(QVariant content, FileType type)
+void MessageController::set_message(QVariant content)
 {
     this->_file_to_publish = content;
-    this->_file_type = type;
 }
 
 QVariant& MessageController::get_message()
 {
     return _file_to_publish;
-}
-
-FileType MessageController::get_message_type()
-{
-    return _file_type;
 }
 
 void MessageController::set_file_chosen()
@@ -261,4 +254,9 @@ QString MessageController::validate_topic_path(QString path)
         return QString::fromStdString(tmp);
     }
     return QString::fromStdString(tmp);
+}
+
+bool MessageController::is_file_chosen()
+{
+    return _file_chosen;
 }

@@ -10,7 +10,7 @@ LoginView::LoginView(ConnectionController *connection_cotroller)
 
     _ui->protocol->addItem("tcp://");
     _ui->protocol->addItem("mqtt://");
-    _ui->host->setText("test.mosquitto.org");
+    _ui->host->setText("localhost");
     _ui->port->setText("1883");
     _ui->user->setText("");
     _ui->password->setText("");
