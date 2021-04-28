@@ -55,6 +55,7 @@ class MessageController : public QObject
 
         void register_client(Client *client);
 
+        QString validate_topic_path(QString);
         void publish(const std::string &topic, const std::string &message);
 
         void on_message_arrived(const std::string &topic, const MessageData &message, FileType type);

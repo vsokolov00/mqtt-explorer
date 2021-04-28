@@ -246,3 +246,15 @@ void MessageController::set_file_not_chosen()
 {
     this->_file_chosen = false;
 }
+
+QString MessageController::validate_topic_path(QString path)
+{
+    std::string tmp = path.toStdString();
+
+    if (tmp.back() == '/')
+    {
+        tmp.erase(tmp.size() - 1);
+        return QString::fromStdString(tmp);
+    }
+    return QString::fromStdString(tmp);
+}

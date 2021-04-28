@@ -75,7 +75,7 @@ void MainView::item_selection()
 void MainView::on_publish_clicked()
 {
     QString topic = _ui->path->text();
-    QVariant qv = _ui->msg_to_publish->toPlainText();
+    topic = _message_controller->validate_topic_path(topic);
 
     _message_controller->publish(topic.toStdString(), _ui->msg_to_publish->toPlainText().toStdString());
 }
