@@ -49,6 +49,7 @@ class MessageController : public QObject
         TreeItem *get_topic(std::string topic_path);
 
         bool parse_json_message(const Binary &binary_data, QJsonDocument &json_document);
+        size_t hash_function(const char *data, size_t size);
 
     public:
         MessageController(TreeModel *tree_model);

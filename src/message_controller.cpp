@@ -34,7 +34,7 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
     QVariant variant;
     TreeItem *topic_item = get_topic(topic);
     QJsonDocument json_document;
-    bool our_message = _message_map.count(_string_hash(std::string(message.binary.data, message.binary.size)));
+    bool our_message = _message_map.count(hash_function(message.binary.data, message.binary.size));
 
     switch (type)
     {
@@ -119,7 +119,7 @@ bool MessageController::parse_json_message(const Binary &binary_data, QJsonDocum
 
 void MessageController::publish(const std::string &topic, const std::string &message)
 {
-    _message_map[_string_hash(message)] = true;
+    _message_map[hash_function(message.c_str(), message.size())] = true;
     _client->publish(topic, message);
 }
 
@@ -259,4 +259,16 @@ QString MessageController::validate_topic_path(QString path)
 bool MessageController::is_file_chosen()
 {
     return _file_chosen;
+}
+
+size_t MessageController::hash_function(const char *data, size_t size)
+{
+    const unsigned char *p = (const unsigned char*)data;
+    uint32_t h = 0;
+    unsigned last;
+
+    while ((last = *p++))
+        h = (h << 16) + (h << 6) + last - h;
+
+    return h;
 }
