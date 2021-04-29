@@ -264,11 +264,12 @@ bool MessageController::is_file_chosen()
 size_t MessageController::hash_function(const char *data, size_t size)
 {
     const unsigned char *p = (const unsigned char*)data;
-    uint32_t h = 0;
-    unsigned last;
+    size_t h = 0;
 
-    while ((last = *p++))
-        h = (h << 16) + (h << 6) + last - h;
+    for (size_t i = 0; i < size; i++)
+    {
+        h = (h << 16) + (h << 6) + p[i] - h;
+    }
 
     return h;
 }
