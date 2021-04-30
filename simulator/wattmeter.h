@@ -9,6 +9,10 @@
 #include "base_device.h"
 #include "mqtt/client.h"
 
+/**
+ * @class Represents a wattmeter device, which has a minimum and maximum values, minimum and maximum step per period,
+ *        a current value with a unit.
+ **/
 class Wattmeter : PublishingDevice
 {
     private:

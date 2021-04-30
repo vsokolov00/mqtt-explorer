@@ -13,6 +13,9 @@
 #include "reciever.h"
 #include "options.h"
 
+/**
+ * @class Template class with T as a device type and U as a run function of that device
+ **/
 template<class T, class U> class DeviceRunner
 {
     private:
@@ -28,12 +31,32 @@ template<class T, class U> class DeviceRunner
     public:
         DeviceRunner(std::vector<T> &devices, U function, const std::string &server_address, const std::string &id);
 
+        /**
+         * @brief Connects client of a T type of devices.
+         * @param connect_options the options of connection.
+         **/
         void connect_client(mqtt::connect_options connect_options);
+
+        /**
+         * @brief Disconnect client of a T type of device.
+         **/
         void disconnect_client();
+
+        /**
+         * @brief Runs all devices of type T with run function U.
+         **/
         void run_devices();
+
+        /**
+         * @brief Stops all devices of type T.
+         **/
         void stop_devices();
 };
 
+/**
+ * @class Runs publishing and recieving devices, the devices that are run are determined by the flags created by
+ *        the command line arguments.
+ **/
 class Runner
 {
     private:
@@ -52,6 +75,13 @@ class Runner
     public:
         Runner(Devices &devices, const std::string server_address, unsigned flags);
 
+        /**
+         * @brief Runs all registered devices.
+         **/
         bool start();
+
+        /**
+         * @brief Stops all running devices.
+         **/
         void stop();
 };

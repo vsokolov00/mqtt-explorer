@@ -10,7 +10,7 @@
 #include "mqtt/client.h"
 
 /**
- * @class Represents a hygrometer device which has minimum and maximum humidity change and starting humidity.
+ * @class Represents a hygrometer device, which has minimum and maximum humidity change and a starting humidity.
  **/
 class Hygrometer : PublishingDevice
 {

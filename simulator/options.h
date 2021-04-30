@@ -5,6 +5,7 @@
 #include "getopt.h"
 #include "log.h"
 
+/// flags specifying each specific device type
 const unsigned THERMOMETERS_FLAG{0b1};
 const unsigned HYGROMETERS_FLAG{0b10};
 const unsigned WATTMETERS_FLAG{0b100};
@@ -18,7 +19,7 @@ const unsigned LOCKS_FLAG{0b100000000};
 
 /**
  * @struct Used for parsing the command line arguments with default values for configuraton file and server address,
- *         the device flags are constructed by the @see parse_arguments function
+ *         the device flags are constructed by the @see parse_arguments function, defaultly all devices are set to run.
  **/
 struct Options
 {

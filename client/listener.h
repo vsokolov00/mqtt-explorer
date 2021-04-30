@@ -33,7 +33,16 @@ class Listener : public virtual mqtt::iaction_listener
         OnSuccessCallback _on_success_callback;
         OnFailureCallback _on_failure_callback;
 
+        /**
+         * @brief Function called when an operation fails.
+         * @param token the token describing the operation.
+         **/
         void on_failure(const mqtt::token& token) override;
+
+        /**
+         * @brief Function called when an operation succeeds
+         * @param token the token describing the operation.
+         **/
         void on_success(const mqtt::token& token) override;
 
     public:

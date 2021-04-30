@@ -15,7 +15,7 @@
 /**
  * @class Recieves all messages on topics subscribed by recieving devices, finds the devices to which the mesage
  *        belongs and forwards the message to the device. The devices are registered based on their subscription
- *        topic and id and must have a @see RecievingDevice class as a base class.
+ *        topic and id into a map and must have a @see RecievingDevice class as a base class.
  **/
 class Reciever
 {

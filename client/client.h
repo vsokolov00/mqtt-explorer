@@ -8,7 +8,9 @@
 #include <string>
 #include <thread>
 
-
+/**
+ * @enum File types that can be parsed by the client API and registered by the user of the client API. 
+ **/
 enum class FileType : unsigned short 
 {
     BINARY = 0b1,
@@ -25,18 +27,27 @@ enum class FileType : unsigned short
 
 using ParsingLevel = unsigned short;
 
+/**
+ * @struct Used for forwarding parsed string messages.
+ **/
 struct String
 {
     size_t size;
     const char *data;
 };
 
+/**
+ * @struct Used for forwarding parsed binary messages including images.
+ **/
 struct Binary
 {
     size_t size;
     const char *data;
 };
 
+/**
+ * @union Used to forward messages of different format.
+ **/
 union MessageData
 {
     String string;
@@ -49,9 +60,13 @@ using OnMessageArrivedCB = void(*)(void *, const std::string&, const MessageData
 using OnConnectionLostCB = void(*)(void *, const std::string&);
 using OnDeliveryCompleteCB = void(*)(void *, mqtt::delivery_token_ptr);
 
+/**
+ * @class Represents an API to the mqtt client
+ **/
 class Client : public virtual mqtt::callback
 {
     private:
+        /// files types of recieved message
         static const ParsingLevel BINARY;
         static const ParsingLevel STRING;
         static const ParsingLevel JSON;
@@ -62,37 +77,70 @@ class Client : public virtual mqtt::callback
         static const ParsingLevel AS_BINARY;
 
     public:
+        /**
+         * @brief Adds a file type to a level of message parsing.
+         * @param current_levels the current level of message parsing.
+         * @param file_type the new file type to be added.
+         **/
         static void add_parsing_level(ParsingLevel &current_levels, FileType file_type);
+
+        /**
+         * @brief Removes a file type to a level of message parsing.
+         * @param current_levels the current level of message parsing.
+         * @param file_type the removed file type to be added.
+         **/
         static void remove_parsing_level(ParsingLevel &current_levels, FileType file_type);
     
     private:
+        /**
+         * @brief A dummy callback.
+         **/
         static void dummy_cb(void *object, const mqtt::token& token);
 
     private:
+        /**
+         * @brief Called when the client connects.
+         * @param cause the cause of the successful connection.
+         **/
         void connected(const std::string &cause) override;
+
+        /**
+         * @brief Called when the client loses connections.
+         * @param cause the cause of the lost connection.
+         **/
         void connection_lost(const std::string &cause) override;
+
+        /**
+         * @brief Called when the client recieves a message.
+         * @param msg the arrived message.
+         **/
         void message_arrived(mqtt::const_message_ptr msg) override;
+
+        /**
+         * @brief Called when the publish of a message is copleted.
+         * @param token the token representin the publish message.
+         **/
         void delivery_complete(mqtt::delivery_token_ptr token) override;
 
-        mqtt::async_client _client;
-        ParsingLevel _level;
+        mqtt::async_client _client;                         /// the mqtt client
+        ParsingLevel _level;                                /// the selected file parsing level
 
-        void *_connection_object;
-        OnConnectionSuccessCB _connection_success_cb;
-        OnConnectionLostCB _connection_lost_cb;
-        Listener _connect_listener;
-        Listener _disconect_listener;
+        void *_connection_object;                           /// callback object used for connection results
+        OnConnectionSuccessCB _connection_success_cb;       /// callback on connection success
+        OnConnectionLostCB _connection_lost_cb;             /// callback on connection lost
+        Listener _connect_listener;                         /// connection listener, which holds the connection callbacks
+        Listener _disconect_listener;                       /// disconnection listener, which holds the desconnection callbacks
 
-        void *_message_object;
-        OnMessageArrivedCB _message_arrived_cb;
-        OnDeliveryCompleteCB _delivery_complete_cb;
-        Listener _publish_listener;
+        void *_message_object;                              /// callback object used for message arrival and message publish
+        OnMessageArrivedCB _message_arrived_cb;             /// callback when on message arrives
+        OnDeliveryCompleteCB _delivery_complete_cb;         /// callback when on a message delivery complete 
+        Listener _publish_listener;                         /// publish listener, which holds publish callbacks
 
-        Listener _subscribe_listener;
-        Listener _unsubscribe_listener;
+        Listener _subscribe_listener;                       /// subscription listener used for subscription callbacks
+        Listener _unsubscribe_listener;                     /// unsubscription listener used for unsubscription callbacks
 
-        Json::CharReader *_reader;
-        std::mutex *_muttex;
+        Json::CharReader *_reader;                          /// jsoncpp json file parses
+        std::mutex *_muttex;                                /// synchronization muttex
 
     public:
         Client(const std::string server_address, const std::string &id, FileType single_file_type,
@@ -113,10 +161,37 @@ class Client : public virtual mqtt::callback
 
         Client(const Client&) = delete;
         ~Client();
-
+        
+        /**
+         * @brief Connects the client.
+         * @param connect_options the options of connection of the client.
+         * @return false on success, otherwise true.
+         **/
         bool connect(const mqtt::connect_options &connect_options);
+
+        /**
+         * @brief Disconnects the client.
+         * @return false on success, otherwise true.
+         **/
         bool disconnect();
+
+        /**
+         * @brief Subscribes to a new topic.
+         * @param topic the subscribed topic.
+         * @param QOS the quality of service on the subscribed topic.
+         **/
         void subscribe(const std::string topic, const int QOS);
+
+        /**
+         * @brief Unubscribes to a topic.
+         * @param topic the unsubscribed topic.
+         **/
         void unsubscribe(const std::string topic);
+
+        /**
+         * @brief Publishes a new message to given topic.
+         * @param topic the topic of the publish message.
+         * @param message the published message.
+         **/
         int publish(const std::string topic, const std::string message);
 };

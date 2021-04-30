@@ -10,6 +10,11 @@
 #include "base_device.h"
 #include "mqtt/client.h"
 
+/**
+ * @class Represents a thermostat device, which has minimum period as the period from the base class, a maximum period,
+ *        a set point which can be changeg via recieved message, the maximum temprature change in one period and,
+ *        the stating and current temperature with a specific unit and a direction of a temperature change.
+ **/
 class Thermostat : public RecievingAndPublishingDevice
 {
     private:
@@ -33,5 +38,11 @@ class Thermostat : public RecievingAndPublishingDevice
          * @param future a future on which the device passively waits, but can be woken up by another thread.
          **/
         void run(mqtt::client &client, const bool &run, std::mutex &mutex, std::future<void> future);
+
+        /**
+         * @brief Overrides the basic behaviour of message arrived function to represent a thermostat. The function
+         *        reacts to a change of the setpoint, which can result in the direction of the temperature.
+         * @param See the derived classes.
+         **/
         void on_message_arrived(std::string state, Client &client, std::mutex &mutex) override;
 };

@@ -13,7 +13,7 @@
 #include "log.h"
 
 /**
- * @class Represent a lock device, which is only recieving and has states, which are changed by the recieved message
+ * @class Represent a lock device, which is only recieving and has states, which are changed by the recieved message.
  **/
 class Lock : public RecievingDevice
 {

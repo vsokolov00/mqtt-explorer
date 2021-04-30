@@ -12,8 +12,8 @@
 #include "mqtt/client.h"
 
 /**
- * @class Represents a ligh device, which has defined states. The states are switched localy (i.e. by the simulator)
- *        or by a recieved message.
+ * @class Represents a ligh device, which has defined states by the configuration file. The states are switched 
+ *        localy (i.e. by the simulator) or by a recieved message.
  **/
 class Light : public RecievingAndPublishingDevice
 {

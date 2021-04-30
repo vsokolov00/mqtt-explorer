@@ -11,6 +11,10 @@
 #include "base_device.h"
 #include "mqtt/client.h"
 
+/**
+ * @class Represents a thermometer device, which have minimum and maximum temperature with minimum and maximum
+ *        change in one period, starting temperature and a unit of a the temperature.
+ **/
 class Thermometer : PublishingDevice
 {
     private:

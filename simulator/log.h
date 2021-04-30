@@ -3,6 +3,10 @@
 
 #include <iostream>
 
+/**
+ * @class This class is used for logging messages to STDOUT, logs to STDERR if verbose is true and warning and errors
+ *        to STDERR.
+ **/
 class Log
 {
     public:

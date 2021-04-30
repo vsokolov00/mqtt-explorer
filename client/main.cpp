@@ -3,6 +3,10 @@
 
 // sudo systemctl stop mosquitto.service
 
+// ================================================
+// Testing main file, with no other use.
+// ================================================
+
 //const std::string SERVER_ADDRESS("tcp://broker.emqx.io:1883");
 const std::string SERVER_ADDRESS("tcp://localhost:1883");
 const std::string TOPIC("test/#");
