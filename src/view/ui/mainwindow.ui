@@ -77,11 +77,28 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QPushButton" name="disconnect">
-          <property name="text">
-           <string>Disconnect</string>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <property name="topMargin">
+           <number>0</number>
           </property>
-         </widget>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="save_snapshot">
+            <property name="text">
+             <string>Save snapshot</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="disconnect">
+            <property name="text">
+             <string>Disconnect</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <spacer name="verticalSpacer">

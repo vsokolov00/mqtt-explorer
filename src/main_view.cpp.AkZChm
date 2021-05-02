@@ -24,7 +24,6 @@ MainView::MainView(TreeModel *tree_model, ConnectionController *connection_contr
     connect(_message_controller, &MessageController::message_arrived, this, &MainView::item_selection);
     connect(_message_controller, &MessageController::publish_success, this, &MainView::publish_success_popup_set);
     connect(_message_controller, &MessageController::publish_failure, this, &MainView::publish_failure_popup_set);
-    connect(_message_controller, &MessageController::publish_success, this, &MainView::on_clear_clicked);
     connect(_subscription_controller, SIGNAL(subscription_success(QString)), this, SLOT(subscribe_success_popup_set(QString)));
     connect(_subscription_controller, SIGNAL(unsubscription_success(QString)), this, SLOT(unsubscribe_success_popup_set(QString)));
     connect(_subscription_controller, SIGNAL(subscription_failure(QString)), this, SLOT(subscribe_failure_popup_set(QString)));
@@ -63,17 +62,7 @@ void MainView::item_selection()
         QStringList messages;
         for (std::tuple<QVariant, QString, bool> &tuple : history)
         {
-            QString tmp;
-            auto type = std::get<1>(tuple);
-            if (type == "image")
-            {
-                tmp = std::get<1>(tuple);
-            }
-            else
-            {
-                tmp = std::get<1>(tuple) + ": " + std::get<0>(tuple).toString();
-            }
-
+            auto tmp = std::get<1>(tuple) + ": " + std::get<0>(tuple).toString();
              _ui->listWidget->addItem(tmp);
              auto item = _ui->listWidget->item(_ui->listWidget->count()-1);
             if (std::get<2>(tuple)) //if our message
@@ -82,10 +71,7 @@ void MainView::item_selection()
             }
         }
         _ui->listWidget->update();
-        if (!_ui->path->hasFocus())
-        {
-            _ui->path->setText(_tree_model->getPath(*item));
-        }
+        _ui->path->setText(_tree_model->getPath(*item));
     }
 }
 
@@ -101,8 +87,7 @@ void MainView::on_publish_clicked()
     }
     else
     {
-        auto msg = _ui->msg_to_publish->toPlainText().toStdString();
-        _message_controller->publish(topic.toStdString(), msg);
+        _message_controller->publish(topic.toStdString(), _ui->msg_to_publish->toPlainText().toStdString());
     }
 }
 
@@ -135,7 +120,7 @@ void MainView::on_reconnect_clicked()
 
 void MainView::on_chooseFile_clicked()
 {
-    QString file_name = QFileDialog::getOpenFileName(this, "Choose the message content", QDir::homePath(), tr("Messages (*.png *.jpg *.json *.txt)"));
+    QString file_name = QFileDialog::getOpenFileName(this, "Choose the message content", QDir::homePath(), tr("Messages (*.png *.xml *.jpg *.json *.txt)"));
     QFile file(file_name);
     QFileInfo info_file(file_name);
     QByteArray msg;
@@ -189,6 +174,9 @@ void MainView::on_chooseFile_clicked()
 
 void MainView::on_clear_clicked()
 {
+    //message_controller->set_message({}, FileType::ALL);
+//    message_controller->set_file_not_chosen();
+
     _ui->img_label->setVisible(false);
     _ui->msg_to_publish->setPlainText("");
     _ui->msg_to_publish->setVisible(true);
@@ -201,8 +189,6 @@ void MainView::on_exit_clicked()
 
 void MainView::publish_success_popup_set()
 {
-    _message_controller->set_file_not_chosen();
-
     QString text = "Message published successfully!";
     pop_up->set_pop_up(text, true);
     show_popup();
@@ -314,7 +300,7 @@ void MainView::connection_success_popup_set()
 void MainView::display_full_message(QListWidgetItem* clicked_item)
 {
     Log::log("Displaying full message in new window");
-
+    std::cout << _ui->listWidget->row(clicked_item) << std::endl;
     int i = _ui->listWidget->row(clicked_item);
     auto qindex = _ui->messageList->selectionModel()->currentIndex();
     auto item = _tree_model->getItem(qindex);
@@ -331,28 +317,13 @@ void MainView::display_full_message(QListWidgetItem* clicked_item)
         pix.loadFromData(tmp);
         img->setPixmap(pix);
         img->show();
-    } else if (type == "text" || type == "binary") //WHY text is binary?? TODO
+    } else if(type == "text" || type == "binary") //WHY text is binary?? TODO
     {
         QLabel* img = new QLabel(this);
         img->setWindowFlags(Qt::Window);
         auto tmp = msg.toString();
         img->setText(tmp);
         img->show();
-    } else if (type == "json")
-    {
-        QLabel *json = new QLabel(this);
-        json->setWindowFlags(Qt::Window);
-        auto doc = msg.toByteArray();
-        //auto tmp = doc.toJson(QJsonDocument::Indented);
-        json->setText(doc);
-        json->show();
     }
-}
-
-void MainView::on_save_snapshot_clicked()
-{
-    QString path = QFileDialog::getExistingDirectory(this, "Save hierarchy to", QDir::homePath());
-
-    _message_controller->create_dir_structure(path, _message_controller->get_root_topics());
 }
 

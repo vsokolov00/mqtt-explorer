@@ -9,6 +9,7 @@
 #include <QBrush>
 #include <QItemSelectionModel>
 #include <QJsonDocument>
+#include <QDir>
 
 #include <string>
 #include <unordered_map>
@@ -38,7 +39,7 @@ class MessageController : public QObject
         std::hash<std::string> _string_hash;
         std::map<std::size_t, bool> _message_map;
 
-        bool _file_chosen;
+        bool _file_chosen = false;
         QVariant _file_to_publish;
         FileType _file_type;
     
@@ -50,6 +51,8 @@ class MessageController : public QObject
 
         bool parse_json_message(const Binary &binary_data, QJsonDocument &json_document);
         size_t hash_function(const char *data, size_t size);
+
+        void recur_create_hierarchy(QDir dir);
 
     public:
         MessageController(TreeModel *tree_model);
@@ -71,7 +74,9 @@ class MessageController : public QObject
 
         void set_message(QVariant);
         QVariant& get_message();
+        QVector<TreeItem *>& get_root_topics();
 
+        void create_dir_structure(QDir parent_dir, QVector<TreeItem *>& subtopics);
     signals:
         void publish_success();
         void publish_failure();

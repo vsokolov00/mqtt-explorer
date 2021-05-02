@@ -276,3 +276,52 @@ size_t MessageController::hash_function(const char *data, size_t size)
 
     return h;
 }
+
+void MessageController::create_dir_structure(QDir parent_dir, QVector<TreeItem *>& subtopics)
+{
+    for (int i = 0; i < subtopics.size(); i++)
+    {
+        if (!parent_dir.mkdir(subtopics[i]->getName()))
+        {
+            parent_dir.rmdir(subtopics[i]->getName());
+            parent_dir.mkdir(subtopics[i]->getName());
+        }
+        auto tmp_dir = QDir(parent_dir.absoluteFilePath(subtopics[i]->getName()));
+        auto sub_topics = subtopics[i]->getSubtopics();
+        auto msgs = subtopics[i]->getMessages();
+
+        int j = 0;
+        for (auto& [msg, type, our] : msgs)
+        {
+            QFile* f;
+            if (type == "image")
+            {
+                f = new QFile(tmp_dir.path() + "/" + type + QString::number(j) + ".png");
+            }
+            else if (type == "binary" || type == "text")
+            {
+                f = new QFile(tmp_dir.path() + "/" + type + QString::number(j) + ".txt");
+            }
+            else if (type == "json")
+            {
+                f = new QFile(tmp_dir.path() + "/" + type + QString::number(j) + ".json");
+            }
+            else {
+                continue;
+            }
+
+            f->open(QIODevice::WriteOnly);
+            f->write(msg.toByteArray());
+            f->close();
+            j++;
+
+            delete f;
+        }
+        create_dir_structure(tmp_dir, sub_topics);
+    }
+}
+
+QVector<TreeItem *>& MessageController::get_root_topics()
+{
+    return _root_topics;
+}
