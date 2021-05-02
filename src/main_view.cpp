@@ -69,6 +69,10 @@ void MainView::item_selection()
             {
                 tmp = std::get<1>(tuple);
             }
+            else if (type == "json")
+            {
+                tmp = std::get<1>(tuple);
+            }
             else
             {
                 tmp = std::get<1>(tuple) + ": " + std::get<0>(tuple).toString();
