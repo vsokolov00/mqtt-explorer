@@ -100,7 +100,8 @@ void MainView::on_publish_clicked()
 
     if (_message_controller->is_file_chosen())
     {
-        auto tmp = _message_controller->get_message().toByteArray();
+        auto tt = _message_controller->get_message();
+        auto tmp = tt.toByteArray();
         _message_controller->publish(topic.toStdString(), tmp.toStdString());
     }
     else
@@ -171,9 +172,17 @@ void MainView::on_chooseFile_clicked()
             _ui->clear->setVisible(true);
         }
     }
-    else if (type == "json" || type == "xml")
+    else if (type == "json")
     {
-        //markup
+        file.open(QIODevice::ReadOnly);
+        msg = file.readAll();
+
+        _ui->img_label->setText(file_name);
+        _ui->img_label->setVisible(true);
+        _ui->msg_to_publish->setVisible(false);
+        _message_controller->set_message(QVariant(msg));
+        _message_controller->set_file_chosen();
+        _ui->clear->setVisible(true);
     }
     else
     {
@@ -335,7 +344,7 @@ void MainView::display_full_message(QListWidgetItem* clicked_item)
         pix.loadFromData(tmp);
         img->setPixmap(pix);
         img->show();
-    } else if (type == "text" || type == "binary") //WHY text is binary?? TODO
+    } else if (type == "text" || type == "binary")
     {
         QLabel* img = new QLabel(this);
         img->setWindowFlags(Qt::Window);
