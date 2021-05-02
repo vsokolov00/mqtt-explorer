@@ -330,13 +330,23 @@ void MainView::display_full_message(QListWidgetItem* clicked_item)
         pix.loadFromData(tmp);
         img->setPixmap(pix);
         img->show();
-    } else if(type == "text" || type == "binary") //WHY text is binary?? TODO
+    } else if (type == "text" || type == "binary") //WHY text is binary?? TODO
     {
         QLabel* img = new QLabel(this);
         img->setWindowFlags(Qt::Window);
         auto tmp = msg.toString();
         img->setText(tmp);
         img->show();
+    } else if (type == "json")
+    {
+        QLabel *json = new QLabel(this);
+        json->setWindowFlags(Qt::Window);
+        auto doc = msg.toByteArray();
+        //auto tmp = doc.toJson(QJsonDocument::Indented);
+        json->setText(doc);
+        json->show();
     }
 }
+
+//home/temperatrure/kitchen
 
