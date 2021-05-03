@@ -3,11 +3,11 @@
 
 #include "../json/json/json.h"
 #include "../json/json/json-forwards.h"
-
-#include "mqtt_headers/client.h"
 #include "listener.h"
+
 #include <string>
 #include <thread>
+#include <mqtt/client.h>
 
 /**
  * @enum File types that can be parsed by the client API and registered by the user of the client API. 

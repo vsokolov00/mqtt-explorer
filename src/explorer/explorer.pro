@@ -9,7 +9,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 INCLUDEPATH += .
-LIBS = -L../libs/client -lclient -L../libs/json -ljson -L../libs/mqtt_paho -lpaho-mqttpp3 -L../libs/mqtt_paho -lpaho-mqtt3a
+LIBS = -L../libs/client -lclient -L../libs/json -ljson -lpaho-mqttpp3 -lpaho-mqtt3a
 QMAKE_CXXFLAGS += -Wno-unused-result -Wno-unused-parameter -std=c++17
 
 DESTDIR= ../bin/        #Target file directory
