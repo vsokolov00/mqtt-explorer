@@ -1,0 +1,314 @@
+{
+    "thermometers":
+    [
+        {
+            "topic": "home/temperatrure/kitchen",
+            "name": "temp1",
+            "period": 10,
+            "min_temp": 25.0,
+            "max_temp": 38.0,
+            "min_step": 0.2,
+            "max_step": 0.8,
+            "temp": 27.3,
+            "unit": "C"
+        },
+        {
+            "topic": "home/temperatrure/living room",
+            "name": "temp2",
+            "period": 14,
+            "min_temp": -40,
+            "max_temp": 120,
+            "min_step": 0.6,
+            "max_step": 1.9,
+            "temp": 59.45,
+            "unit": "F"
+        },
+        {
+            "topic": "home/temperatrure/garage",
+            "name": "temp3",
+            "period": 23,
+            "min_temp": 250.35,
+            "max_temp": 303,
+            "min_step": 0.5,
+            "max_step": 1.5,
+            "temp": 290.6,
+            "unit": "T"
+        }
+    ],
+
+    "hygrometers": 
+    [
+        {
+            "topic": "home/humidity/bathroom",
+            "name": "hygro1",
+            "period": 18,
+            "min_step": 0.1,
+            "max_step": 0.3,
+            "humidity": 67.1
+
+        },
+        {
+            "topic": "home/humidity/living room",
+            "name": "hygro2",
+            "period": 9,
+            "min_step": 0.4,
+            "max_step": 0.9,
+            "humidity": 48.6
+
+        },
+        {
+            "topic": "home/humidity/sauna",
+            "name": "hygro3",
+            "period": 25,
+            "min_step": 0.5,
+            "max_step": 0.7,
+            "humidity": 82.2
+        }
+    ],
+
+    "wattmeters": 
+    [
+        {
+            "topic": "devices/wattmeter/workshop",
+            "name": "WM",
+            "period": 16,
+            "min_val": 0,
+            "max_val": 200,
+            "min_step": 1,
+            "max_step": 4,
+            "value": 53,
+            "unit": "kW"
+        },
+        {
+            "topic": "devices/wattmeter/transformer",
+            "name": "WattM1",
+            "period": 14,
+            "min_val": 0,
+            "max_val": 450,
+            "min_step": 5,
+            "max_step": 20,
+            "value": 325,
+            "unit": "W"
+        },
+        {
+            "topic": "devices/wattmeter/circuit 1",
+            "name": "wattmeter",
+            "period": 18,
+            "min_val": 0,
+            "max_val": 2000,
+            "min_step": 10,
+            "max_step": 63,
+            "value": 826,
+            "unit": "mW"
+        }
+    ],
+
+    "move sensors":
+    [
+        {
+            "topic": "home/move sensors/main door",
+            "name": "move detector",
+            "min_period": 60,
+            "max_period": 3600
+        },
+        {
+            "topic": "car/front",
+            "name": "LIDAR",
+            "min_period": 15,
+            "max_period": 60,
+            "vertical_FOV": 150,
+            "horizontal_FOV": 180
+        },
+        {
+            "topic": "car/front",
+            "name": "SONIC",
+            "min_period": 10,
+            "max_period": 180,
+            "vertical_FOV": 120,
+            "horizontal_FOV": 270
+        }
+    ],
+
+    "lights":
+    [
+        {
+            "topic": "home/lights/living room",
+            "name": "main light",
+            "recieving topic": "home/lights/living room",
+            "id": 267,
+            "period": 13,
+            "states": ["on", "off", "dimmed"]
+        },
+        {
+            "topic": "home/lights/living room",
+            "name": "LED",
+            "recieving topic": "home/lights/recieving topic",
+            "id": "LED_8942",
+            "period": 27,
+            "states": ["off", "white", "red", "green", "blue", "yellow", "cyan", "magenta", "rainbow"]
+        },
+        {
+            "topic": "home/lights/work shop",
+            "name": "Danger indicator",
+            "recieving topic": "home/lights/recieving topic",
+            "id": 74,
+            "period": 22,
+            "states": ["green", "yellow", "orange", "red", "off"]
+        }
+    ],
+
+    "cameras":
+    [
+        {
+            "topic": "surveillance/motion/cameras/home/main entrance",
+            "name": "main cam",
+            "min_preiod": 3,
+            "max_period": 120,
+            "images": ["images/bob_ross.jpg", 
+                       "images/composition_8.jpg", 
+                       "images/impression_sunrise.jpg", 
+                       "images/scream.jpg"]
+        },
+        {
+            "topic": "surveillance/motion/cameras/garden/tree house",
+            "name": "tree camera",
+            "min_preiod": 28,
+            "max_period": 85,
+            "images": ["images/girl_with_a_pearl_earring.jpg", 
+                       "images/starry_night.jpg", 
+                       "images/time_persistance.jpg", 
+                       "images/royal_red_blue.jpg", 
+                       "images/bob_ross.jpg"]
+        },
+        {
+            "topic": "motion/video/car/rear",
+            "name": "carcam",
+            "min_preiod": 16,
+            "max_period": 326,
+            "images": ["images/starry_night.jpg", 
+                       "images/scream.jpg", 
+                       "images/composition_8.jpg", 
+                       "images/time_persistance.jpg",
+                       "images/impression_sunrise.jpg", 
+                       "images/the_ladies_of_avignon.jpg"]
+        }
+    ],
+
+    "relays":
+    [
+        {
+            "answering topic": "answers/relays",
+            "name": "switch-relay",
+            "recieving topic": "devices/relays/main switch",
+            "id": "RL4569",
+            "states": ["on", "off"]
+        },
+        {
+            "answering topic": "answers/relays",
+            "name": "relay-ZAP-VYP",
+            "recieving topic": "devices/relays/battery switch",
+            "id": "RAL7745",
+            "states": ["ZAP", "VYP"]
+        },
+        {
+            "answering topic": "devices/relays/engine",
+            "name": "ENG-RL",
+            "recieving topic": "devices/relays/engine",
+            "id": "ENGRL",
+            "states": ["run", "stop"]
+        }
+    ],
+
+    "valves":
+    [
+        {
+            "topic": "answers/valves",
+            "name": "SECTOR A",
+            "period": 25,
+            "recieving topic": "devices/valves/main piping",
+            "id": "AVLV",
+            "states": ["open", "closed", "40%", "80%"]
+        },
+        {
+            "topic": "answers/valves/main",
+            "name": "main piping main valve",
+            "period": 62,
+            "recieving topic": "devices/valves/main valve",
+            "id": "MVLV",
+            "states": ["open", "closed", "10%", "30%", "40%", "50%", "60%", "70%", "80%", "90%"]
+        },
+        {
+            "topic": "answers/valves",
+            "name": "SECTOR B",
+            "period": 36,
+            "recieving topic": "devices/valves/main piping",
+            "id": "BVLV",
+            "states": ["open", "closed", "25%", "50%", "75%"]
+        }
+    ],
+
+    "thermostats":
+    [
+        {
+            "topic": "home/heating system/main heater",
+            "name": "Main Heater",
+            "min_period": 25,
+            "max_period": 163,
+            "recieving topic": "devices/heaters/main heater",
+            "id": "MHTR",
+            "set_point": 23.1,
+            "max_temp_change" : 1.3,
+            "starting_temp" : 21.5,
+            "unit" : "C"
+        },
+        {
+            "topic": "home/heating system/living room",
+            "name": "Living Room Heater",
+            "min_period": 21,
+            "max_period": 185,
+            "recieving topic": "devices/heaters",
+            "id": "LVHTR",
+            "set_point": 25.1,
+            "max_temp_change" : 2.1,
+            "starting_temp" : 23.5,
+            "unit" : "C"
+        },
+        {
+            "topic": "car/heater",
+            "name": "Car Heater",
+            "min_period": 32,
+            "max_period": 141,
+            "recieving topic": "car/heater",
+            "id": "CHTR",
+            "set_point": 89.0,
+            "max_temp_change" : 4.3,
+            "starting_temp" : 73.5,
+            "unit" : "F"
+        }
+    ],
+
+    "locks":
+    [
+        {
+            "answering topic": "answers/locks/home/main door",
+            "name": "Main lock",
+            "recieving topic": "home/locks/main door",
+            "id": "Mlock",
+            "states": ["locked", "unlocked"]
+        },
+        {
+            "answering topic": "home/locks/basement",
+            "name": "basement-lock",
+            "recieving topic": "home/locks/basement",
+            "id": "Block",
+            "states": ["open", "locked"]
+        },
+        {
+            "answering topic": "car/tesla/security/locks",
+            "name": "C-testla-lock",
+            "recieving topic": "car/tesla/security/locks",
+            "id": "carTlock",
+            "states": ["locked", "unlocked", "unlocked-no-drive"]
+        }
+    ]
+}

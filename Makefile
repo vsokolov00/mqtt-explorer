@@ -1,10 +1,24 @@
-GENERATED = .qmake.stash Makefile
-TMP_DIRS = bin build
 
-.PHONY: all mqtt-explorer clean
 
-all mqtt-explorer:
-	cd src && qmake && make
+.PHONY: all explorer clean simulator run run-explorer run-simulator
+
+all:
+	@cd src && make
+
+explorer:
+	@cd src && make explorer
+
+simulator:
+	@cd src && make simulator
 
 clean:
-	cd $(PWD)/src && make clean ; rm $(GENERATED) ; rm -rf $(TMP_DIRS) 
+	@cd src && make clean
+
+run: explorer
+	@cd src && make run
+
+run-explorer:
+	@cd src && make run
+
+run-simulator:
+	@cd src && make run-simulator

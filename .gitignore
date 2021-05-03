@@ -1,5 +1,6 @@
 src/build/*
 src/build
+src/bin/
 .vscode/*
 *.o
 mqtt-explorer
@@ -8,8 +9,10 @@ client/client
 simulator/build
 simulator/simulator
 */build/
-*/libs/
+*/libs/client
+*/libs/json
 *.a
 *.so
 client/build/*
 simulator/build/*
+*.d
