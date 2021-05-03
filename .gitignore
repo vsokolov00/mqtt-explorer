@@ -16,3 +16,4 @@ simulator/simulator
 client/build/*
 simulator/build/*
 *.d
+*.zip

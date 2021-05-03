@@ -1,4 +1,13 @@
 
+//================================================================================================
+// File:        log.cpp
+// Case:        VUT, FIT, ICP, project
+// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
+// Date:        summer semester 2021
+// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
+// Description: Implementation of static functions of the Log class
+//================================================================================================
+
 #include "log.h"
 
 bool Log::verbose = false;

@@ -1,10 +1,19 @@
 
+//================================================================================================
+// File:        hygrometer.cpp
+// Case:        VUT, FIT, ICP, project
+// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
+// Date:        summer semester 2021
+// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
+// Description: Implementation of constructors, destructors and functions of the Hygrometer class.
+//================================================================================================
+
 #include "hygrometer.h"
 
 Hygrometer::Hygrometer(std::string topic, std::string name, int period, float min_step, float max_step, float humidity)
             : PublishingDevice(topic, name, period), _min_step(min_step), _max_step(max_step) 
 {
-    (*this)._humidity = humidity >= 0.0f && humidity <= 100.f ? humidity : 50.0f;
+    _humidity = humidity >= 0.0f && humidity <= 100.f ? humidity : 50.0f;
 }
 
 

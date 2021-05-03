@@ -1,4 +1,13 @@
 
+//================================================================================================
+// File:        relay.h
+// Case:        VUT, FIT, ICP, project
+// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
+// Date:        summer semester 2021
+// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
+// Description: Declaration of a class representing a Relay device.
+//================================================================================================
+
 #pragma once
 
 #include <string>
@@ -13,7 +22,7 @@
 
 /**
  * @class Represents a relay device, which has defined states by the configuration file. It changes its state
- *        only by recieving a message with known state.
+ *        only by recieving a message with known state (i.e. added with @see add_state).
  **/
 class Relay : public RecievingDevice
 {

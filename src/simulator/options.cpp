@@ -1,4 +1,13 @@
 
+//================================================================================================
+// File:        options.cpp
+// Case:        VUT, FIT, ICP, project
+// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
+// Date:        summer semester 2021
+// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
+// Description: Implementation of function used for parsing command line arguments.
+//================================================================================================
+
 #include "options.h"
 
 void parse_arguments(int argc, char **argv, Options &options)

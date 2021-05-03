@@ -1,4 +1,13 @@
 
+//================================================================================================
+// File:        thermometer.cpp
+// Case:        VUT, FIT, ICP, project
+// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
+// Date:        summer semester 2021
+// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
+// Description: Implementation of constructors, destructors and functions of the Thermometer class.
+//================================================================================================
+
 #include "thermometer.h"
 
 Thermometer::Thermometer(std::string topic, std::string name, int period, float min_temp, float max_temp, 

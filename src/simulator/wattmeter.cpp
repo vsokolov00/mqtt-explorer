@@ -1,4 +1,13 @@
 
+//================================================================================================
+// File:        wattmeter.h
+// Case:        VUT, FIT, ICP, project
+// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
+// Date:        summer semester 2021
+// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
+// Description: Declaration of a class representing a Wattmeter device.
+//================================================================================================
+
 #include "wattmeter.h"
 
 Wattmeter::Wattmeter(std::string topic, std::string name, int period, int min_val, 
