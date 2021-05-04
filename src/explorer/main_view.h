@@ -59,7 +59,7 @@ signals:
 
 private:
     Ui::MainWindow *_ui = nullptr;
-    DashboardView *_dashboard_window = nullptr;
+    DashboardView *_dashboard_window = nullptr;\
 
     TreeModel *_tree_model = nullptr;
 

@@ -44,6 +44,7 @@ class MessageController : public QObject
         FileType _file_type;
 
         bool _dashboard_is_opened = false;
+        DashboardController* _dashboard_controller;
     
         std::vector<std::string> parse_topic_path(std::string path);
         TreeItem* find_topic(std::string name, const QVector<TreeItem*>& topics);
@@ -57,7 +58,7 @@ class MessageController : public QObject
         void recur_create_hierarchy(QDir dir);
 
     public:
-        MessageController(TreeModel *tree_model);
+        MessageController(TreeModel *tree_model, DashboardController* dbcon);
         ~MessageController() = default;
 
         void register_client(Client *client);

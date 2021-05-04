@@ -30,6 +30,10 @@ public:
     explicit DeviceWidget(QWidget *parent = nullptr, DeviceType type = DeviceType::ERR, QString name = "Device", QString topic = "");
     ~DeviceWidget();
 
+    DeviceType get_type();
+    void set_image(QImage image, int width, int height);
+
 private:
     Ui::DeviceWidget *ui;
+    DeviceType type;
 };

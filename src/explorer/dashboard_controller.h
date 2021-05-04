@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "device_widget.h"
+#include "log.h"
 
 class DashboardController : public QObject
 {
@@ -13,6 +14,7 @@ public:
     ~DashboardController();
 
     void add_device(DeviceWidget* device = nullptr, QString topic = "");
+    void process_message(std::string topic, QByteArray payload);
 
 private:
     std::vector<DeviceWidget*> _devices;

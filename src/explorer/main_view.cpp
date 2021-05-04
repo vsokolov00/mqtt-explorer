@@ -4,9 +4,9 @@
 
 MainView::MainView(TreeModel *tree_model, ConnectionController *connection_controller,
                        MessageController *message_controller, SubscriptionController *subscription_controller, DashboardView *dashboard_window)
-           : QMainWindow(nullptr), _ui(new Ui::MainWindow), _tree_model(tree_model),
+           : QMainWindow(nullptr), _ui(new Ui::MainWindow), _dashboard_window(dashboard_window),
+             _tree_model(tree_model),
              _connection_controller(connection_controller), _message_controller(message_controller), 
-             _dashboard_window(dashboard_window),
              _subscription_controller(subscription_controller)
 {
     Log::log("Main window initialization starting...");

@@ -3,21 +3,18 @@
 
 DeviceWidget::DeviceWidget(QWidget *parent, DeviceType type, QString name, QString topic) :
     QWidget(parent),
-    ui(new Ui::DeviceWidget)
+    ui(new Ui::DeviceWidget),
+    type(type)
 {
     ui->setupUi(this);
     ui->name->setText(name);
 
     if (type == DeviceType::LIGHT)
     {
-        QPixmap image = QPixmap::fromImage(QImage(":/images/bulb_off.png"));
-        ui->icon->setPixmap(image.scaled(150,150, Qt::KeepAspectRatio));
-        ui->icon->setVisible(true);
+        set_image(QImage(":/images/bulb_off.png"), 150, 150);
     } else if (type == DeviceType::CAM)
     {
-        QPixmap image = QPixmap::fromImage(QImage(":/images/cam.png"));
-        ui->icon->setPixmap(image.scaled(115,115, Qt::KeepAspectRatio));
-        ui->icon->setVisible(true);
+        set_image(QImage(":/images/cam.png"), 115, 115);
     } else if (type == DeviceType::HYGR)
     {
 
@@ -46,4 +43,16 @@ DeviceWidget::DeviceWidget(QWidget *parent, DeviceType type, QString name, QStri
 DeviceWidget::~DeviceWidget()
 {
     delete ui;
+}
+
+void DeviceWidget::set_image(QImage image, int width, int height)
+{
+    QPixmap pix_img = QPixmap::fromImage(image);
+    ui->icon->setPixmap(pix_img.scaled(width, height, Qt::KeepAspectRatio));
+    ui->icon->setVisible(true);
+}
+
+DeviceType DeviceWidget::get_type()
+{
+    return type;
 }
