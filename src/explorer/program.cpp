@@ -5,7 +5,9 @@ Program::~Program()
 {
     delete _connection_controller;
     delete _subscription_controller;
+    delete _dashboard_controller;
     delete _main_view;
+    delete _dashboard_view;
     delete _message_controller;
     delete _login_view;
     delete _mutex;
@@ -34,10 +36,14 @@ void Program::init()
     _connection_controller = new ConnectionController(_mutex, this, &Program::connect_cb, &Program::disconnect_cb);
     _subscription_controller = new SubscriptionController();
     _message_controller = new MessageController(_tree_model);
+    _dashboard_controller = new DashboardController();
+
+    _login_view = new LoginView(_connection_controller);
+
+    _dashboard_view = new DashboardView(_dashboard_controller);
 
     _main_view = new MainView(_tree_model, _connection_controller,
-                                _message_controller, _subscription_controller);
-    _login_view = new LoginView(_connection_controller);
+                                _message_controller, _subscription_controller, _dashboard_view);
 
     Log::log("Program initialization complete.");
 }

@@ -22,6 +22,7 @@
 #include "popup.h"
 
 #include "tree_model.h"
+#include "dashboard_view.h"
 
 #include "connection_controller.h"
 #include "message_controller.h"
@@ -52,8 +53,11 @@ private slots:
 
     void on_save_snapshot_clicked();
 
+    void on_dashboard_clicked();
+
 private:
     Ui::MainWindow *_ui = nullptr;
+    DashboardView *_dashboard_window = nullptr;
 
     TreeModel *_tree_model = nullptr;
 
@@ -66,7 +70,7 @@ private:
 
 public:
     MainView(TreeModel *tree_model, ConnectionController *connection_controller,
-               MessageController *message_controller, SubscriptionController *subscription_controller);
+               MessageController *message_controller, SubscriptionController *subscription_controller, DashboardView *dashboard_window);
     ~MainView();
 
     void item_selection();

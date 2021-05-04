@@ -12,10 +12,12 @@
 
 #include "main_view.h"
 #include "login_view.h"
+#include "dashboard_view.h"
 
 #include "connection_controller.h"
 #include "message_controller.h"
 #include "subscription_controller.h"
+#include "dashboard_controller.h"
 
 class Program
 {
@@ -24,17 +26,19 @@ class Program
                                           const mqtt::connect_options &connection_options);
         static void disconnect_cb(void * object);
 
+
     private:
         Client *_client = nullptr;
         TreeModel *_tree_model = nullptr;
 
-        //DashboardView *_dashboard_view;
+        DashboardView *_dashboard_view;
         LoginView *_login_view = nullptr;
         MainView *_main_view = nullptr;
 
         ConnectionController *_connection_controller = nullptr;
         MessageController *_message_controller = nullptr;
         SubscriptionController *_subscription_controller = nullptr;
+        DashboardController *_dashboard_controller = nullptr;
 
         std::mutex *_mutex;
 

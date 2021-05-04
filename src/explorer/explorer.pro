@@ -18,6 +18,8 @@ MOC_DIR= view/       #Generated UI *.[cpp,h] files
 
 SOURCES += \
     connection_controller.cpp \
+    dashboard_controller.cpp \
+    dashboard_view.cpp \
     login_view.cpp \
     main.cpp \
     main_view.cpp \
@@ -31,6 +33,8 @@ SOURCES += \
 
 HEADERS += \
     connection_controller.h \
+    dashboard_controller.h \
+    dashboard_view.h \
     login_view.h \
     main_view.h \
     message_controller.h \
@@ -42,6 +46,7 @@ HEADERS += \
     log.h
 
 FORMS += \
+    view/ui/dashboard.ui \
     view/ui/login.ui \
     view/ui/mainwindow.ui
 

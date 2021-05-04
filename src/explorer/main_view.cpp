@@ -3,14 +3,16 @@
 #include <iostream>
 
 MainView::MainView(TreeModel *tree_model, ConnectionController *connection_controller,
-                       MessageController *message_controller, SubscriptionController *subscription_controller) 
+                       MessageController *message_controller, SubscriptionController *subscription_controller, DashboardView *dashboard_window)
            : QMainWindow(nullptr), _ui(new Ui::MainWindow), _tree_model(tree_model),
              _connection_controller(connection_controller), _message_controller(message_controller), 
+             _dashboard_window(dashboard_window),
              _subscription_controller(subscription_controller)
 {
     Log::log("Main window initialization starting...");
     
     _tree_model->setParent(this);
+
 
     pop_up = new PopUp(this);
 
@@ -370,3 +372,8 @@ void MainView::on_save_snapshot_clicked()
     _message_controller->create_dir_structure(path, _message_controller->get_root_topics());
 }
 
+
+void MainView::on_dashboard_clicked()
+{
+    _dashboard_window->show();
+}
