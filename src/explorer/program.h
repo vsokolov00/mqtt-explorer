@@ -27,24 +27,40 @@
 #include "message_controller.h"
 #include "subscription_controller.h"
 
+/**
+ * @brief Holds all models, views and controllers and a client. Provides them to other objects which need them
+ *        and manages the run of the application.
+ **/
 class Program
 {
     public:
+        /**
+         * @brief Connection callback called when connection should be established.
+         * @param object user defined object which is casted to Program class object.
+         * @param server_adress address of the MQTT broker to connect to.
+         * @param id the id of the connection.
+         * @param connection_options the options of the client connection to the MQTT broker.
+         **/
         static void connect_cb(void *object, const std::string &server_address, const std::string &id, 
                                           const mqtt::connect_options &connection_options);
+
+        /**
+         * @brief Disconenction callback called when disconetion should be managed.
+         * @param object user defined object which is casted to Program class object.
+         **/
         static void disconnect_cb(void * object);
 
     private:
-        Client *_client = nullptr;
-        TreeModel *_tree_model = nullptr;
+        Client *_client = nullptr;              ///< MQTT client
+        TreeModel *_tree_model = nullptr;       ///< main data model of the application
 
         //DashboardView *_dashboard_view;
-        LoginView *_login_view = nullptr;
-        MainView *_main_view = nullptr;
+        LoginView *_login_view = nullptr;       ///< manages the login window
+        MainView *_main_view = nullptr;         ///< manages the main window
 
-        ConnectionController *_connection_controller = nullptr;
-        MessageController *_message_controller = nullptr;
-        SubscriptionController *_subscription_controller = nullptr;
+        ConnectionController *_connection_controller = nullptr;         ///< manages the connection to the MQTT broker
+        MessageController *_message_controller = nullptr;               ///< manages the message recieval and publish
+        SubscriptionController *_subscription_controller = nullptr;     ///< manages subscription and unsubscription of topics
 
         std::mutex *_mutex;
 
@@ -53,11 +69,32 @@ class Program
         ~Program();
         Program(const Program&) = delete;
 
+        /**
+         * @brief Initilizes the program.
+         **/
         void init();
+
+        /**
+         * @brief Starts the program.
+         **/
         void start();
+
+        /**
+         * @brief Stops the program.
+         **/
         void quit();
 
+        /**
+         * @brief Connects the client to a MQTT broker.
+         * @param server_adress address of the MQTT broker to connect to.
+         * @param id the id of the connection.
+         * @param connection_options the options of the client connection to the MQTT broker.
+         **/
         void connect(const std::string &server_address, const std::string &id, 
                      const mqtt::connect_options &connection_options);
+
+        /**
+         * @brief Disconects the client from a MQTT broker.
+         **/
         void disconnect();
 };

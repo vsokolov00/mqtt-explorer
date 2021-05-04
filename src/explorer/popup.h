@@ -17,35 +17,68 @@
 #include <QPropertyAnimation>
 #include <QTimer>
 
+/**
+ * @brief Manages pop up UI messages.
+ **/
 class PopUp : public QWidget
 {
     Q_OBJECT
 
     Q_PROPERTY(float popupOpacity READ getPopupOpacity WRITE setPopupOpacity)
 
-    void setPopupOpacity(float opacity);
-    float getPopupOpacity() const;
+    private:
+        /**
+         * @brief Sets an opacity on a pop up.
+         * @param opacity the opacity.
+         **/
+        void setPopupOpacity(float opacity);
+
+        /**
+         * @brief Gets the current opacity of a pop up.
+         * @return the current opacity.
+         **/
+        float getPopupOpacity() const;
 
     public:
         explicit PopUp(QWidget *parent = 0);
 
     protected:
+        /**
+         * @brief Draw the pop up part of the UI.
+         * @param event dummy.
+         **/
         void paintEvent(QPaintEvent *event);
 
     public slots:
+        /**
+         * @brief Sets a popup.
+         * @param text the text of the popup.
+         * @param is_positiv creates a success styled pop up when true, otherwise failure pop up is created.
+         **/
         void set_pop_up(const QString& text, bool is_positive);
+
+        /**
+         * @brief Shows a pop up.
+         **/
         void show();
 
     private slots:
-        void hideAnimation();
+        /**
+         * @brief Hides a pop up.
+         **/
         void hide();
 
-    private:
-        QLabel label;
-        QGridLayout layout;
-        QPropertyAnimation animation;
-        float popupOpacity;
-        QTimer *timer;          // timer to hide popup
+        /**
+         * @brief Manages hide animation of a pop up.
+         **/
+        void hideAnimation();
 
-        bool is_positive = true;
+    private:
+        QLabel label;                       ///< text label of a pop up
+        QGridLayout layout;                 ///< layout of a pop up
+        QPropertyAnimation animation;       ///< animation of a pop up
+        float popupOpacity;                 ///< opacity of a pop up
+        QTimer *timer;                      ///< timer to hide popup
+
+        bool is_positive = true;            ///< true when the pop up shows success message, oherwise false and failure message is shown.
 };
