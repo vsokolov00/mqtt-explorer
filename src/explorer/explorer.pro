@@ -20,6 +20,7 @@ SOURCES += \
     connection_controller.cpp \
     dashboard_controller.cpp \
     dashboard_view.cpp \
+    flowlayout.cpp \
     login_view.cpp \
     main.cpp \
     main_view.cpp \
@@ -35,6 +36,7 @@ HEADERS += \
     connection_controller.h \
     dashboard_controller.h \
     dashboard_view.h \
+    flowlayout.h \
     login_view.h \
     main_view.h \
     message_controller.h \
