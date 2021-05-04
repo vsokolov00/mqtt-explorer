@@ -1,3 +1,12 @@
+
+##############################################################################################
+# @file        explorer.pro                                 
+# Case:        VUT, FIT, ICP, project                                      <br>
+# Author:      Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
+# Date:        summer semester 2021                                        <br>
+# @brief       Qmake file used for the Makefile generation a compilation.
+###############################################################################################
+
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

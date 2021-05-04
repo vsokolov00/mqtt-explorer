@@ -1,4 +1,13 @@
-//#include "login.h"
+
+/**
+ * @file        main.cpp
+ * Case:        VUT, FIT, ICP, project                                      <br>
+ * Author:      Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
+ * Date:        summer semester 2021                                        <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0                    <br>
+ * @brief       Starting point of the eplorer application, the main function.
+ **/
+
 #include "main_view.h"
 
 #include "program.h"

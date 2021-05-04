@@ -1,4 +1,14 @@
 
+/**
+ * @file        tree_model.h                                 
+ * Case:        VUT, FIT, ICP, project                                      <br>
+ * Author:      Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
+ * Date:        summer semester 2021                                        <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0                    <br>
+ * @brief       Declaration of a class representing a tree model used to display messages
+ *              in the application.
+ **/
+
 #pragma once
 
 #include <QAbstractItemModel>

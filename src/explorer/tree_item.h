@@ -1,5 +1,15 @@
-#ifndef TREE_ITEM_H
-#define TREE_ITEM_H
+
+/**
+ * @file        tree_item.h                                 
+ * Case:        VUT, FIT, ICP, project                                      <br>
+ * Author:      Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
+ * Date:        summer semester 2021                                        <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0                    <br>
+ * @brief       Declaration of a class, which represents one message in tree structure displayed 
+ *              in the application.
+ **/
+
+#pragma once
 
 #include <QVariant>
 #include <QVector>
@@ -46,4 +56,3 @@ class TreeItem
         std::vector<std::tuple<QVariant, QString, bool>> getMessages();
 };
 
-#endif // TREE_ITEM_H
