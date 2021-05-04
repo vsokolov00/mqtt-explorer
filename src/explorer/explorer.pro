@@ -20,6 +20,7 @@ SOURCES += \
     connection_controller.cpp \
     dashboard_controller.cpp \
     dashboard_view.cpp \
+    device_widget.cpp \
     flowlayout.cpp \
     login_view.cpp \
     main.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     connection_controller.h \
     dashboard_controller.h \
     dashboard_view.h \
+    device_widget.h \
     flowlayout.h \
     login_view.h \
     main_view.h \
@@ -48,6 +50,7 @@ HEADERS += \
     log.h
 
 FORMS += \
+    view/ui/device_widget.ui \
     view/ui/dashboard.ui \
     view/ui/login.ui \
     view/ui/mainwindow.ui

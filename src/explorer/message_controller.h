@@ -41,6 +41,8 @@ class MessageController : public QObject
         bool _file_chosen = false;
         QVariant _file_to_publish;
         FileType _file_type;
+
+        bool _dashboard_is_opened = false;
     
         std::vector<std::string> parse_topic_path(std::string path);
         TreeItem* find_topic(std::string name, const QVector<TreeItem*>& topics);
@@ -76,6 +78,10 @@ class MessageController : public QObject
         QVector<TreeItem *>& get_root_topics();
 
         void create_dir_structure(QDir parent_dir, QVector<TreeItem *>& subtopics);
+
+    public slots:
+        void dashboared_opened();
+        void dashboared_closed();
     signals:
         void publish_success();
         void publish_failure();

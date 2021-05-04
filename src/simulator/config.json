@@ -136,7 +136,7 @@
             "name": "main light",
             "recieving topic": "home/lights/living room",
             "id": 267,
-            "period": 13,
+            "period": 3,
             "states": ["on", "off", "dimmed"]
         },
         {
@@ -224,7 +224,7 @@
         {
             "topic": "answers/valves",
             "name": "SECTOR A",
-            "period": 25,
+            "period": 1,
             "recieving topic": "devices/valves/main piping",
             "id": "AVLV",
             "states": ["open", "closed", "40%", "80%"]

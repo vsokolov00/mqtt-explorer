@@ -30,6 +30,10 @@ void MessageController::on_delivery_complete_cb(void *object, mqtt::delivery_tok
 
 void MessageController::on_message_arrived(const std::string &topic, const MessageData &message, FileType type)
 {
+    if (_dashboard_is_opened)
+    {
+
+    }
     Log::log("Message arrived on topic: " + topic);
     QVariant variant;
     TreeItem *topic_item = get_topic(topic);
@@ -324,4 +328,12 @@ void MessageController::create_dir_structure(QDir parent_dir, QVector<TreeItem *
 QVector<TreeItem *>& MessageController::get_root_topics()
 {
     return _root_topics;
+}
+
+void MessageController::dashboared_opened(){
+    _dashboard_is_opened = true;
+}
+
+void MessageController::dashboared_closed(){
+    _dashboard_is_opened = false;
 }
