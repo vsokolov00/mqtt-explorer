@@ -45,6 +45,7 @@ void MainView::display()
 {
     this->show();
     _ui->messageList->setColumnWidth(0, _ui->messageList->size().width() * 0.6);
+    _ui->qos->setCurrentIndex(1);
     _ui->img_label->setVisible(false);
     _ui->listWidget->setWrapping(false);
     _ui->clear->setVisible(false);
@@ -117,7 +118,7 @@ void MainView::on_subscribe_clicked()
     topic = _message_controller->validate_topic_path(QString::fromStdString(topic)).toStdString();
 
     Log::log("Subscribing to topic: " + topic);
-    _subscription_controller->subscribe(topic, 1);
+    _subscription_controller->subscribe(topic, _ui->qos->currentIndex());
 }
 
 

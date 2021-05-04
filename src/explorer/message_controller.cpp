@@ -114,10 +114,10 @@ bool MessageController::parse_json_message(const Binary &binary_data, QJsonDocum
 
     if (parse_error.error == QJsonParseError::NoError)
     {
-        return true;
+        return false;
     }
 
-    return false;
+    return true;
 }
 
 void MessageController::publish(const std::string &topic, const std::string &message)
