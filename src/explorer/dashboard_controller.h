@@ -10,9 +10,11 @@ class DashboardController : public QObject
 
 public:
     explicit DashboardController(QObject *parent = nullptr);
-    void add_device(DeviceType type = DeviceType::ERR, QString name = "Device", QString topic = "");
+    ~DashboardController();
+
+    void add_device(DeviceWidget* device = nullptr, QString topic = "");
 
 private:
-    std::vector<DeviceWidget*> devices;
-    std::map<std::string, DeviceWidget*> topic_device;
+    std::vector<DeviceWidget*> _devices;
+    std::map<std::string, DeviceWidget*> _topic_to_device;
 };

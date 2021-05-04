@@ -18,6 +18,7 @@
 #include "../json/json/json-forwards.h"
 #include "../json/json/json.h"
 #include "tree_model.h"
+#include "dashboard_controller.h"
 
 class MessageController : public QObject
 {

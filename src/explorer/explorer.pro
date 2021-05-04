@@ -26,6 +26,7 @@ SOURCES += \
     main.cpp \
     main_view.cpp \
     message_controller.cpp \
+    new_device_dialog.cpp \
     popup.cpp \
     subscription_controller.cpp \
     tree_item.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
     login_view.h \
     main_view.h \
     message_controller.h \
+    new_device_dialog.h \
     popup.h \
     subscription_controller.h \
     tree_item.h \
@@ -50,6 +52,7 @@ HEADERS += \
     log.h
 
 FORMS += \
+    view/ui/new_device_dialog.ui \
     view/ui/device_widget.ui \
     view/ui/dashboard.ui \
     view/ui/login.ui \

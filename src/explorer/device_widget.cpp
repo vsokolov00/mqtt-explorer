@@ -11,11 +11,13 @@ DeviceWidget::DeviceWidget(QWidget *parent, DeviceType type, QString name, QStri
     if (type == DeviceType::LIGHT)
     {
         QPixmap image = QPixmap::fromImage(QImage(":/images/bulb_off.png"));
-        ui->icon->setPixmap(image);
+        ui->icon->setPixmap(image.scaled(150,150, Qt::KeepAspectRatio));
         ui->icon->setVisible(true);
     } else if (type == DeviceType::CAM)
     {
-
+        QPixmap image = QPixmap::fromImage(QImage(":/images/cam.png"));
+        ui->icon->setPixmap(image.scaled(115,115, Qt::KeepAspectRatio));
+        ui->icon->setVisible(true);
     } else if (type == DeviceType::HYGR)
     {
 

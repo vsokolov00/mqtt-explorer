@@ -3,18 +3,19 @@
 
 #include <QWidget>
 
-enum class DeviceType : unsigned short
+enum class DeviceType : unsigned
 {
-    ERR = 0b0,
-    LIGHT = 0b1,
-    THERMOMETR = 0b10,
-    HYGR = 0b100,
-    WATT = 0b1000,
-    MOVE = 0b10000,
-    CAM = 0b100000,
-    RELAY = 0b111100,
-    VALVE = 0b111111,
-    THERMOSTAT = 0b1000000
+    ERR = 0,
+    LIGHT = 1,
+    THERMOMETR = 2,
+    HYGR = 3,
+    WATT = 4,
+    MOVE = 5,
+    CAM = 6,
+    RELAY = 7,
+    VALVE = 8,
+    THERMOSTAT = 9,
+    LOCK = 10
 };
 
 namespace Ui {
