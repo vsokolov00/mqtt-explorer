@@ -1,19 +1,115 @@
-src/build/*
-src/build
-src/bin/
-.vscode/*
-*.o
+# This file is used to ignore files which are generated
+# ----------------------------------------------------------------------------
+
 mqtt-explorer
-.qmake.stash
-client/client
-simulator/build
-simulator/simulator
-*/build/
-*/libs/client
-*/libs/json
+*~
+*.autosave
 *.a
+*.core
+view/moc*
+view/*.moc
+build/*.o
+*.obj
+*.orig
+*.rej
 *.so
-client/build/*
-simulator/build/*
+*.so.*
+*_pch.h.cpp
+*_resource.rc
+*.qm
+.#*
+*.*#
+core
+!core/
+tags
+.DS_Store
+.directory
+*.debug
+*.prl
+*.app
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+Thumbs.db
+*.res
+*.rc
+/.qmake.cache
+/.qmake.stash
+
+*/explorer/Makefile
+
+# qtcreator generated files
+*.pro.user*
+
+# xemacs temporary files
+*.flc
+
+# Vim temporary files
+.*.swp
+
+# Visual Studio generated files
+*.ib_pdb_index
+*.idb
+*.ilk
+*.pdb
+*.sln
+*.suo
+*.vcproj
+*vcproj.*.*.user
+*.ncb
+*.sdf
+*.opensdf
+*.vcxproj
+*vcxproj.*
+*.vscode
+
+# MinGW generated files
+*.Debug
+*.Release
+
+# Python byte code
+*.pyc
+
+# Binaries
+# --------
+*.dll
+*.exe
+
+
+# Prerequisites
 *.d
-*.zip
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+*/bin/
+*/build/
+*/.qmake.stash
+*.stash
