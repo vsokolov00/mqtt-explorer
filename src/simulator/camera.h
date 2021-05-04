@@ -1,12 +1,12 @@
 
-//================================================================================================
-// File:        camera.h
-// Case:        VUT, FIT, ICP, project
-// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
-// Date:        summer semester 2021
-// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
-// Description: Declaration of a class representing a camera device.
-//================================================================================================
+/**
+ * @file        camera.h
+ * Case:        VUT, FIT, ICP, project                          <br>
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz        <br>
+ * Date:        summer semester 2021                            <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0        <br>
+ * @brief       Declaration of a class representing a camera device.
+ **/
 
 #pragma once
 
@@ -21,14 +21,14 @@
 #include "base_device.h"
 
 /**
- * @class Represents a camera publishing device, which used period from the base class as minimum period and defines
+ * @brief Represents a camera publishing device, which used period from the base class as minimum period and defines
  *        max period and list of published images.
  **/
 class Camera : PublishingDevice
 {
     private:
-        int _max_period;
-        std::vector<std::string> _images;
+        int _max_period;                    ///< maximum period
+        std::vector<std::string> _images;   ///< images, which are published by a camera
     
     public:
         Camera(std::string topic, std::string name, int min_period, int max_period);

@@ -1,12 +1,12 @@
 
-//================================================================================================
-// File:        thermostat.h
-// Case:        VUT, FIT, ICP, project
-// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
-// Date:        summer semester 2021
-// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
-// Description: Declaration of a class representing a Thermostat device.
-//================================================================================================
+/**
+ * @file        thermostat.h
+ * Case:        VUT, FIT, ICP, project                          <br>
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz        <br>
+ * Date:        summer semester 2021                            <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0        <br>
+ * @brief       Declaration of a class representing a Thermostat device.
+ **/
 
 #pragma once
 
@@ -19,19 +19,19 @@
 #include "base_device.h"
 
 /**
- * @class Represents a thermostat device, which has minimum period as the period from the base class, a maximum period,
+ * @brief Represents a thermostat device, which has minimum period as the period from the base class, a maximum period,
  *        a set point which can be changeg via recieved message, the maximum temprature change in one period and,
  *        the stating and current temperature with a specific unit and a direction of a temperature change.
  **/
 class Thermostat : public RecievingAndPublishingDevice
 {
     private:
-        int _max_period;
-        float _set_point;
-        float _temp_change;
-        float _temp;
-        const std::string _unit;
-        bool _direction;
+        int _max_period;            ///< maximum period of a thermostat device
+        float _set_point;           ///< current position of the setpoint
+        float _temp_change;         ///< maximal temperature change per period
+        float _temp;                ///< current temperature
+        const std::string _unit;    ///< unit of measurement of a thermostat device
+        bool _direction;            ///< direction of a temperature change
 
     public:
         Thermostat(std::string topic, std::string name, std::string id, std::string recv_topic, int min_period, int max_period,

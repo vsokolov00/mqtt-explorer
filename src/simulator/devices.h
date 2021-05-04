@@ -1,12 +1,12 @@
 
-//================================================================================================
-// File:        devices.h
-// Case:        VUT, FIT, ICP, project
-// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
-// Date:        summer semester 2021
-// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
-// Description: Declaration of a structure encapsulating all devices.
-//================================================================================================
+/**
+ * @file        devices.h
+ * Case:        VUT, FIT, ICP, project                             <br>
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz           <br>
+ * Date:        summer semester 2021                               <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0           <br>
+ * @brief       Declaration of a structure encapsulating all devices.
+ **/
 
 #pragma once
 
@@ -24,19 +24,19 @@
 #include <vector>
 
 /**
- * @struct Holds all devices, that can be simulated by the simulator.
+ * @brief Holds all devices, that can be simulated by the simulator.
  **/
 struct Devices
 {
     public:
-        std::vector<Thermometer> thermometers;
-        std::vector<Hygrometer> hygrometers;
-        std::vector<Wattmeter> wattmeters;
-        std::vector<MoveSensor> move_sensors;
-        std::vector<Light> lights;
-        std::vector<Camera> cameras;
-        std::vector<Relay> relays;
-        std::vector<Valve> valves;
-        std::vector<Thermostat> thermostats;
-        std::vector<Lock> locks;
+        std::vector<Thermometer> thermometers;      ///< Thermometer dvices
+        std::vector<Hygrometer> hygrometers;        ///< Hygrometer dvices
+        std::vector<Wattmeter> wattmeters;          ///< Wattmeter devices
+        std::vector<MoveSensor> move_sensors;       ///< MoveSensor devices
+        std::vector<Light> lights;                  ///< Light devices
+        std::vector<Camera> cameras;                ///< Camera devices
+        std::vector<Relay> relays;                  ///< Relay devices
+        std::vector<Valve> valves;                  ///< Valve devices
+        std::vector<Thermostat> thermostats;        ///< Thermostat devices
+        std::vector<Lock> locks;                    ///< Lock devices
 };

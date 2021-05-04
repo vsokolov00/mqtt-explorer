@@ -1,12 +1,12 @@
 
-//================================================================================================
-// File:        reciever.h
-// Case:        VUT, FIT, ICP, project
-// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
-// Date:        summer semester 2021
-// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
-// Description: Declaration of a Reciever class.
-//================================================================================================
+/**
+ * @file        reciever.h
+ * Case:        VUT, FIT, ICP, project                          <br>
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz        <br>
+ * Date:        summer semester 2021                            <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0        <br>
+ * @brief       Declaration of a Reciever class.
+ **/
 
 #pragma once
 
@@ -22,7 +22,7 @@
 #include "log.h"
 
 /**
- * @class Recieves all messages on topics subscribed by recieving devices, finds the devices to which the mesage
+ * @brief Recieves all messages on topics subscribed by recieving devices, finds the devices to which the mesage
  *        belongs and forwards the message to the device. The devices are registered based on their subscription
  *        topic and id into a map and must have a @see RecievingDevice class as a base class.
  **/
@@ -92,10 +92,10 @@ class Reciever
         static void on_subscribe_failure_cb(void *object, const mqtt::token &token);
     
     private:
-        std::unordered_map<std::string, RecievingDevice *> _map;
-        std::vector<std::string> _topics;
-        Client _client;
-        std::mutex *_mutex;
+        std::unordered_map<std::string, RecievingDevice *> _map;       ///< stores topic+id device pairs used for forwarding recieved messages 
+        std::vector<std::string> _topics;                              ///< subscribed topics, which are monitored
+        Client _client;                                                ///< Client used for recieving and sending messages
+        std::mutex *_mutex;                                            ///< mutex for synchronization of operations on the @see _client
 
         /**
          * @brief Reacts to a connection to a server success. Subscribes to registered topics by the devices.

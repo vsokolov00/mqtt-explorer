@@ -1,6 +1,6 @@
 
 
-.PHONY: all explorer clean simulator run run-explorer run-simulator
+.PHONY: all explorer clean simulator run run-explorer run-simulator doc
 
 all:
 	@cd src && make
@@ -12,7 +12,8 @@ simulator:
 	@cd src && make simulator
 
 clean:
-	@cd src && make clean
+	@cd src && make clean || true
+	@rm -r doc/html
 
 run: explorer
 	@cd src && make run
@@ -22,3 +23,6 @@ run-explorer:
 
 run-simulator:
 	@cd src && make run-simulator
+
+doc:
+	@cd doc && doxygen Doxyfile

@@ -1,12 +1,12 @@
 
-//================================================================================================
-// File:        light.h
-// Case:        VUT, FIT, ICP, project
-// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
-// Date:        summer semester 2021
-// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
-// Description: Declaration of a class representing a Light device.
-//================================================================================================
+/**
+ * @file        light.h
+ * Case:        VUT, FIT, ICP, project                          <br>
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz        <br>
+ * Date:        summer semester 2021                            <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0        <br>
+ * @brief       Declaration of a class representing a Light device.
+ **/
 
 #pragma once
 
@@ -20,14 +20,14 @@
 #include "base_device.h"
 
 /**
- * @class Represents a ligh device, which has defined states by the configuration file. The states are switched 
+ * @brief Represents a ligh device, which has defined states by the configuration file. The states are switched 
  *        localy (i.e. by the simulator) or by a recieved message.
  **/
 class Light : public RecievingAndPublishingDevice
 {
     private:
-        int _state = -1;
-        std::vector<std::string> _states;
+        int _state = -1;                    ///< index of a current state pointing to @see _states
+        std::vector<std::string> _states;   ///< known states of a light device
     
     public:
         Light(std::string topic, std::string name, int period, std::string id, std::string recv_topic);

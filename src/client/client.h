@@ -1,12 +1,12 @@
 
-//================================================================================================
-// File:        client.h
-// Case:        VUT, FIT, ICP, project
-// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
-// Date:        summer semester 2021
-// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
-// Description: Declaration of types and classes for client.cpp and other files.
-//================================================================================================
+/**
+ * @file        client.h                                                                 
+ * Case:        VUT, FIT, ICP, project                              <br>
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz            <br>
+ * Date:        summer semester 2021                                <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0            <br>
+ * @brief       Declaration of types and classes for client.cpp and other files.
+ **/
 
 #pragma once
 
@@ -38,31 +38,31 @@ enum class FileType : unsigned short
 using ParsingLevel = unsigned short;
 
 /**
- * @struct Used for forwarding parsed string messages.
+ * @brief Used for forwarding parsed text messages.
  **/
 struct String
 {
-    size_t size;
-    const char *data;
+    size_t size;        ///< size of a text data
+    const char *data;   ///< data of the text message
 };
 
 /**
- * @struct Used for forwarding parsed binary messages including images.
+ * @brief Used for forwarding parsed binary messages including images.
  **/
 struct Binary
 {
-    size_t size;
-    const char *data;
+    size_t size;        ///< size of a binary data
+    const char *data;   ///< binary data of the message
 };
 
 /**
- * @union Used to forward messages of different format.
+ * @brief Used to forward messages of different format.
  **/
 union MessageData
 {
-    String string;
-    Binary binary;
-    Json::Value *json;
+    String string;      ///< text message
+    Binary binary;      ///< binary message
+    Json::Value *json;  ///< parsed JSON message
 };
 
 using OnConnectionSuccessCB = void(*)(void *, const std::string&);
@@ -71,7 +71,7 @@ using OnConnectionLostCB = void(*)(void *, const std::string&);
 using OnDeliveryCompleteCB = void(*)(void *, mqtt::delivery_token_ptr);
 
 /**
- * @class Represents an API to the mqtt client
+ * @brief Represents an API to the mqtt client
  **/
 class Client : public virtual mqtt::callback
 {
@@ -132,25 +132,25 @@ class Client : public virtual mqtt::callback
          **/
         void delivery_complete(mqtt::delivery_token_ptr token) override;
 
-        mqtt::async_client _client;                         /// the mqtt client
-        ParsingLevel _level;                                /// the selected file parsing level
+        mqtt::async_client _client;                         ///< the mqtt client
+        ParsingLevel _level;                                ///< the selected file parsing level
 
-        void *_connection_object;                           /// callback object used for connection results
-        OnConnectionSuccessCB _connection_success_cb;       /// callback on connection success
-        OnConnectionLostCB _connection_lost_cb;             /// callback on connection lost
-        Listener _connect_listener;                         /// connection listener, which holds the connection callbacks
-        Listener _disconect_listener;                       /// disconnection listener, which holds the desconnection callbacks
+        void *_connection_object;                           ///< callback object used for connection results
+        OnConnectionSuccessCB _connection_success_cb;       ///< callback on connection success
+        OnConnectionLostCB _connection_lost_cb;             ///< callback on connection lost
+        Listener _connect_listener;                         ///< connection listener, which holds the connection callbacks
+        Listener _disconect_listener;                       ///< disconnection listener, which holds the desconnection callbacks
 
-        void *_message_object;                              /// callback object used for message arrival and message publish
-        OnMessageArrivedCB _message_arrived_cb;             /// callback when on message arrives
-        OnDeliveryCompleteCB _delivery_complete_cb;         /// callback when on a message delivery complete 
-        Listener _publish_listener;                         /// publish listener, which holds publish callbacks
+        void *_message_object;                              ///< callback object used for message arrival and message publish
+        OnMessageArrivedCB _message_arrived_cb;             ///< callback when on message arrives
+        OnDeliveryCompleteCB _delivery_complete_cb;         ///< callback when on a message delivery complete 
+        Listener _publish_listener;                         ///< publish listener, which holds publish callbacks
 
-        Listener _subscribe_listener;                       /// subscription listener used for subscription callbacks
-        Listener _unsubscribe_listener;                     /// unsubscription listener used for unsubscription callbacks
+        Listener _subscribe_listener;                       ///< subscription listener used for subscription callbacks
+        Listener _unsubscribe_listener;                     ///< unsubscription listener used for unsubscription callbacks
 
-        Json::CharReader *_reader;                          /// jsoncpp json file parses
-        std::mutex *_muttex;                                /// synchronization muttex
+        Json::CharReader *_reader;                          ///< jsoncpp JSON file parses
+        std::mutex *_muttex;                                ///< synchronization muttex
 
     public:
         Client(const std::string server_address, const std::string &id, FileType single_file_type,

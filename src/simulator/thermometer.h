@@ -1,12 +1,12 @@
 
-//================================================================================================
-// File:        thermometer.h
-// Case:        VUT, FIT, ICP, project
-// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
-// Date:        summer semester 2021
-// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
-// Description: Declaration of a class representing a Thermometer device.
-//================================================================================================
+/**
+ * @file        thermometer.h
+ * Case:        VUT, FIT, ICP, project                          <br>
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz        <br>
+ * Date:        summer semester 2021                            <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0        <br>
+ * @brief       Declaration of a class representing a Thermometer device.
+ **/
 
 #pragma once
 
@@ -21,18 +21,18 @@
 #include "base_device.h"
 
 /**
- * @class Represents a thermometer device, which have minimum and maximum temperature with minimum and maximum
+ * @brief Represents a thermometer device, which have minimum and maximum temperature with minimum and maximum
  *        change in one period, starting temperature and a unit of a the temperature.
  **/
 class Thermometer : PublishingDevice
 {
     private:
-        float _min_temp;
-        float _max_temp;
-        float _min_step;
-        float _max_step;
-        float _temp;
-        const std::string _unit;
+        float _min_temp;            ///< minimal temperature of a thermometer device
+        float _max_temp;            ///< maximal temperature of a thermometer device
+        float _min_step;            ///< minimal temperature change per one period
+        float _max_step;            ///< maximal temperature change per one period
+        float _temp;                ///< current temperature of a thermometer device
+        const std::string _unit;    ///< unit of measurement of a thermometer device
     
     public:
         Thermometer(std::string topic, std::string name, int period, float min_temp, float max_temp, 

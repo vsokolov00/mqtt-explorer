@@ -1,12 +1,12 @@
 
-//================================================================================================
-// File:        camera.h
-// Case:        VUT, FIT, ICP, project
-// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
-// Date:        summer semester 2021
-// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
-// Description: Declaration of a class representing a Hygrometer device.
-//================================================================================================
+/**
+ * @file        hygrometer.h
+ * Case:        VUT, FIT, ICP, project                          <br>
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz        <br>
+ * Date:        summer semester 2021                            <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0        <br>
+ * @brief       Declaration of a class representing a Hygrometer device.
+ **/
 
 #pragma once
 
@@ -19,14 +19,14 @@
 #include "base_device.h"
 
 /**
- * @class Represents a hygrometer device, which has minimum and maximum humidity change and a starting humidity.
+ * @brief Represents a hygrometer device, which has minimum and maximum humidity change and a starting humidity.
  **/
 class Hygrometer : PublishingDevice
 {
     private:
-        float _min_step;
-        float _max_step;
-        float _humidity;
+        float _min_step;    ///< minimal change of humidity per period
+        float _max_step;    ///< maximal change of humidity per period
+        float _humidity;    ///< current humidity
     
     public:
         Hygrometer(std::string topic, std::string name, int period, float min_step, float max_step, float humidity);

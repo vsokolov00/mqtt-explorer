@@ -1,13 +1,13 @@
 
-//================================================================================================
-// File:        options.h
-// Case:        VUT, FIT, ICP, project
-// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
-// Date:        summer semester 2021
-// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
-// Description: Declaration of command line option flags, option structure with and a command 
-//              line arguments parsing function.
-//================================================================================================
+/**
+ * @file        options.h
+ * Case:        VUT, FIT, ICP, project                              <br>
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz            <br>
+ * Date:        summer semester 2021                                <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0            <br>
+ * @brief       Declaration of command line option flags, option structure with and a command 
+ *              line arguments parsing function.
+ **/
 
 #pragma once
 
@@ -28,14 +28,14 @@ const unsigned THERMOSTAT_FLAG{0b10000000};
 const unsigned LOCKS_FLAG{0b100000000};
 
 /**
- * @struct Used for parsing the command line arguments with default values for configuraton file and server address,
- *         the device flags are constructed by the @see parse_arguments function, defaultly all devices are set to run.
+ * @brief Used for parsing the command line arguments with default values for configuraton file and server address,
+ *        the device flags are constructed by the @see parse_arguments function, defaultly all devices are set to run.
  **/
 struct Options
 {
-    unsigned device_flags;
-    std::string filename = "config.json";
-    std::string server_addres = "tcp://localhost:1883";
+    unsigned device_flags = 0xFFFFFFFF;                          ///< determines which devices are run, all by default
+    std::string filename = "config.json";                        ///< the file name of a devices configuration file
+    std::string server_addres = "tcp://localhost:1883";          ///< the address of a mqtt broker
 };
 
 /**

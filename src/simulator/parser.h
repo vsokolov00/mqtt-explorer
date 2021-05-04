@@ -1,12 +1,12 @@
 
-//================================================================================================
-// File:        parser.h
-// Case:        VUT, FIT, ICP, project
-// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
-// Date:        summer semester 2021
-// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
-// Description: Declaration of a Parser class.
-//================================================================================================
+/**
+ * @file        parser.h
+ * Case:        VUT, FIT, ICP, project                          <br>
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz        <br>
+ * Date:        summer semester 2021                            <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0        <br>
+ * @brief       Declaration of a Parser class.
+ **/
 
 #pragma once
 
@@ -20,12 +20,12 @@
 #include <string>
 
 /**
- * @class Parses a configuration file.
+ * @brief Parses a configuration file.
  **/
 class Parser
 {
     private:
-        Json::CharReader *_reader;
+        Json::CharReader *_reader;      ///< used for parsing JSON files.
 
         /**
          * @brief Opens a file and reads its conentent.

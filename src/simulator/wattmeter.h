@@ -1,12 +1,12 @@
 
-//================================================================================================
-// File:        wattmeter.cpp
-// Case:        VUT, FIT, ICP, project
-// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
-// Date:        summer semester 2021
-// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
-// Description: Implementation of constructors, destructors and functions of the Wattmeter class.
-//================================================================================================
+/**
+ * @file        wattmeter.cpp
+ * Case:        VUT, FIT, ICP, project                              <br>
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz            <br>
+ * Date:        summer semester 2021                                <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0            <br>
+ * @brief       Implementation of constructors, destructors and functions of the Wattmeter class.
+ **/
 
 #pragma once
 
@@ -19,18 +19,18 @@
 #include "base_device.h"
 
 /**
- * @class Represents a wattmeter device, which has a minimum and maximum values, minimum and maximum step per period,
+ * @brief Represents a wattmeter device, which has a minimum and maximum values, minimum and maximum step per period,
  *        a current value with a unit.
  **/
 class Wattmeter : PublishingDevice
 {
     private:
-        int _min_val;
-        int _max_val;
-        int _min_step;
-        int _max_step;
-        int _value;
-        std::string _unit;
+        int _min_val;           ///< minimum value of a wattmeter device
+        int _max_val;           ///< maximum value of a wattmeter device
+        int _min_step;          ///< minimul value change per one period
+        int _max_step;          ///< maximum value change per one period
+        int _value;             ///< current value of a wattmeter device
+        std::string _unit;      ///< unit of measurement of a wattmeter device
 
     public:
         Wattmeter(std::string topic, std::string name, int period, int min_val, 

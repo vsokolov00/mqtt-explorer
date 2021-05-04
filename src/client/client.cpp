@@ -1,12 +1,12 @@
 
-//================================================================================================
-// File:        client.cpp
-// Case:        VUT, FIT, ICP, project
-// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
-// Date:        summer semester 2021
-// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
-// Description: API encapsulating the paho mqtt client used by other parts of the application.
-//================================================================================================
+/**
+ * @file        client.cpp                                      
+ * Case:        VUT, FIT, ICP, project                          <br>
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz        <br>
+ * Date:        summer semester 2021                            <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0        <br>
+ * @brief       API encapsulating the paho mqtt client used by other parts of the application.
+ **/
 
 #include "client.h"
 

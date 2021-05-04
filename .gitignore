@@ -113,3 +113,5 @@ Thumbs.db
 */build/
 */.qmake.stash
 *.stash
+
+doc/html

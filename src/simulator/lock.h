@@ -1,12 +1,12 @@
 
-//================================================================================================
-// File:        lock.h
-// Case:        VUT, FIT, ICP, project
-// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
-// Date:        summer semester 2021
-// Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
-// Description: Declaration of a class representing a Lock device.
-//================================================================================================
+/**
+ * @file        lock.h
+ * Case:        VUT, FIT, ICP, project                          <br>
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz        <br>
+ * Date:        summer semester 2021                            <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0        <br>
+ * @brief       Declaration of a class representing a Lock device.
+ **/
 
 #pragma once
 
@@ -21,15 +21,15 @@
 #include "log.h"
 
 /**
- * @class Represent a lock device, which is only recieving messages and has states, which can be changed 
+ * @brief Represent a lock device, which is only recieving messages and has states, which can be changed 
  *        by the recieved message, if the recieved messaged is understood (i.e. represents a state added 
  *        with @see add_state).
  **/
 class Lock : public RecievingDevice
 {
     private:
-        std::string _state = "";
-        std::vector<std::string> _states;
+        std::string _state = "";            ///< current state of a lock device
+        std::vector<std::string> _states;   ///< all known states of a lock device
     
     public:
         Lock(std::string topic, std::string name, std::string id, std::string recv_topic);
