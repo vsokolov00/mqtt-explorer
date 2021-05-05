@@ -1,8 +1,8 @@
 #include "dashboard_view.h"
 #include "ui_dashboard.h"
 
-DashboardView::DashboardView(DashboardController *dashboard_controller, FlowLayout flow_layout) :
-    _dashboard_controller(dashboard_controller), _flow_layout(_flow_layout)
+DashboardView::DashboardView(DashboardController *dashboard_controller, FlowLayout* flow_layout) :
+    _flow_layout(flow_layout), _dashboard_controller(dashboard_controller)
 {
     QVBoxLayout *central_layout = new QVBoxLayout();
     QPushButton *add_device = new QPushButton();
