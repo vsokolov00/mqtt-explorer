@@ -43,4 +43,3 @@ run: explorer
 
 run-simulator:
 	@cd simulator && make -j run
-
