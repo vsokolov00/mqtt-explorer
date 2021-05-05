@@ -25,4 +25,7 @@ public:
     void add_device(DeviceWidget* device = nullptr, QString topic = "");
     void process_message(std::string topic, QByteArray payload);
     void show_dashboard();
+
+signals:
+    void new_device_on_topic(QString topic);
 };

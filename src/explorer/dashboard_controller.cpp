@@ -15,7 +15,8 @@ DashboardController::~DashboardController()
 void DashboardController::add_device(DeviceWidget* device, QString topic)
 {
     _devices.push_back(device);
-    _topic_to_device.insert({topic.toStdString() + device->get_name(), device});
+    _topic_to_device.insert({topic.toStdString(), device});
+    emit new_device_on_topic(topic);
 }
 
 void DashboardController::process_message(std::string topic, QByteArray payload)

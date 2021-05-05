@@ -105,3 +105,8 @@ void SubscriptionController::unsubscribe(const std::string &topic)
 {
     _client->unsubscribe(topic);
 }
+
+void SubscriptionController::new_dashboard_device(QString topic)
+{
+    _client->subscribe(topic.toStdString(), 1);
+}
