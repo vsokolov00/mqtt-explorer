@@ -19,8 +19,8 @@ class DashboardView : public QWidget
     Q_OBJECT
 
 private:
-    FlowLayout* _flow_layout;
     DashboardController* _dashboard_controller;
+    FlowLayout* _flow_layout;
     NewDeviceDialog* _dialog;
 
 private slots:

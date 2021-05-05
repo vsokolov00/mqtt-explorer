@@ -13,11 +13,16 @@
 
 #include <QApplication>
 #include <thread>
+#include <fstream>
+#include <sstream>
 
 #include "log.h"
 
+#include "../json/json/json.h"
+#include "../json/json/json-forwards.h"
 #include "../client/client.h"
 #include "../client/listener.h"
+
 #include "tree_model.h"
 
 #include "main_view.h"
@@ -36,6 +41,9 @@
  **/
 class Program
 {
+    private:
+        static std::string CONFIG_FILE;
+
     public:
         /**
          * @brief Connection callback called when connection should be established.
@@ -70,6 +78,9 @@ class Program
         FlowLayout *_flow_layout = nullptr;
 
         std::mutex *_mutex;
+
+        void load_configuration();
+        void save_configuration();
 
     public:
         Program() = default;

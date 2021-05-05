@@ -57,7 +57,7 @@ bool Parser::parse_file(std::string file_name, Devices &devices)
 
     if (!_reader->parse(content.c_str(), content.c_str() + content.size(), &root, &errs))
     {
-        Log::error("JSON file parsing failed with:\n" + errs);
+        Log::error("JSON configuration file parsing failed with:\n" + errs);
         return true;
     }
 

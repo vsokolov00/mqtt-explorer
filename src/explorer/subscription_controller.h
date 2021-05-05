@@ -129,5 +129,5 @@ class SubscriptionController : public QObject
         void unsubscription_failure(const QString& topic);
 
     public slots:
-        void new_dashboard_device(QString topic);
+        void new_dashboard_device(std::string topic);
 };

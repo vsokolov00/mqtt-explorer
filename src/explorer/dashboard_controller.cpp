@@ -2,34 +2,37 @@
 #include "dashboard_view.h"
 
 DashboardController::DashboardController(QObject *parent)
-                    : QObject(parent) {}
+                    : QObject(parent)
+{ }
 
 DashboardController::~DashboardController()
 {
-    for (auto ptr : _devices)
+    std::map<std::string, DeviceWidget*>::iterator iterator = topic_to_device.begin();
+    while (iterator != topic_to_device.end())
     {
-        delete ptr;
+        delete iterator->second;
+        iterator++;
     }
 }
 
-void DashboardController::add_device(DeviceWidget* device, QString topic)
+void DashboardController::add_device(DeviceWidget* device)
 {
-    _devices.push_back(device);
-    _topic_to_device.insert({topic.toStdString(), device});
-    emit new_device_on_topic(topic);
+    topic_to_device[device->get_topic()] = device;
+    emit new_device_on_topic(device->get_topic());
 }
 
 void DashboardController::process_message(std::string topic, QByteArray payload)
 {
+
     QPalette palette;
 
-    if (_topic_to_device.find(topic) == _topic_to_device.end())
+    if (topic_to_device.find(topic) == topic_to_device.end())
     {
         return;
     }
     else
     {
-        auto device = _topic_to_device.at(topic);
+        auto device = topic_to_device.at(topic);
         auto type = device->get_type();
 
         if (type == DeviceType::CAM)
