@@ -10,6 +10,8 @@
 
 #include "program.h"
 
+std::string Program::CONFIG_FILE = "config.json";
+
 Program::~Program()
 {
     delete _connection_controller;
@@ -20,7 +22,7 @@ Program::~Program()
     delete _message_controller;
     delete _login_view;
     delete _mutex;
-    delete _flow_layout;
+    //delete _flow_layout;
 }
 
 void Program::connect_cb(void *object, const std::string &server_address, const std::string &id, 
@@ -66,6 +68,8 @@ void Program::start()
 
 void Program::quit()
 {
+    save_configuration();
+
     if (_client != nullptr)
     {
         if (_client->disconnect())
@@ -152,6 +156,9 @@ void Program::connect(const std::string &server_address, const std::string &id,
 
         _main_view->display();
         Log::log("Main window opened.");
+
+        Log::log("Loading Dashboard devices...");
+        load_configuration();
     }
 }
 
@@ -165,3 +172,88 @@ void Program::disconnect()
     _main_view->hide();
     _login_view->show();
 }
+
+void Program::load_configuration()
+{
+    std::ifstream file(CONFIG_FILE, std::ifstream::in);
+    if (file.fail())
+    {
+        Log::error("Opening configuration file '" + CONFIG_FILE + "' failed. Dashboard was not loaded.");
+        return;
+    }
+
+    std::ostringstream stream;
+    stream << file.rdbuf();
+    std::string content = stream.str();
+    file.close();
+
+    std::string errs;
+    Json::Value root;
+    Json::CharReader *reader = Json::CharReaderBuilder().newCharReader();
+    if (reader == nullptr)
+    {
+        Log::error("Unable to allocate resources. Dashboard was not loaded.");
+        return;
+    }
+
+    if (!reader->parse(content.c_str(), content.c_str() + content.size(), &root, &errs))
+    {
+        Log::error("JSON configuration file parsing failed with:\n" + errs + "\nDashboard was not loaded.");
+        delete reader;
+        return;
+    }
+    delete reader;
+
+    root = root["devices"];
+
+    DeviceWidget *device = nullptr;
+    for (unsigned i = 0; root[i]; i++)
+    {
+        _client->subscribe(root[i]["topic"].asString(), 1);
+        device = new DeviceWidget(_dashboard_view, static_cast<DeviceType>(root[i]["type"].asUInt()), 
+                                  QString(root[i]["name"].asCString()), QString(root[i]["topic"].asCString()));
+        _flow_layout->addWidget(device);
+        _dashboard_controller->add_device(device);
+    }
+}
+
+void Program::save_configuration()
+{
+    std::ofstream file(CONFIG_FILE, std::ofstream::out);
+    if (file.fail())
+    {
+        Log::error("Opening configuration file '" + CONFIG_FILE + "' failed. All newly added devices will be lost.");
+        return;
+    }
+
+    Json::Value root;
+    Json::StreamWriter *writer = Json::StreamWriterBuilder().newStreamWriter();
+    if (writer == nullptr)
+    {
+        Log::error("unable to allocate resources to save configuration file. All newly added devices will be lost.");
+        file.close();
+        return;
+    }
+    std::ostringstream stream;
+
+    root["devices"] = Json::arrayValue;
+    std::map<std::string, DeviceWidget*>::iterator iterator = _dashboard_controller->topic_to_device.begin();
+    for (unsigned i = 0; iterator != _dashboard_controller->topic_to_device.end(); i++, iterator++)
+    {
+        root["devices"][i]["name"] = iterator->second->get_name();
+        root["devices"][i]["topic"] = iterator->second->get_topic();
+        root["devices"][i]["type"] = static_cast<unsigned>(iterator->second->get_type());
+    }
+
+    try
+    {
+        writer->write(root, &file);
+    }
+    catch(const std::exception &e)
+    {
+        (void)e;
+        Log::error("unable to save configuration file. All newly added devices will be lost.");
+    }
+    file.close();
+    delete writer;
+}   

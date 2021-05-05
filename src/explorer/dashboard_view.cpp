@@ -1,8 +1,8 @@
 #include "dashboard_view.h"
 #include "ui_dashboard.h"
 
-DashboardView::DashboardView(DashboardController *dashboard_controller, FlowLayout flow_layout) :
-    _dashboard_controller(dashboard_controller), _flow_layout(_flow_layout)
+DashboardView::DashboardView(DashboardController *dashboard_controller, FlowLayout *flow_layout) :
+    _dashboard_controller(dashboard_controller), _flow_layout(flow_layout)
 {
     QVBoxLayout *central_layout = new QVBoxLayout();
     QPushButton *add_device = new QPushButton();
@@ -23,7 +23,6 @@ DashboardView::DashboardView(DashboardController *dashboard_controller, FlowLayo
 
 DashboardView::~DashboardView()
 {
-    delete _flow_layout;
     delete _dialog;
 }
 
@@ -43,6 +42,6 @@ void DashboardView::add_device(QString name, QString topic, unsigned device_type
 {
     auto device = new DeviceWidget(this, static_cast<DeviceType>(device_type), name, topic);
     _flow_layout->addWidget(device);
-    _dashboard_controller->add_device(device, topic);
+    _dashboard_controller->add_device(device);
 }
 

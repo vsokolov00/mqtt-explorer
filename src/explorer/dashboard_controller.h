@@ -14,15 +14,14 @@ class DashboardController : public QObject
 private:
     DashboardView *_dashboard_window = nullptr;
 
-    std::vector<DeviceWidget*> _devices;
-    std::map<std::string, DeviceWidget*> _topic_to_device;
-
 public:
+    std::map<std::string, DeviceWidget*> topic_to_device;
+
     explicit DashboardController(QObject *parent = nullptr);
     ~DashboardController();
 
     void register_dashboard_view(DashboardView *dashboard_window);
-    void add_device(DeviceWidget* device = nullptr, QString topic = "");
+    void add_device(DeviceWidget* device);
     void process_message(std::string topic, QByteArray payload);
     void show_dashboard();
 };
