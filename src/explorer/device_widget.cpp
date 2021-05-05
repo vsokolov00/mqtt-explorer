@@ -5,7 +5,9 @@
 DeviceWidget::DeviceWidget(QWidget *parent, DeviceType type, QString name, QString topic) :
     QWidget(parent),
     ui(new Ui::DeviceWidget),
-    type(type)
+    type(type),
+    name(name),
+    topic(topic)
 {
     ui->setupUi(this);
     ui->name->setText(name);
@@ -56,4 +58,14 @@ void DeviceWidget::set_image(QImage image, int width, int height)
 DeviceType DeviceWidget::get_type()
 {
     return type;
+}
+
+std::string DeviceWidget::get_name()
+{
+    return name.toStdString();
+}
+
+std::string DeviceWidget::get_topic()
+{
+    return topic.toStdString();
 }

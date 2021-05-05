@@ -31,9 +31,14 @@ public:
     ~DeviceWidget();
 
     DeviceType get_type();
+    std::string get_name();
+    std::string get_topic();
+
     void set_image(QImage image, int width, int height);
 
 private:
     Ui::DeviceWidget *ui;
     DeviceType type;
+    QString name;
+    QString topic;
 };
