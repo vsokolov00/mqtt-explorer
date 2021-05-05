@@ -36,6 +36,7 @@
 #include "connection_controller.h"
 #include "message_controller.h"
 #include "subscription_controller.h"
+#include "dashboard_controller.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -71,11 +72,11 @@ private:
     Ui::MainWindow *_ui = nullptr;      ///< the main window user interface
 
     TreeModel *_tree_model = nullptr;   ///< three model for managing message tree structure
-    DashboardView *_dashboard_window = nullptr;
 
     ConnectionController *_connection_controller = nullptr;         ///< controller managing connection to a MQTT broker
     MessageController *_message_controller = nullptr;               ///< controller managing publish and recieval of messages
     SubscriptionController *_subscription_controller = nullptr;     ///< controller managing subscription/unsubscription to a topic
+    DashboardController *_dashboard_controller = nullptr;           ///< controller managing the dasboard
 
     PopUp* pop_up;          ///< manages pop ups displaying messages
 
@@ -86,7 +87,8 @@ private:
 
 public:
     MainView(TreeModel *tree_model, ConnectionController *connection_controller,
-               MessageController *message_controller, SubscriptionController *subscription_controller, DashboardView *dashboard_window);
+            MessageController *message_controller, SubscriptionController *subscription_controller, 
+            DashboardController *dashboard_controller);
     ~MainView();
 
     /**

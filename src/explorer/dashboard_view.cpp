@@ -47,4 +47,3 @@ void DashboardView::add_device(QString name, QString topic, unsigned device_type
     _dashboard_controller->add_device(device, topic);
 }
 
-

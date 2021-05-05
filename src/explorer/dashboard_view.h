@@ -8,9 +8,11 @@
 #include <QPushButton>
 
 #include "new_device_dialog.h"
-#include "dashboard_controller.h"
 #include "flowlayout.h"
 #include "log.h"
+#include "dashboard_controller.h"
+
+class DashboardController;
 
 class DashboardView : public QWidget
 {

@@ -1,6 +1,8 @@
 #include "dashboard_controller.h"
+#include "dashboard_view.h"
 
-DashboardController::DashboardController(QObject *parent) : QObject(parent){}
+DashboardController::DashboardController(QObject *parent)
+                    : QObject(parent) {}
 
 DashboardController::~DashboardController()
 {
@@ -36,4 +38,14 @@ void DashboardController::process_message(std::string topic, QByteArray payload)
         }
         Log::log(topic);
     }
+}
+
+void DashboardController::register_dashboard_view(DashboardView *dashboard_window)
+{
+    _dashboard_window = dashboard_window;
+}
+
+void DashboardController::show_dashboard()
+{
+    _dashboard_window->show();
 }

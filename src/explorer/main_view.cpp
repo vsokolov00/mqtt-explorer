@@ -13,11 +13,12 @@
 #include <iostream>
 
 MainView::MainView(TreeModel *tree_model, ConnectionController *connection_controller,
-                       MessageController *message_controller, SubscriptionController *subscription_controller, DashboardView *dashboard_window)
+                       MessageController *message_controller, SubscriptionController *subscription_controller, 
+                       DashboardController *dashboard_controller)
            : QMainWindow(nullptr), _ui(new Ui::MainWindow), 
-             _tree_model(tree_model), _dashboard_window(dashboard_window),
+             _tree_model(tree_model),
              _connection_controller(connection_controller), _message_controller(message_controller), 
-             _subscription_controller(subscription_controller)
+             _subscription_controller(subscription_controller), _dashboard_controller(dashboard_controller)
 {
     Log::log("Main window initialization starting...");
     
@@ -391,5 +392,5 @@ void MainView::on_save_snapshot_clicked()
 void MainView::on_dashboard_clicked()
 {
     emit dashboard_opened();
-    _dashboard_window->show();
+    _dashboard_controller->show_dashboard();
 }

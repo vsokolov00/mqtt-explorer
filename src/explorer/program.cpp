@@ -47,12 +47,12 @@ void Program::init()
     _dashboard_controller = new DashboardController();
     _message_controller = new MessageController(_tree_model, _dashboard_controller);
 
+    _main_view = new MainView(_tree_model, _connection_controller, _message_controller, 
+                              _subscription_controller, _dashboard_controller);
     _login_view = new LoginView(_connection_controller);
-
     _dashboard_view = new DashboardView(_dashboard_controller);
 
-    _main_view = new MainView(_tree_model, _connection_controller,
-                                _message_controller, _subscription_controller, _dashboard_view);
+    _dashboard_controller->register_dashboard_view(_dashboard_view);
 
     Log::log("Program initialization complete.");
 }

@@ -1,5 +1,6 @@
 #include "device_widget.h"
 #include "ui_device_widget.h"
+#include "dashboard_controller.h"
 
 DeviceWidget::DeviceWidget(QWidget *parent, DeviceType type, QString name, QString topic) :
     QWidget(parent),
