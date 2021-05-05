@@ -4,16 +4,16 @@
 DashboardView::DashboardView(DashboardController *dashboard_controller, FlowLayout *flow_layout) :
     _dashboard_controller(dashboard_controller), _flow_layout(flow_layout)
 {
-    QVBoxLayout *central_layout = new QVBoxLayout();
-    QPushButton *add_device = new QPushButton();
-    add_device->setText("Add device");
-    QObject::connect(add_device, &QPushButton::clicked, this, &DashboardView::on_add_device_clicked);
+    _central_layout = new QVBoxLayout();
+    _add_device = new QPushButton();
+    _add_device->setText("Add device");
+    QObject::connect(_add_device, &QPushButton::clicked, this, &DashboardView::on_add_device_clicked);
 
     _dialog = new NewDeviceDialog(this);
 
-    central_layout->addWidget(add_device);
-    central_layout->addLayout(_flow_layout);
-    setLayout(central_layout);
+    _central_layout->addWidget(_add_device);
+    _central_layout->addLayout(_flow_layout);
+    setLayout(_central_layout);
 
     this->setWindowTitle("Dashboard");
     this->resize(800, 400);
@@ -23,6 +23,8 @@ DashboardView::DashboardView(DashboardController *dashboard_controller, FlowLayo
 
 DashboardView::~DashboardView()
 {
+    delete _central_layout;
+    delete _add_device;
     delete _dialog;
 }
 

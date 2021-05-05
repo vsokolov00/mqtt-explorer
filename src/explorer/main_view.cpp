@@ -23,9 +23,8 @@ MainView::MainView(TreeModel *tree_model, ConnectionController *connection_contr
     Log::log("Main window initialization starting...");
     
     _tree_model->setParent(this);
-
-
-    pop_up = new PopUp(this);
+    
+    _pop_up = new PopUp(this);
 
     qRegisterMetaType<QList<QPersistentModelIndex>>("QList<QPersistentModelIndex>");
     qRegisterMetaType<QAbstractItemModel::LayoutChangeHint>("QAbstractItemModel::LayoutChangeHint");
@@ -52,6 +51,7 @@ MainView::MainView(TreeModel *tree_model, ConnectionController *connection_contr
 
 MainView::~MainView()
 {
+    delete _pop_up;
     delete _ui;
 }
 
@@ -236,38 +236,38 @@ void MainView::publish_success_popup_set()
     _message_controller->set_file_not_chosen();
 
     QString text = "Message published successfully!";
-    pop_up->set_pop_up(text, true);
+    _pop_up->set_pop_up(text, true);
     show_popup();
 }
 
 void MainView::publish_failure_popup_set()
 {
-    QString text = "Message was not published!";
-    pop_up->set_pop_up(text, false);
+    QString text = "Message was not published.";
+    _pop_up->set_pop_up(text, false);
     show_popup();
 }
 
 void MainView::subscribe_success_popup_set(QString s)
 {
-    pop_up->set_pop_up("Successful subscription to topic: " + s, true);
+    _pop_up->set_pop_up("Successful subscription to topic: " + s, true);
     show_popup();
 }
 
 void MainView::subscribe_failure_popup_set(QString s)
 {
-    pop_up->set_pop_up("Unsuccessful subscription to topic: " + s, false);
+    _pop_up->set_pop_up("Unsuccessful subscription to topic: " + s, false);
     show_popup();
 }
 
 void MainView::unsubscribe_success_popup_set(QString s)
 {
-    pop_up->set_pop_up("Successful UNsubscription to topic: " + s, true);
+    _pop_up->set_pop_up("Successful Unsubscription of topic: " + s, true);
     show_popup();
 }
 
 void MainView::unsubscribe_failure_popup_set(QString s)
 {
-    pop_up->set_pop_up("Unsuccessful UNsubscription to topic: " + s, false);
+    _pop_up->set_pop_up("Unsuccessful Unsubscription of topic: " + s, false);
     show_popup();
 }
 
@@ -276,10 +276,10 @@ void MainView::show_popup()
 {
     auto window_size = this->size();
     auto app_position =  this->mapToGlobal(this->pos());
-    auto popup_size = pop_up->size();
-    pop_up->setGeometry(app_position.x() / 2 + window_size.rwidth() - (popup_size.rwidth() + 30),
+    auto popup_size = _pop_up->size();
+    _pop_up->setGeometry(app_position.x() / 2 + window_size.rwidth() - (popup_size.rwidth() + 30),
                         app_position.y() / 2 + 20, popup_size.rwidth(), popup_size.rheight());
-    pop_up->show();
+    _pop_up->show();
 }
 
 void MainView::connection_lost_dialog()
@@ -321,11 +321,11 @@ void MainView::connection_failure_popup_set(QString s, bool connection_exist)
 {
     if (connection_exist)
     {
-        pop_up->set_pop_up("Connection to the " + s + " server failed. \nConnection already exists.", false);
+        _pop_up->set_pop_up("Connection to the " + s + " server failed. \nConnection already exists.", false);
     }
     else
     {
-        pop_up->set_pop_up("Connection to the " + s + " server failed.", false);
+        _pop_up->set_pop_up("Connection to the " + s + " server failed.", false);
     }
 
     show_popup();
@@ -333,13 +333,13 @@ void MainView::connection_failure_popup_set(QString s, bool connection_exist)
 
 void MainView::connection_failure_popup_set()
 {
-    pop_up->set_pop_up("Connection failed.", false);
+    _pop_up->set_pop_up("Connection failed.", false);
     show_popup();
 }
 
 void MainView::connection_success_popup_set()
 {
-    pop_up->set_pop_up("Connection is successful!\nSession started..", true);
+    _pop_up->set_pop_up("Connection is successful!\nSession started..", true);
     show_popup();
 }
 
@@ -362,6 +362,7 @@ void MainView::display_full_message(QListWidgetItem* clicked_item)
         QPixmap pix;
         pix.loadFromData(tmp);
         img->setPixmap(pix);
+        img->setAttribute(Qt::WA_DeleteOnClose);
         img->show();
     } else if (type == "text" || type == "binary")
     {
@@ -369,6 +370,7 @@ void MainView::display_full_message(QListWidgetItem* clicked_item)
         img->setWindowFlags(Qt::Window);
         auto tmp = msg.toString();
         img->setText(tmp);
+        img->setAttribute(Qt::WA_DeleteOnClose);
         img->show();
     } else if (type == "json")
     {
@@ -377,6 +379,7 @@ void MainView::display_full_message(QListWidgetItem* clicked_item)
         auto doc = msg.toByteArray();
         //auto tmp = doc.toJson(QJsonDocument::Indented);
         json->setText(doc);
+        json->setAttribute(Qt::WA_DeleteOnClose);
         json->show();
     }
 }

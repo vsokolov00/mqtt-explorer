@@ -14,15 +14,16 @@ std::string Program::CONFIG_FILE = "config.json";
 
 Program::~Program()
 {
+    delete _tree_model;
     delete _connection_controller;
     delete _subscription_controller;
-    delete _dashboard_controller;
-    delete _main_view;
-    delete _dashboard_view;
     delete _message_controller;
+    delete _main_view;
     delete _login_view;
     delete _mutex;
-    //delete _flow_layout;
+    delete _flow_layout;
+    delete _dashboard_controller;
+    delete _dashboard_view;
 }
 
 void Program::connect_cb(void *object, const std::string &server_address, const std::string &id, 

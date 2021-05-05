@@ -19,9 +19,11 @@ class DashboardView : public QWidget
     Q_OBJECT
 
 private:
-    DashboardController* _dashboard_controller;
-    FlowLayout* _flow_layout;
-    NewDeviceDialog* _dialog;
+    DashboardController* _dashboard_controller = nullptr;
+    FlowLayout* _flow_layout = nullptr;
+    NewDeviceDialog* _dialog = nullptr;
+    QVBoxLayout *_central_layout = nullptr;
+    QPushButton *_add_device = nullptr;
 
 private slots:
     void on_add_device_clicked();

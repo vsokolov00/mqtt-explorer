@@ -4,13 +4,13 @@
 
 DeviceWidget::DeviceWidget(QWidget *parent, DeviceType type, QString name, QString topic) :
     QWidget(parent),
-    ui(new Ui::DeviceWidget),
+    _ui(new Ui::DeviceWidget),
     type(type),
     name(name),
     topic(topic)
 {
-    ui->setupUi(this);
-    ui->name->setText(name);
+    _ui->setupUi(this);
+    _ui->name->setText(name);
 
     if (type == DeviceType::LIGHT)
     {
@@ -40,19 +40,18 @@ DeviceWidget::DeviceWidget(QWidget *parent, DeviceType type, QString name, QStri
     {
 
     }
-
 }
 
 DeviceWidget::~DeviceWidget()
 {
-    delete ui;
+    delete _ui;
 }
 
 void DeviceWidget::set_image(QImage image, int width, int height)
 {
     QPixmap pix_img = QPixmap::fromImage(image);
-    ui->icon->setPixmap(pix_img.scaled(width, height, Qt::KeepAspectRatio));
-    ui->icon->setVisible(true);
+    _ui->icon->setPixmap(pix_img.scaled(width, height, Qt::KeepAspectRatio));
+    _ui->icon->setVisible(true);
 }
 
 DeviceType DeviceWidget::get_type()

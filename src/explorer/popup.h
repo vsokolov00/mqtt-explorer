@@ -41,6 +41,7 @@ class PopUp : public QWidget
 
     public:
         explicit PopUp(QWidget *parent = 0);
+        ~PopUp();
 
     protected:
         /**

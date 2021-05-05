@@ -3,19 +3,19 @@
 
 NewDeviceDialog::NewDeviceDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::NewDeviceDialog)
+    _ui(new Ui::NewDeviceDialog)
 {
-    ui->setupUi(this);
+    _ui->setupUi(this);
 }
 
 NewDeviceDialog::~NewDeviceDialog()
 {
-    delete ui;
+    delete _ui;
 }
 
 void NewDeviceDialog::on_ok_clicked()
 {
-    emit new_device_added(ui->device_name->text(), ui->device_topic->text(), ui->device_type->currentIndex() + 1);
+    emit new_device_added(_ui->device_name->text(), _ui->device_topic->text(), _ui->device_type->currentIndex() + 1);
     this->accept();
 }
 

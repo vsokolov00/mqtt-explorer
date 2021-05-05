@@ -36,6 +36,11 @@ PopUp::PopUp(QWidget *parent) : QWidget(parent)
     connect(timer, &QTimer::timeout, this, &PopUp::hideAnimation);
 }
 
+PopUp::~PopUp()
+{
+    delete timer;
+}
+
 void PopUp::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)

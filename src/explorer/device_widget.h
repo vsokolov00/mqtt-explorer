@@ -37,7 +37,7 @@ public:
     void set_image(QImage image, int width, int height);
 
 private:
-    Ui::DeviceWidget *ui;
+    Ui::DeviceWidget *_ui;
     DeviceType type;
     QString name;
     QString topic;

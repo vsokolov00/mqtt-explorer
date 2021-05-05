@@ -78,7 +78,7 @@ private:
     SubscriptionController *_subscription_controller = nullptr;     ///< controller managing subscription/unsubscription to a topic
     DashboardController *_dashboard_controller = nullptr;           ///< controller managing the dasboard
 
-    PopUp* pop_up;          ///< manages pop ups displaying messages
+    PopUp* _pop_up;          ///< manages pop ups displaying messages
 
     /**
      * @brief Shows a pop up with a message about an operation which was successful/unsuccessful.

@@ -23,7 +23,7 @@ private slots:
     void on_cancel_clicked();
 
 private:
-    Ui::NewDeviceDialog *ui;
+    Ui::NewDeviceDialog *_ui;
 };
 
 #endif // NEW_DEVICE_DIALOG_H
