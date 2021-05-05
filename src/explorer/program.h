@@ -22,10 +22,12 @@
 
 #include "main_view.h"
 #include "login_view.h"
+#include "dashboard_view.h"
 
 #include "connection_controller.h"
 #include "message_controller.h"
 #include "subscription_controller.h"
+#include "dashboard_controller.h"
 
 /**
  * @brief Holds all models, views and controllers and a client. Provides them to other objects which need them
@@ -50,17 +52,19 @@ class Program
          **/
         static void disconnect_cb(void * object);
 
+
     private:
         Client *_client = nullptr;              ///< MQTT client
         TreeModel *_tree_model = nullptr;       ///< main data model of the application
 
-        //DashboardView *_dashboard_view;
-        LoginView *_login_view = nullptr;       ///< manages the login window
-        MainView *_main_view = nullptr;         ///< manages the main window
+        DashboardView *_dashboard_view = nullptr;
+        LoginView *_login_view = nullptr;
+        MainView *_main_view = nullptr;
 
-        ConnectionController *_connection_controller = nullptr;         ///< manages the connection to the MQTT broker
-        MessageController *_message_controller = nullptr;               ///< manages the message recieval and publish
-        SubscriptionController *_subscription_controller = nullptr;     ///< manages subscription and unsubscription of topics
+        ConnectionController *_connection_controller = nullptr;
+        MessageController *_message_controller = nullptr;
+        SubscriptionController *_subscription_controller = nullptr;
+        DashboardController *_dashboard_controller = nullptr;
 
         std::mutex *_mutex;
 

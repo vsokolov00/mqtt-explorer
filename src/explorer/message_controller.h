@@ -27,6 +27,7 @@
 #include "../json/json/json-forwards.h"
 #include "../json/json/json.h"
 #include "tree_model.h"
+#include "dashboard_controller.h"
 
 /**
  * @brief Used for recieving and publishing messages to and from a MQTT broker.
@@ -82,11 +83,14 @@ class MessageController : public QObject
         QVariant _file_to_publish;      ///< data of published file
         FileType _file_type;            ///< type of recieved message.
 
+        bool _dashboard_is_opened = false;              ///< true when the dashboard is open
+        DashboardController* _dashboard_controller;     ///< controls the dashboard view
+
         /**
          * @brief Parses a topic to seperate subtopics.
          * @param path the topic
          * @return the parsed root topic and subtopics.
-         **/
+         **/    
         std::vector<std::string> parse_topic_path(std::string path);
 
         /**
@@ -137,7 +141,7 @@ class MessageController : public QObject
         size_t hash_function(const char *data, size_t size);
 
     public:
-        MessageController(TreeModel *tree_model);
+        MessageController(TreeModel *tree_model, DashboardController* dbcon);
         ~MessageController() = default;
 
         /**
@@ -227,6 +231,10 @@ class MessageController : public QObject
          **/
         void create_dir_structure(QDir parent_dir, QVector<TreeItem *>& subtopics);
 
+    public slots:
+        void dashboared_opened();
+        void dashboared_closed();
+        
     signals:
         /**
          * @brief Emits a signal registered by the main window @see MainView informing about successful publish.

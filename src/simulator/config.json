@@ -136,7 +136,7 @@
             "name": "main light",
             "recieving topic": "home/lights/living room",
             "id": 267,
-            "period": 13,
+            "period": 3,
             "states": ["on", "off", "dimmed"]
         },
         {
@@ -162,8 +162,8 @@
         {
             "topic": "surveillance/motion/cameras/home/main entrance",
             "name": "main cam",
-            "min_preiod": 3,
-            "max_period": 120,
+            "min_preiod": 5,
+            "max_period": 10,
             "images": ["images/bob_ross.jpg", 
                        "images/composition_8.jpg", 
                        "images/impression_sunrise.jpg", 
@@ -224,7 +224,7 @@
         {
             "topic": "answers/valves",
             "name": "SECTOR A",
-            "period": 25,
+            "period": 1,
             "recieving topic": "devices/valves/main piping",
             "id": "AVLV",
             "states": ["open", "closed", "40%", "80%"]

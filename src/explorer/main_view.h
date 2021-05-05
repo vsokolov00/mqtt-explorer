@@ -31,6 +31,7 @@
 #include "popup.h"
 
 #include "tree_model.h"
+#include "dashboard_view.h"
 
 #include "connection_controller.h"
 #include "message_controller.h"
@@ -62,10 +63,15 @@ private slots:
 
     void on_save_snapshot_clicked();    ///< triggerd when "save snapshot" button is pressed
 
+    void on_dashboard_clicked();
+signals:
+    void dashboard_opened();
+
 private:
     Ui::MainWindow *_ui = nullptr;      ///< the main window user interface
 
     TreeModel *_tree_model = nullptr;   ///< three model for managing message tree structure
+    DashboardView *_dashboard_window = nullptr;
 
     ConnectionController *_connection_controller = nullptr;         ///< controller managing connection to a MQTT broker
     MessageController *_message_controller = nullptr;               ///< controller managing publish and recieval of messages
@@ -80,7 +86,7 @@ private:
 
 public:
     MainView(TreeModel *tree_model, ConnectionController *connection_controller,
-               MessageController *message_controller, SubscriptionController *subscription_controller);
+               MessageController *message_controller, SubscriptionController *subscription_controller, DashboardView *dashboard_window);
     ~MainView();
 
     /**

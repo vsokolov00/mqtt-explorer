@@ -29,10 +29,15 @@ RCC_DIR         = rrc/                  # Generated qrc_*.cpp files
 
 SOURCES += \
     connection_controller.cpp \
+    dashboard_controller.cpp \
+    dashboard_view.cpp \
+    device_widget.cpp \
+    flowlayout.cpp \
     login_view.cpp \
     main.cpp \
     main_view.cpp \
     message_controller.cpp \
+    new_device_dialog.cpp \
     popup.cpp \
     subscription_controller.cpp \
     tree_item.cpp \
@@ -42,9 +47,14 @@ SOURCES += \
 
 HEADERS += \
     connection_controller.h \
+    dashboard_controller.h \
+    dashboard_view.h \
+    device_widget.h \
+    flowlayout.h \
     login_view.h \
     main_view.h \
     message_controller.h \
+    new_device_dialog.h \
     popup.h \
     subscription_controller.h \
     tree_item.h \
@@ -53,6 +63,9 @@ HEADERS += \
     log.h
 
 FORMS += \
+    resources/new_device_dialog.ui \
+    resources/device_widget.ui \
+    resources/dashboard.ui \
     resources/login.ui \
     resources/mainwindow.ui
 

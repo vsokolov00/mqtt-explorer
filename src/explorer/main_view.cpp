@@ -13,14 +13,16 @@
 #include <iostream>
 
 MainView::MainView(TreeModel *tree_model, ConnectionController *connection_controller,
-                       MessageController *message_controller, SubscriptionController *subscription_controller) 
-           : QMainWindow(nullptr), _ui(new Ui::MainWindow), _tree_model(tree_model),
+                       MessageController *message_controller, SubscriptionController *subscription_controller, DashboardView *dashboard_window)
+           : QMainWindow(nullptr), _ui(new Ui::MainWindow), 
+             _tree_model(tree_model), _dashboard_window(dashboard_window),
              _connection_controller(connection_controller), _message_controller(message_controller), 
              _subscription_controller(subscription_controller)
 {
     Log::log("Main window initialization starting...");
     
     _tree_model->setParent(this);
+
 
     pop_up = new PopUp(this);
 
@@ -42,6 +44,7 @@ MainView::MainView(TreeModel *tree_model, ConnectionController *connection_contr
     connect(_connection_controller, SIGNAL(connection_failed(QString,bool)), this, SLOT(connection_failure_popup_set(QString,bool)));
     connect(_connection_controller, SIGNAL(connection_success()), this, SLOT(connection_success_popup_set()));
     connect(_ui->listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(display_full_message(QListWidgetItem*)));
+    connect(this, &MainView::dashboard_opened, _message_controller, &MessageController::dashboared_opened);
 
     Log::log("Main window initialization complete.");
 }
@@ -83,6 +86,10 @@ void MainView::item_selection()
             else if (type == "json")
             {
                 tmp = std::get<1>(tuple);
+            }
+            else if (type == "text")
+            {
+                tmp = std::get<0>(tuple).toString();
             }
             else
             {
@@ -380,3 +387,9 @@ void MainView::on_save_snapshot_clicked()
     _message_controller->create_dir_structure(path, _message_controller->get_root_topics());
 }
 
+
+void MainView::on_dashboard_clicked()
+{
+    emit dashboard_opened();
+    _dashboard_window->show();
+}

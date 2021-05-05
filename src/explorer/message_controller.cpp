@@ -11,8 +11,9 @@
 #include "message_controller.h"
 #include <iostream>
 
-MessageController::MessageController(TreeModel *tree_model)
-                  : _tree_model(tree_model) {}
+MessageController::MessageController(TreeModel *tree_model, DashboardController *dashboard_controller)
+                  : _tree_model(tree_model),
+                    _dashboard_controller(dashboard_controller){}
 
 void MessageController::on_message_arrived_cb(void *object, const std::string &topic, const MessageData &message, FileType type)
 {
@@ -40,6 +41,10 @@ void MessageController::on_delivery_complete_cb(void *object, mqtt::delivery_tok
 
 void MessageController::on_message_arrived(const std::string &topic, const MessageData &message, FileType type)
 {
+    if (_dashboard_is_opened)
+    {
+        _dashboard_controller->process_message(topic, QByteArray(message.binary.data, message.binary.size));
+    }
     Log::log("Message arrived on topic: " + topic);
     QVariant variant;
     TreeItem *topic_item = get_topic(topic);
@@ -334,4 +339,12 @@ void MessageController::create_dir_structure(QDir parent_dir, QVector<TreeItem *
 QVector<TreeItem *>& MessageController::get_root_topics()
 {
     return _root_topics;
+}
+
+void MessageController::dashboared_opened(){
+    _dashboard_is_opened = true;
+}
+
+void MessageController::dashboared_closed(){
+    _dashboard_is_opened = false;
 }
