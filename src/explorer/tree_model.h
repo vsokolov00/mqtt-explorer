@@ -19,31 +19,93 @@
 
 #include "tree_item.h"
 
+/**
+ * @brief The main data model of the application, stores the message tree.
+ **/
 class TreeModel : public QAbstractItemModel
 {
     Q_OBJECT
 private:
-    TreeItem *_rootItem;
+    TreeItem *_rootItem;            ///< root of the message tree
 
 public:
     explicit TreeModel(QObject *parent);
     ~TreeModel();
 
+    /**
+     * @brief Gets message data of a node based on a index.
+     * @param index the index of the data.
+     * @param role determines how the data are displayed.
+     * @return the message data.
+     **/
     QVariant data(const QModelIndex &index, int role) const override;
+
+    /**
+     * @brief TODO
+     * @param section TODO
+     * @param orientation TODO
+     * @param role TODO
+     * @return TODO
+     **/
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const override;
+
+    /**
+     * @brief TODO
+     * @param index TODO
+     * @return TODO
+     **/
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
+    /**
+     * @brief TODO
+     * @param row TODO
+     * @param columns TODO
+     * @param parent TODO
+     * @return TODO
+     **/
     QModelIndex index(int row, int column,
                       const QModelIndex &parent = QModelIndex()) const override;
+    
+    /**
+     * @brief TODO
+     * @param index TODO
+     * @return TODO
+     **/
     QModelIndex parent(const QModelIndex &index) const override;
 
+    /**
+     * @brief Gets the number of rows of the model.
+     * @param parent TODO
+     * @return the number of rows.
+     **/
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+
+    /**
+     * @brief Gets the number of columns of the model.
+     * @param parent TODO
+     * @return the number of columns.
+     **/
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
+    /**
+     * @brief Gets a message item.
+     * @param index TODO
+     * @return the message item.
+     **/
     TreeItem *getItem(const QModelIndex &index) const;
+
+    /**
+     * @brief Gets the root node of the tree strusture.
+     * @return the root node.
+     **/
     TreeItem& getRoot();
 
+    /**
+     * @brief Gets a topic path to a node.
+     * @param t the node to be examined.
+     * @return the topic path.
+     **/
     QString getPath(TreeItem& t);
 };
 

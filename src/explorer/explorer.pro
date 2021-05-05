@@ -1,10 +1,10 @@
 
 ##############################################################################################
-# @file        explorer.pro                                 
-# Case:        VUT, FIT, ICP, project                                      <br>
-# Author:      Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
-# Date:        summer semester 2021                                        <br>
-# @brief       Qmake file used for the Makefile generation a compilation.
+# File:        explorer.pro                                 
+# Case:        VUT, FIT, ICP, project                                      
+# Author:      Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           
+# Date:        summer semester 2021                                        
+# Brief:       Qmake file used for the Makefile generation a compilation.
 ###############################################################################################
 
 QT       += core gui
@@ -21,9 +21,11 @@ INCLUDEPATH += .
 LIBS = -L../libs/client -lclient -L../libs/json -ljson -lpaho-mqttpp3 -lpaho-mqtt3a
 QMAKE_CXXFLAGS += -Wno-unused-result -Wno-unused-parameter -std=c++17
 
-DESTDIR= ../bin/        #Target file directory
-OBJECTS_DIR= ../build/explorer  #Intermediate object files directory
-MOC_DIR= view/       #Generated UI *.[cpp,h] files
+DESTDIR         = ../bin/               # Target file directory
+OBJECTS_DIR     = ../build/explorer     # Intermediate object files directory
+MOC_DIR         = moc/                  # Generated moc_*.[cpp,h] files
+UI_DIR          = ui/                   # Generated ui_*.h files 
+RCC_DIR         = rrc/                  # Generated qrc_*.cpp files
 
 SOURCES += \
     connection_controller.cpp \
@@ -51,8 +53,8 @@ HEADERS += \
     log.h
 
 FORMS += \
-    view/ui/login.ui \
-    view/ui/mainwindow.ui
+    resources/login.ui \
+    resources/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -60,4 +62,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    view/ui/resources.qrc
+    resources/resources.qrc

@@ -33,7 +33,10 @@ clean:
 	@rm -r build || true
 	@rm explorer/Makefile || true
 	@rm explorer/.qmake.stash || true
-	@rm -r libs
+	@rm -r explorer/ui/ || true
+	@rm -r explorer/moc/ || true
+	@rm -r explorer/rrc/ || true
+	@rm -r libs || true
 
 run: explorer
 	./bin/explorer
