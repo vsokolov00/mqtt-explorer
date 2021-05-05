@@ -116,3 +116,6 @@ Thumbs.db
 
 doc/html
 1-xmihol00-xsokol15.zip
+src/explorer/rrc
+src/explorer/ui
+src/explorer/moc
