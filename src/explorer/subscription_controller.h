@@ -127,4 +127,7 @@ class SubscriptionController : public QObject
          * @param topic the unsubscribed topic.
          **/
         void unsubscription_failure(const QString& topic);
+
+    public slots:
+        void new_dashboard_device(std::string topic);
 };

@@ -140,7 +140,7 @@
             "states": ["on", "off", "dimmed"]
         },
         {
-            "topic": "home/lights/living room",
+            "topic": "home/lights/living room/colorful",
             "name": "LED",
             "recieving topic": "home/lights/recieving topic",
             "id": "LED_8942",

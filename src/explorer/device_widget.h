@@ -2,6 +2,9 @@
 #pragma once
 
 #include <QWidget>
+#include <QPalette>
+#include <QtCharts>
+#include <QLineSeries>
 
 enum class DeviceType : unsigned
 {
@@ -35,6 +38,9 @@ public:
     std::string get_topic();
 
     void set_image(QImage image, int width, int height);
+    void set_color(QPalette color);
+    void set_description(QString text);
+    void set_chart();
 
 private:
     Ui::DeviceWidget *_ui;

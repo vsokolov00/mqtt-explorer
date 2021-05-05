@@ -46,6 +46,7 @@ MainView::MainView(TreeModel *tree_model, ConnectionController *connection_contr
     connect(_ui->listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(display_full_message(QListWidgetItem*)));
     connect(this, &MainView::dashboard_opened, _message_controller, &MessageController::dashboared_opened);
 
+    connect(_dashboard_controller, SIGNAL(new_device_on_topic(std::string)), _subscription_controller, SLOT(new_dashboard_device(std::string)));
     Log::log("Main window initialization complete.");
 }
 

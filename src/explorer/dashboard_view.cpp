@@ -1,6 +1,7 @@
 #include "dashboard_view.h"
 #include "ui_dashboard.h"
 
+
 DashboardView::DashboardView(DashboardController *dashboard_controller, FlowLayout *flow_layout) :
     _dashboard_controller(dashboard_controller), _flow_layout(flow_layout)
 {
