@@ -28,6 +28,7 @@
 #include "message_controller.h"
 #include "subscription_controller.h"
 #include "dashboard_controller.h"
+#include "flowlayout.h"
 
 /**
  * @brief Holds all models, views and controllers and a client. Provides them to other objects which need them
@@ -65,6 +66,8 @@ class Program
         MessageController *_message_controller = nullptr;
         SubscriptionController *_subscription_controller = nullptr;
         DashboardController *_dashboard_controller = nullptr;
+
+        FlowLayout *_flow_layout = nullptr;
 
         std::mutex *_mutex;
 

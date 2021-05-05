@@ -108,8 +108,8 @@
         {
             "topic": "home/move sensors/main door",
             "name": "move detector",
-            "min_period": 60,
-            "max_period": 3600
+            "min_period": 10,
+            "max_period": 223
         },
         {
             "topic": "car/front",
@@ -162,7 +162,7 @@
         {
             "topic": "surveillance/motion/cameras/home/main entrance",
             "name": "main cam",
-            "min_preiod": 5,
+            "min_preiod": 8,
             "max_period": 10,
             "images": ["images/bob_ross.jpg", 
                        "images/composition_8.jpg", 

@@ -27,29 +27,39 @@ void MoveSensor::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
     auto vertical_generator = std::bind(std::uniform_int_distribution<int>(0, _vertical_FOV), std::default_random_engine(time(nullptr)));
     vertical_generator();
 
+    Json::Value root;
+    Json::StreamWriter *writer = Json::StreamWriterBuilder().newStreamWriter();
+    if (writer == nullptr)
+    {
+        Log::error("unable to allocate resources for device: " + _name + ", terminatng the device.");
+        return;
+    }
+    std::ostringstream stream;
     std::string message_str;
 
     future.wait_for(std::chrono::seconds(period_generator()));
     while (run)
     {
-        message_str = _name;
+        root["name"] = _name;
+        root["state"] = "move detected";
         if (_horizontal_FOV | _vertical_FOV)
         {
-            message_str += ": move detected at x = " + std::to_string(horizontal_generator()) 
-                        + ", y = " + std::to_string(vertical_generator());
-        }
-        else
-        {
-            message_str += ": move detected";
+            root["X coordinate"] = horizontal_generator();            
+            root["Y coordinate"] = vertical_generator();
         }
 
+        writer->write(root, &stream);
+        message_str = stream.str();
         message->set_payload(message_str.c_str(), message_str.size());
         
         mutex.lock();
             client.publish(message);
         mutex.unlock();
+        stream.str(std::string());
 
-        Log::log(message_str);     
+        Log::log(_name + ": move detected");     
         future.wait_for(std::chrono::seconds(period_generator()));
     }
+
+    delete writer;
 }

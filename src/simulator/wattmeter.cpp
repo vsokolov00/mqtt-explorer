@@ -44,14 +44,14 @@ void Wattmeter::run(mqtt::client &client, const bool &run, std::mutex &mutex, st
             _value = _value - step < _min_val ? _min_val : _value - step;
         }
 
-        message_str = _name + ": electric power = " + std::to_string(_value) + " " + _unit;
+        message_str = std::to_string(_value) + " " + _unit;
         message->set_payload(message_str.c_str(), message_str.size());
         
         mutex.lock();
             client.publish(message);
         mutex.unlock();
 
-        Log::log(message_str);
+        Log::log(_name + ": electric power = " + std::to_string(_value) + " " + _unit);
         future.wait_for(std::chrono::seconds(_period));
     }
 }

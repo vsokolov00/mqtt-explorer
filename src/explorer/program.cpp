@@ -20,6 +20,7 @@ Program::~Program()
     delete _message_controller;
     delete _login_view;
     delete _mutex;
+    delete _flow_layout;
 }
 
 void Program::connect_cb(void *object, const std::string &server_address, const std::string &id, 
@@ -39,7 +40,8 @@ void Program::init()
 {
     Log::log("Program initialization starting...");
     _mutex = new std::mutex();
-
+    _flow_layout = new FlowLayout();
+    
     _tree_model = new TreeModel(nullptr);
 
     _connection_controller = new ConnectionController(_mutex, this, &Program::connect_cb, &Program::disconnect_cb);
@@ -50,7 +52,7 @@ void Program::init()
     _main_view = new MainView(_tree_model, _connection_controller, _message_controller, 
                               _subscription_controller, _dashboard_controller);
     _login_view = new LoginView(_connection_controller);
-    _dashboard_view = new DashboardView(_dashboard_controller);
+    _dashboard_view = new DashboardView(_dashboard_controller, _flow_layout);
 
     _dashboard_controller->register_dashboard_view(_dashboard_view);
 

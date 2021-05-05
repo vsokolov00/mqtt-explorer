@@ -33,18 +33,10 @@ void Light::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::f
     future.wait_for(std::chrono::seconds(_period));
     while (run)
     {
-        message_str = _name;
         new_state = state_generator();
 
         _mutex->lock();
-            if (new_state != _state)
-            {
-                message_str += ": state changed locally: " + _states[new_state];
-            }
-            else
-            {
-                message_str += ": state unchanged: " + _states[new_state];
-            }
+            message_str = _states[new_state];
             _state = new_state;
 
 
@@ -54,7 +46,7 @@ void Light::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::f
                 client.publish(message);
             mutex.unlock();
 
-            Log::log(message_str);
+            Log::log(_name + ": state changed: " + _states[new_state]);
         _mutex->unlock();
 
         future.wait_for(std::chrono::seconds(_period));

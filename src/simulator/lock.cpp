@@ -20,33 +20,60 @@ void Lock::add_state(std::string state)
 
 void Lock::on_message_arrived(std::string state, Client &client, std::mutex &mutex)
 {
-    std::string message_str = _name;
     auto iterator = std::find(_states.begin(), _states.end(), state);
+    
+    Json::Value root;
+    Json::StreamWriter *writer = Json::StreamWriterBuilder().newStreamWriter();
+    if (writer == nullptr)
+    {
+        Log::error("unable to allocate resources to answer a message on device: " + _name + ".");
+    }
+    std::ostringstream stream;
+    std::string message_str;
+
+    root["name"] = _name;
 
     if (iterator == _states.end())
     {
         mutex.lock();
-            message_str += ": change unsuccessful, unknow state: " + state;
-            Log::log(message_str);
+            root["change"] = "unsuccessful";
+            root["unknow state"] = state;
+            writer->write(root, &stream);
+            message_str = stream.str();
+
+            Log::log(_name + ": change of state unsuccessful, unknown state: " + state);
             client.publish(_topic, message_str);
         mutex.unlock();
+
+        delete writer;
         return;
     }
 
     _mutex->lock();
         if (state != _state)
         {
-            message_str += ": changing state to: " + state;
+            root["change"] = "unchanged";
+            root["state"] = state;
+            writer->write(root, &stream);
+            message_str = stream.str();
+
+            Log::log(_name + ": changing state to: " + state);
         }
         else
         {
-            message_str += ": state remains unchanged: " + state;
+            root["change"] = "successful";
+            root["state"] = state;
+            writer->write(root, &stream);
+            message_str = stream.str();
+
+            Log::log(_name + ": state remains unchanged: " + state);
         }
         _state = state;
         
         mutex.lock();
             client.publish(_topic, message_str);
         mutex.unlock();
-        Log::log(message_str);
     _mutex->unlock();
+
+    delete writer;
 }

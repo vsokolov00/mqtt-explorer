@@ -28,7 +28,7 @@ private slots:
     void add_device(QString name, QString topic, unsigned device_type);
 
 public:
-    explicit DashboardView(DashboardController *dashboard_controller);
+    explicit DashboardView(DashboardController *dashboard_controller, FlowLayout *flow_layout);
     ~DashboardView();
 
 };

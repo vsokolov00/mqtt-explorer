@@ -30,7 +30,6 @@ void Hygrometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
 
     float step;
     bool up_down;
-    std::string humidity_template_str{_name + ": humidity = "};
     std::string message_str;
 
     future.wait_for(std::chrono::seconds(_period));
@@ -48,7 +47,7 @@ void Hygrometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
             _humidity = _humidity - step < 0.0f ? 0.0f : _humidity - step;
         }
 
-        message_str = humidity_template_str + std::to_string(_humidity);
+        message_str = std::to_string(_humidity);
         message_str = message_str.erase(message_str.size() - 3);
         message_str += "%";
         message->set_payload(message_str.c_str(), message_str.size());
@@ -57,7 +56,7 @@ void Hygrometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
             client.publish(message);
         mutex.unlock();
         
-        Log::log(message_str);
+        Log::log(_name + ": humidity = " + std::to_string(_humidity) + "%");
         future.wait_for(std::chrono::seconds(_period));
     }
 }

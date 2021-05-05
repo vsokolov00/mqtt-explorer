@@ -43,6 +43,7 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
 {
     if (_dashboard_is_opened)
     {
+        // TODO
         _dashboard_controller->process_message(topic, QByteArray(message.binary.data, message.binary.size));
     }
     Log::log("Message arrived on topic: " + topic);

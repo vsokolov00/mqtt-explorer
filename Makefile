@@ -17,7 +17,7 @@ clean:
 	@rm 1-xmihol00-xsokol15.zip || true
 
 run: explorer
-	@cd src && make run
+	@cd src && make run & make run-simulator
 
 run-explorer:
 	@cd src && make run

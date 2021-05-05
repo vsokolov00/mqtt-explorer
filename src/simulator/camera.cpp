@@ -32,6 +32,7 @@ void Camera::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::
     std::vector<std::vector<unsigned char>> images;
     images.reserve(_images.size());
     unsigned failed{0};
+    
     for (unsigned i = 0; i < _images.size(); i++)
     {
         try

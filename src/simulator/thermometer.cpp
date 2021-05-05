@@ -29,10 +29,7 @@ void Thermometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, 
     float step;
     bool up_down;
     
-    Json::Value root;
-    Json::StreamWriter *writer = Json::StreamWriterBuilder().newStreamWriter();
-    std::ostringstream stream;
-    std::string json_str;
+    std::string message_str;
 
     future.wait_for(std::chrono::seconds(_period));
     while (run)
@@ -49,21 +46,16 @@ void Thermometer::run(mqtt::client &client, const bool &run, std::mutex &mutex, 
             _temp = _temp - step < _min_temp ? _min_temp : _temp - step;
         }
         
-        root["name"] = _name;
-        root["temperature"] = _temp;
-        root["unit"] = _unit;
-        writer->write(root, &stream);
-        json_str = stream.str();
-        message->set_payload(json_str.c_str(), json_str.size());
+        message_str = std::to_string(_temp);
+        message_str = message_str.erase(message_str.size() - 3);
+        message_str += " " + _unit;
+        message->set_payload(message_str.c_str(), message_str.size());
         
         mutex.lock();
             client.publish(message);
         mutex.unlock();
 
-        stream.str(std::string());
         Log::log(_name + ": temperature = " + std::to_string(_temp) + " " + _unit);
         future.wait_for(std::chrono::seconds(_period));
     }
-
-    delete writer;
 }
