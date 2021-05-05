@@ -1,3 +1,8 @@
+/**
+ * @file flowlayout.h
+ * @brief This file was downloaded from: https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/layouts/flowlayout?h=5.15
+ **/
+
 /****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
@@ -48,12 +53,13 @@
 **
 ****************************************************************************/
 
-#pragma once
+#ifndef FLOWLAYOUT_H
+#define FLOWLAYOUT_H
 
 #include <QLayout>
 #include <QRect>
 #include <QStyle>
-
+//! [0]
 class FlowLayout : public QLayout
 {
 public:
@@ -82,3 +88,6 @@ private:
     int m_hSpace;
     int m_vSpace;
 };
+//! [0]
+
+#endif // FLOWLAYOUT_H

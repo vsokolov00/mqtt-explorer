@@ -1,4 +1,11 @@
 
+#================================================================================================
+# File:        Makefile
+# Case:        VUT, FIT, ICP, project
+# Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
+# Date:        summer semester 2021
+# Description: Makefile used for calling Makefiles in subdirectories.
+#================================================================================================
 
 .PHONY: all explorer clean simulator run run-explorer run-simulator doc
 

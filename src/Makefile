@@ -1,4 +1,12 @@
 
+#================================================================================================
+# File:        Makefile
+# Case:        VUT, FIT, ICP, project
+# Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
+# Date:        summer semester 2021
+# Description: Makefile used for calling Makefiles of specific projects in other directories.
+#================================================================================================
+
 .PHONY: client simulator explorer json run run-simulator
 
 all: simulator explorer
@@ -39,7 +47,7 @@ clean:
 	@rm -r libs || true
 
 run: explorer
-	./bin/explorer
+	@cd explorer && ../bin/explorer
 
 run-simulator:
 	@cd simulator && make -j run

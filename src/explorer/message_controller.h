@@ -2,7 +2,8 @@
 /**
  * @file        message_controller.h                                 
  * Case:        VUT, FIT, ICP, project                                      <br>
- * Author:      Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
+ * Authors:     David Mihola, xmihol00@stud.fit.vutbr.cz; 
+ *              Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
  * Date:        summer semester 2021                                        <br>
  * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0                    <br>
  * @brief       Declaration of a class, which manages message recieval and publish from and to a mqtt broker. 

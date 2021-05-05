@@ -28,7 +28,6 @@ enum class FileType : unsigned short
     JSON = 0b100,
     JPG = 0b1000,
     PNG = 0b10000,
-    GIF = 0b100000,
     ALL_IMAGES = 0b111100,
     ALL = 0b111111,
     AS_BINARY = 0b1000000,
@@ -82,7 +81,6 @@ class Client : public virtual mqtt::callback
         static const ParsingLevel JSON;
         static const ParsingLevel JPG;
         static const ParsingLevel PNG;
-        static const ParsingLevel GIF;
         static const ParsingLevel ALL_IMAGES;
         static const ParsingLevel AS_BINARY;
 

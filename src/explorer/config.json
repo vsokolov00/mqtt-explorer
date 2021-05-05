@@ -2,13 +2,18 @@
 	"devices" : 
 	[
 		{
-			"name" : "XX",
-			"topic" : "asdasd",
-			"type" : 10
+			"name" : "Light",
+			"topic" : "home/lights/living room/colorful",
+			"type" : 1
 		},
 		{
-			"name" : "camera",
-			"topic" : "camera topic",
+			"name" : "Work shop",
+			"topic" : "home/lights/work shop",
+			"type" : 1
+		},
+		{
+			"name" : "main cam",
+			"topic" : "surveillance/motion/cameras/home/main entrance",
 			"type" : 6
 		}
 	]

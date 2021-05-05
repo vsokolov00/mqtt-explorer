@@ -210,7 +210,7 @@ void Program::load_configuration()
     DeviceWidget *device = nullptr;
     for (unsigned i = 0; root[i]; i++)
     {
-        _client->subscribe(root[i]["topic"].asString(), 1);
+        //_client->subscribe(root[i]["topic"].asString(), 1);
         device = new DeviceWidget(_dashboard_view, static_cast<DeviceType>(root[i]["type"].asUInt()), 
                                   QString(root[i]["name"].asCString()), QString(root[i]["topic"].asCString()));
         _flow_layout->addWidget(device);

@@ -262,13 +262,13 @@ void MainView::subscribe_failure_popup_set(QString s)
 
 void MainView::unsubscribe_success_popup_set(QString s)
 {
-    _pop_up->set_pop_up("Successful Unsubscription of topic: " + s, true);
+    _pop_up->set_pop_up("Successful unsubscription of topic: " + s, true);
     show_popup();
 }
 
 void MainView::unsubscribe_failure_popup_set(QString s)
 {
-    _pop_up->set_pop_up("Unsuccessful Unsubscription of topic: " + s, false);
+    _pop_up->set_pop_up("Unsuccessful unsubscription of topic: " + s, false);
     show_popup();
 }
 
@@ -340,7 +340,7 @@ void MainView::connection_failure_popup_set()
 
 void MainView::connection_success_popup_set()
 {
-    _pop_up->set_pop_up("Connection is successful!\nSession started..", true);
+    _pop_up->set_pop_up("Connection succeeded\nSession started..", true);
     show_popup();
 }
 
@@ -365,19 +365,23 @@ void MainView::display_full_message(QListWidgetItem* clicked_item)
         img->setPixmap(pix);
         img->setAttribute(Qt::WA_DeleteOnClose);
         img->show();
-    } else if (type == "text" || type == "binary")
+    } 
+    else if (type == "text" || type == "binary")
     {
-        QLabel* img = new QLabel(this);
-        img->setWindowFlags(Qt::Window);
+        QLabel* text = new QLabel(this);
+        text->setWindowFlags(Qt::Window);
+        text->setMinimumSize(200, 100);
         auto tmp = msg.toString();
-        img->setText(tmp);
-        img->setAttribute(Qt::WA_DeleteOnClose);
-        img->show();
-    } else if (type == "json")
+        text->setText(tmp);
+        text->setAttribute(Qt::WA_DeleteOnClose);
+        text->show();
+    } 
+    else if (type == "json")
     {
         QLabel *json = new QLabel(this);
         json->setWindowFlags(Qt::Window);
         auto doc = msg.toByteArray();
+        json->setMinimumSize(200, 100);
         //auto tmp = doc.toJson(QJsonDocument::Indented);
         json->setText(doc);
         json->setAttribute(Qt::WA_DeleteOnClose);

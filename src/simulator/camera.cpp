@@ -29,7 +29,7 @@ void Camera::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::
 
     std::ifstream input;
     input.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-    std::vector<std::vector<unsigned char>> images;
+    std::vector<std::vector<char>> images;
     images.reserve(_images.size());
     unsigned failed{0};
     
@@ -37,15 +37,15 @@ void Camera::run(mqtt::client &client, const bool &run, std::mutex &mutex, std::
     {
         try
         {
-            input.open(_images[i - failed], std::ios::binary);
-            images.push_back(std::vector<unsigned char>());
-            images[i - failed].assign(std::istreambuf_iterator<char>(input), {});
+            input.open(_images[i], std::ios::binary);
+            images.push_back(std::vector<char>(std::istreambuf_iterator<char>(input), {}));
         }
         catch (std::ifstream::failure &e)
         {
-            Log::warning("Camera '" + _name + "' error while reading file " + _images[i - failed] + 
+            Log::warning("Camera '" + _name + "' error while reading file " + _images[i] + 
                          " with: " + e.what());
             failed++;
+            continue;
         }
 
         input.close();

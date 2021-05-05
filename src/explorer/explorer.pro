@@ -4,12 +4,12 @@
 # Case:        VUT, FIT, ICP, project                                      
 # Author:      Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           
 # Date:        summer semester 2021                                        
-# Brief:       Qmake file used for the Makefile generation a compilation.
+# Brief:       Qmake file used for a Makefile generation.
 ###############################################################################################
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets charts
 
 #CONFIG-=debug_and_release
 

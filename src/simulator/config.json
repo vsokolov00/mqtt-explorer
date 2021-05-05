@@ -137,7 +137,7 @@
             "recieving topic": "home/lights/living room",
             "id": 267,
             "period": 3,
-            "states": ["on", "off", "dimmed"]
+            "states": ["on", "off"]
         },
         {
             "topic": "home/lights/living room/colorful",
@@ -145,7 +145,7 @@
             "recieving topic": "home/lights/recieving topic",
             "id": "LED_8942",
             "period": 27,
-            "states": ["off", "white", "red", "green", "blue", "yellow", "cyan", "magenta", "rainbow"]
+            "states": ["off", "white", "red", "green", "blue", "yellow", "cyan", "magenta"]
         },
         {
             "topic": "home/lights/work shop",

@@ -1,3 +1,13 @@
+
+/**
+ * @file        dashboard_controller.cpp
+ * Case:        VUT, FIT, ICP, project                                      <br>
+ * Authors:     Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
+ * Date:        summer semester 2021                                        <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0                    <br>
+ * @brief       Implementation of constructors, destructors and functions of the DasboardController class.
+ **/
+
 #include "dashboard_controller.h"
 #include "dashboard_view.h"
 
@@ -43,14 +53,11 @@ void DashboardController::process_message(std::string topic, QByteArray payload)
         } else if (type == DeviceType::LIGHT)
         {
             QString state(payload);
-            if (state == "on" || state == "dimmed")
+            if (state == "on")
             {
                 device->set_image(QImage(":/images/bulb_on.png"), 150, 150);
-            } else if (state == "off")
-            {
-                device->set_image((QImage(":/images/bulb_off.png")), 150, 150);
-            }
-            if (state == "red")
+            } 
+            else if (state == "red")
             {
                 palette.setColor(QPalette::Window, Qt::red);
                 device->set_color(palette);
@@ -78,8 +85,20 @@ void DashboardController::process_message(std::string topic, QByteArray payload)
             {
                 palette.setColor(QPalette::Window, Qt::white);
                 device->set_color(palette);
+            } else if (state == "orange")
+            {
+                palette.setColor(QPalette::Window, QColor::fromRgb(255, 140, 0));
+                device->set_color(palette);
+            } else if (state == "violet")
+            {
+                palette.setColor(QPalette::Window, QColor::fromRgb(148, 0, 211));
+                device->set_color(palette);
+            } 
+            else
+            {
+                device->set_image((QImage(":/images/bulb_off.png")), 150, 150);
             }
-            device->set_description(state);
+            //device->set_description(state);
         } else if (type == DeviceType::THERMOMETR)
         {
             device->set_description(QString(payload));

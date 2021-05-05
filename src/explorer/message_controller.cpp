@@ -2,7 +2,8 @@
 /**
  * @file        message_controller.cpp
  * Case:        VUT, FIT, ICP, project                                      <br>
- * Author:      Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
+ * Authors:     David Mihola, xmihol00@stud.fit.vutbr.cz; 
+ *              Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
  * Date:        summer semester 2021                                        <br>
  * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0                    <br>
  * @brief       Implementation of constructors, destructors and functions of the MessageController class.
@@ -69,7 +70,6 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
             }
             break;
 
-        case FileType::GIF:
         case FileType::JPG:
         case FileType::PNG:
             variant = QVariant(QByteArray(message.binary.data, message.binary.size));
@@ -312,15 +312,33 @@ void MessageController::create_dir_structure(QDir parent_dir, QVector<TreeItem *
             QFile* f;
             if (type == "image")
             {
-                f = new QFile(tmp_dir.path() + "/" + type + QString::number(j) + ".png");
+                auto byte_array = msg.toByteArray();
+                if (    static_cast<unsigned char>(byte_array[0]) == 0xFF
+                    &&  static_cast<unsigned char>(byte_array[1]) == 0xD8
+                    &&  static_cast<unsigned char>(byte_array[2]) == 0xFF
+                    && (static_cast<unsigned char>(byte_array[3]) == 0xDB 
+                    ||  static_cast<unsigned char>(byte_array[3]) == 0xE0 
+                    ||  static_cast<unsigned char>(byte_array[3]) == 0xEE 
+                    ||  static_cast<unsigned char>(byte_array[3]) == 0xE1))
+                {
+                    f = new QFile(tmp_dir.path() + "/" + "payload" + QString::number(j) + ".jpg");    
+                }
+                else
+                {
+                    f = new QFile(tmp_dir.path() + "/" + "payload" + QString::number(j) + ".png");
+                }
             }
-            else if (type == "binary" || type == "text")
+            else if (type == "text")
             {
-                f = new QFile(tmp_dir.path() + "/" + type + QString::number(j) + ".txt");
+                f = new QFile(tmp_dir.path() + "/" + "payload" + QString::number(j) + ".txt");
+            }
+            else if (type == "binary")
+            {
+                f = new QFile(tmp_dir.path() + "/" + "payload" + QString::number(j) + ".bin");
             }
             else if (type == "json")
             {
-                f = new QFile(tmp_dir.path() + "/" + type + QString::number(j) + ".json");
+                f = new QFile(tmp_dir.path() + "/" + "payload" + QString::number(j) + ".json");
             }
             else {
                 continue;

@@ -1,3 +1,13 @@
+
+/**
+ * @file        device_widget.cpp
+ * Case:        VUT, FIT, ICP, project                                      <br>
+ * Authors:     Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
+ * Date:        summer semester 2021                                        <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0                    <br>
+ * @brief       Implementation of constructors, destructors and functions of the DasboardWidget class.
+ **/
+
 #include "device_widget.h"
 #include "ui_device_widget.h"
 #include "dashboard_controller.h"
@@ -5,38 +15,38 @@
 DeviceWidget::DeviceWidget(QWidget *parent, DeviceType type, QString name, QString topic) :
     QWidget(parent),
     _ui(new Ui::DeviceWidget),
-    type(type),
-    name(name),
-    topic(topic)
+    _type(type),
+    _name(name),
+    _topic(topic)
 {
     _ui->setupUi(this);
-    _ui->name->setText(name);
+    _ui->name->setText(_name);
 
-    if (type == DeviceType::LIGHT)
+    if (_type == DeviceType::LIGHT)
     {
-        set_image(QImage(":/images/bulb_off.png"), 150, 150);
-    } else if (type == DeviceType::CAM)
+        set_image(QImage(":/images/bulb_off.png"), 100, 100);
+    } else if (_type == DeviceType::CAM)
     {
-        set_image(QImage(":/images/cam.png"), 115, 115);
-    } else if (type == DeviceType::HYGR)
-    {
-
-    } else if (type == DeviceType::MOVE)
+        set_image(QImage(":/images/cam.png"), 100, 100);
+    } else if (_type == DeviceType::HYGR)
     {
 
-    } else if (type == DeviceType::RELAY)
+    } else if (_type == DeviceType::MOVE)
     {
 
-    } else if (type == DeviceType::THERMOMETR)
+    } else if (_type == DeviceType::RELAY)
     {
 
-    } else if (type == DeviceType::THERMOSTAT)
+    } else if (_type == DeviceType::THERMOMETR)
     {
 
-    } else if (type == DeviceType::VALVE)
+    } else if (_type == DeviceType::THERMOSTAT)
     {
 
-    } else if (type == DeviceType::WATT)
+    } else if (_type == DeviceType::VALVE)
+    {
+
+    } else if (_type == DeviceType::WATT)
     {
 
     }
@@ -49,7 +59,7 @@ DeviceWidget::~DeviceWidget()
 
 void DeviceWidget::set_image(QImage image, int width, int height)
 {
-    ui->icon->clear();
+    _ui->icon->clear();
     QPixmap pix_img = QPixmap::fromImage(image);
     _ui->icon->setPixmap(pix_img.scaled(width, height, Qt::KeepAspectRatio));
     _ui->icon->setVisible(true);
@@ -57,15 +67,16 @@ void DeviceWidget::set_image(QImage image, int width, int height)
 
 void DeviceWidget::set_color(QPalette color)
 {
-    ui->icon->clear();
-    ui->icon->setAutoFillBackground(true);
-    ui->icon->setPalette(color);
-    ui->icon->setGeometry(0,0,150,150);
+    _ui->icon->clear();
+    _ui->icon->setAutoFillBackground(true);
+    _ui->icon->setPalette(color);
+    _ui->icon->setMinimumSize(100, 100);
+    _ui->icon->setMaximumSize(100, 100);
 }
 
 void DeviceWidget::set_description(QString text)
 {
-    ui->description->setText(text);
+    _ui->description->setText(text);
 }
 
 void DeviceWidget::set_chart()
@@ -91,20 +102,21 @@ void DeviceWidget::set_chart()
     QLabel* img = new QLabel(this);
     img->setWindowFlags(Qt::Window);
     img->setPixmap(p);
+    img->setAttribute(Qt::WA_DeleteOnClose);
     img->show();
 }
 
 DeviceType DeviceWidget::get_type()
 {
-    return type;
+    return _type;
 }
 
 std::string DeviceWidget::get_name()
 {
-    return name.toStdString();
+    return _name.toStdString();
 }
 
 std::string DeviceWidget::get_topic()
 {
-    return topic.toStdString();
+    return _topic.toStdString();
 }

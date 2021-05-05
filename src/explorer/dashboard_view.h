@@ -1,4 +1,13 @@
 
+/**
+ * @file        dashboard_view.h
+ * Case:        VUT, FIT, ICP, project                                      <br>
+ * Authors:     Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
+ * Date:        summer semester 2021                                        <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0                    <br>
+ * @brief       Declaration of a class, which manages the dashboard window and its user interface. 
+ **/
+
 #pragma once
 
 #include <QMainWindow>
@@ -14,19 +23,32 @@
 
 class DashboardController;
 
+/**
+ * @brief manages the Dashboard window.
+ **/
 class DashboardView : public QWidget
 {
     Q_OBJECT
 
 private:
-    DashboardController* _dashboard_controller = nullptr;
-    FlowLayout* _flow_layout = nullptr;
-    NewDeviceDialog* _dialog = nullptr;
-    QVBoxLayout *_central_layout = nullptr;
-    QPushButton *_add_device = nullptr;
+    DashboardController *_dashboard_controller = nullptr;   ///< controlls the dashboard view
+    FlowLayout *_flow_layout = nullptr;                     ///< layout of QT widgets
+    NewDeviceDialog *_dialog = nullptr;                     ///< window for selecting new device
+    QVBoxLayout *_central_layout = nullptr;                 ///< dashboard layout
+    QPushButton *_add_device = nullptr;                     ///< add device button
 
 private slots:
+    /**
+     * @brief Triggered when "add device" button is pressed.
+     **/
     void on_add_device_clicked();
+
+    /**
+     * @brief adds and displays new device.
+     * @param name the name of the device.
+     * @param topic the topic on which the devic is located.
+     * @param device_type the type of the device.
+     **/
     void add_device(QString name, QString topic, unsigned device_type);
 
 public:

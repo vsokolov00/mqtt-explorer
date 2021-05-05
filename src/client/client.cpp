@@ -15,7 +15,6 @@ const ParsingLevel Client::STRING = static_cast<ParsingLevel>(FileType::STRING_U
 const ParsingLevel Client::JSON = static_cast<ParsingLevel>(FileType::JSON);
 const ParsingLevel Client::JPG = static_cast<ParsingLevel>(FileType::JPG);
 const ParsingLevel Client::PNG = static_cast<ParsingLevel>(FileType::PNG);
-const ParsingLevel Client::GIF = static_cast<ParsingLevel>(FileType::GIF);
 const ParsingLevel Client::ALL_IMAGES = static_cast<ParsingLevel>(FileType::ALL_IMAGES);
 const ParsingLevel Client::AS_BINARY = static_cast<ParsingLevel>(FileType::AS_BINARY);
 
@@ -249,20 +248,6 @@ void Client::message_arrived(mqtt::const_message_ptr msg)
         message_data.binary.data = payload.c_str();
         message_data.binary.size = payload.size();
         _message_arrived_cb(_message_object, topic, message_data, FileType::PNG);
-        return;
-    }
-
-    if ((_level & GIF) && payload.size() >= 6 && static_cast<unsigned char>(payload[0]) == 0x47 
-                                              && static_cast<unsigned char>(payload[1]) == 0x49
-                                              && static_cast<unsigned char>(payload[2]) == 0x46 
-                                              && static_cast<unsigned char>(payload[3]) == 0x38
-                                              && (static_cast<unsigned char>(payload[4]) == 0x37 
-                                              || static_cast<unsigned char>(payload[4]) == 0x39) 
-                                              && static_cast<unsigned char>(payload[5]) == 0x61)
-    {
-        message_data.binary.data = payload.c_str();
-        message_data.binary.size = payload.size();
-        _message_arrived_cb(_message_object, topic, message_data, FileType::GIF);
         return;
     }
 

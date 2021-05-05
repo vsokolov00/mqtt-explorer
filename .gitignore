@@ -119,3 +119,4 @@ doc/html
 src/explorer/rrc
 src/explorer/ui
 src/explorer/moc
+*/config.json
