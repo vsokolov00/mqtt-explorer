@@ -119,4 +119,7 @@ doc/html
 src/explorer/rrc
 src/explorer/ui
 src/explorer/moc
+src/explorer/view
 */config.json
+
+*/ui_*

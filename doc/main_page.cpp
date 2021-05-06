@@ -1,6 +1,6 @@
 /**
  * @mainpage MQTT Explorer and Simulator
- * @brief Applications implemented within the The C++ Programming Language course at the Brno University of Technology.
+ * @brief Applications implemented within The C++ Programming Language course at the Brno University of Technology.
  * @author David Mihola, xmihol00@stud.fit.vutbr.cz
  * @author Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz
  *  

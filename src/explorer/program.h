@@ -41,7 +41,7 @@
  **/
 class Program
 {
-    private:
+    public:
         static std::string CONFIG_FILE;
 
     public:

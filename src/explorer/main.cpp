@@ -8,14 +8,12 @@
  * @brief       Starting point of the eplorer application, the main function.
  **/
 
-#include "main_view.h"
-
-#include "program.h"
-
-#include <QApplication>
+#include "main.h"
 
 int main(int argc, char *argv[])
 {
+    parse_command_line_arguments(argc, argv);
+
     QApplication application(argc, argv);
 
     Program program;
@@ -37,4 +35,46 @@ int main(int argc, char *argv[])
     program.quit();
 
     return return_value;
+}
+
+void parse_command_line_arguments(int argc, char **argv)
+{
+    std::string argument;
+    bool file{false};
+
+    if (argc == 2)
+    {
+        argument = std::string(argv[1]);
+        if (argument == "-v" || argument == "--verbose")
+        {
+            Log::verbose = true;
+        }
+        else
+        {
+            Program::CONFIG_FILE = argument;
+        }
+    }
+    else if (argc > 2)
+    {
+        argument = std::string(argv[1]);
+        if (argument == "-v" || argument == "--verbose")
+        {
+            Log::verbose = true;
+        }
+        else
+        {
+            file = true;
+            Program::CONFIG_FILE = argument;
+        }
+
+        argument = std::string(argv[2]);
+        if (argument == "-v" || argument == "--verbose")
+        {
+            Log::verbose = true;
+        }
+        else if (!file)
+        {
+            Program::CONFIG_FILE = argument;
+        }
+    }
 }

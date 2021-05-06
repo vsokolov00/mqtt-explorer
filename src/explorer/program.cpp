@@ -135,9 +135,12 @@ void Program::connect(const std::string &server_address, const std::string &id,
 //            emit _connection_controller->connection_failed();
 //            return;
 //        }
-        try {
+        try 
+        {
             _client->connect(connection_options);
-        }  catch (const mqtt::exception& exc) {
+        }  
+        catch (const mqtt::exception& exc) 
+        {
             emit _connection_controller->connection_failed();
             Log::error("Connection failure.");
             return;
@@ -180,6 +183,7 @@ void Program::load_configuration()
     if (file.fail())
     {
         Log::error("Opening configuration file '" + CONFIG_FILE + "' failed. Dashboard was not loaded.");
+        Program::CONFIG_FILE = "";
         return;
     }
 
@@ -193,7 +197,7 @@ void Program::load_configuration()
     Json::CharReader *reader = Json::CharReaderBuilder().newCharReader();
     if (reader == nullptr)
     {
-        Log::error("Unable to allocate resources. Dashboard was not loaded.");
+        Log::error("Unable to allocate resources.\nDashboard was not loaded and newly added devices will not be saved.");
         return;
     }
 
@@ -210,7 +214,6 @@ void Program::load_configuration()
     DeviceWidget *device = nullptr;
     for (unsigned i = 0; root[i]; i++)
     {
-        //_client->subscribe(root[i]["topic"].asString(), 1);
         device = new DeviceWidget(_dashboard_view, static_cast<DeviceType>(root[i]["type"].asUInt()), 
                                   QString(root[i]["name"].asCString()), QString(root[i]["topic"].asCString()));
         _flow_layout->addWidget(device);
@@ -220,10 +223,8 @@ void Program::load_configuration()
 
 void Program::save_configuration()
 {
-    std::ofstream file(CONFIG_FILE, std::ofstream::out);
-    if (file.fail())
+    if (CONFIG_FILE == "")
     {
-        Log::error("Opening configuration file '" + CONFIG_FILE + "' failed. All newly added devices will be lost.");
         return;
     }
 
@@ -231,8 +232,7 @@ void Program::save_configuration()
     Json::StreamWriter *writer = Json::StreamWriterBuilder().newStreamWriter();
     if (writer == nullptr)
     {
-        Log::error("unable to allocate resources to save configuration file. All newly added devices will be lost.");
-        file.close();
+        Log::error("Unable to allocate resources to save configuration file. All newly added devices are lost.");
         return;
     }
     std::ostringstream stream;
@@ -246,6 +246,14 @@ void Program::save_configuration()
         root["devices"][i]["type"] = static_cast<unsigned>(iterator->second->get_type());
     }
 
+    std::ofstream file(CONFIG_FILE, std::ofstream::out);
+    if (file.fail())
+    {
+        Log::error("Opening configuration file '" + CONFIG_FILE + "' failed. All newly added devices are lost.");
+        delete writer;
+        return;
+    }
+
     try
     {
         writer->write(root, &file);
@@ -253,8 +261,13 @@ void Program::save_configuration()
     catch(const std::exception &e)
     {
         (void)e;
-        Log::error("unable to save configuration file. All newly added devices will be lost.");
+        Log::error("Unable to save configuration file. All newly added devices will be lost.");
     }
+
     file.close();
+    if (file.fail())
+    {
+        Log::error("Unable to save configuration file. All newly added devices will be lost.");
+    }
     delete writer;
 }   

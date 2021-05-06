@@ -10,7 +10,7 @@
 
 #include "log.h"
 
-bool Log::verbose = true;
+bool Log::verbose = false;
 
 void Log::log(const std::string &message)
 {
