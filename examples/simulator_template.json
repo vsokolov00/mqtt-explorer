@@ -3,136 +3,142 @@
  * Case:        VUT, FIT, ICP, project                             
  * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz           
  * Date:        summer semester 2021                               
- * Brief:       Template JSON file for the simulator.        
+ * Brief:       Template JSON file used to specified simulated devices by the simulator.        
  **/
 
 {
     "thermometers":
     [
         {
-            "topic": "home/temperatrure/kitchen",
-            "name": "temp1",
-            "period": 10,
-            "min_temp": 5,
-            "max_temp": 10,
-            "min_step": 0.2,
-            "max_step": 0.8,
-            "temp": 27.3,
-            "unit": "C"
+            "topic": "the/topic/path/where/the/device/sends/messages",
+            "name": "name of the device",
+            "period": "integer value in seconds",
+            "min_temp": "floating point value in specified unit of measurement",
+            "max_temp": "floating point value in specified unit of measurement",
+            "min_step": "floating point value in specified unit of measurement",
+            "max_step": "floating point value in specified unit of measurement",
+            "temp": "floating point value in specified unit of measurement",
+            "unit": "unit of measurement"
         }
     ],
 
     "hygrometers": 
     [
         {
-            "topic": "home/humidity/bathroom",
-            "name": "hygro1",
-            "period": 18,
-            "min_step": 0.1,
-            "max_step": 0.3,
-            "humidity": 67.1
-
+            "topic": "the/topic/path/where/the/device/sends/messages",
+            "name": "name of the device",
+            "period": "integer value in seconds",
+            "min_step": "floating point value in percentages",
+            "max_step": "floating point value in percentages",
+            "humidity": "floating point value in percentages"
         }
     ],
 
     "wattmeters": 
     [
         {
-            "topic": "devices/wattmeter/workshop",
-            "name": "WM",
-            "period": 16,
-            "min_val": 0,
-            "max_val": 200,
-            "min_step": 1,
-            "max_step": 4,
-            "value": 53,
-            "unit": "kW"
+            "topic": "the/topic/path/where/the/device/sends/messages",
+            "name": "name of the device",
+            "period": "integer value in seconds",
+            "min_val": "integer value in specified unit of measurement",
+            "max_val": "integer value in specified unit of measurement",
+            "min_step": "integer value in specified unit of measurement",
+            "max_step": "integer value in specified unit of measurement",
+            "value": "integer value in specified unit of measurement",
+            "unit": "unit of measurement"
         }
     ],
 
     "move sensors":
     [
         {
-            "topic": "home/move sensors/main door",
-            "name": "move detector",
-            "min_period": 10,
-            "max_period": 223
+            "topic": "the/topic/path/where/the/device/sends/messages",
+            "name": "name of the device",
+            "min_period": "integer value in seconds",
+            "max_period": "integer value in seconds"
+        },
+        {
+            "topic": "the/topic/path/where/the/device/sends/messages",
+            "name": "LIDAR",
+            "min_period": "integer value in seconds",
+            "max_period": "integer value in seconds",
+            "horizontal_FOV": "integer value - the width of the field of view of the device",
+            "vertical_FOV": "integer value - the hight of the field of view of the device"
         }
     ],
 
     "lights":
     [
         {
-            "topic": "home/lights/living room",
-            "name": "main light",
-            "recieving topic": "home/lights/living room",
-            "id": 267,
-            "period": 3,
-            "states": ["on", "off"]
+            "topic": "the/topic/path/where/the/device/sends/messages",
+            "name": "name of the device",
+            "recieving topic": "the/topic/path/on/which/the/device/recieves/messages",
+            "id": "unique identification of the device",
+            "period": "integer value in seconds",
+            "states": ["state1", "state2", "..."]
         }
     ],
 
     "cameras":
     [
         {
-            "topic": "surveillance/motion/cameras/home/main entrance",
-            "name": "main cam",
-            "min_preiod": 8,
-            "max_period": 10,
-            "images": ["images/bob_ross.jpg", 
-                       "images/composition_8.jpg", 
-                       "images/impression_sunrise.jpg", 
-                       "images/scream.jpg"]
+            "topic": "the/topic/path",
+            "name": "name of the device",
+            "min_preiod": "integer value in seconds",
+            "max_period": "integer value in seconds",
+            "images": ["path/to/first/image", 
+                       "path/to/second/image", 
+                       "..."]
         }
     ],
 
     "relays":
     [
         {
-            "answering topic": "answers/relays",
-            "name": "switch-relay",
-            "recieving topic": "devices/relays/main switch",
-            "id": "RL4569",
-            "states": ["on", "off"]
+            "answering topic": "the/topic/path/where/the/device/sends/messages",
+            "name": "name of the device",
+            "recieving topic": "the/topic/path/on/which/the/device/recieves/messages",
+            "id": "unique identification of the device",
+            "states": ["state1", "state2", "..."]
         }
     ],
 
     "valves":
     [
         {
-            "topic": "answers/valves",
-            "name": "SECTOR A",
-            "period": 1,
-            "recieving topic": "devices/valves/main piping",
-            "id": "AVLV",
-            "states": ["open", "closed", "40%", "80%"]
+            "topic": "the/topic/path/where/the/device/sends/messages",
+            "name": "name of the device",
+            "period": "integer value in seconds",
+            "recieving topic": "the/topic/path/on/which/the/device/recieves/messages",
+            "id": "unique identification of the device",
+            "states": ["state1", "state2", "..."]
         }
     ],
 
     "thermostats":
     [
         {
-            "topic": "home/heating system/main heater",
-            "name": "Main Heater",
-            "min_period": 25,
-            "max_period": 163,
-            "recieving topic": "devices/heaters/main heater",
-            "id": "MHTR",
-            "set_point": 23.1,
-            "max_temp_change" : 1.3,
-            "starting_temp" : 21.5,
-            "unit" : "C"
+            "topic": "the/topic/path/where/the/device/sends/messages",
+            "name": "name of the device",
+            "min_period": "integer value in seconds",
+            "max_period": "integer value in seconds",
+            "recieving topic": "the/topic/path/on/which/the/device/recieves/messages",
+            "id": "unique identification of the device",
+            "set_point": "floating point value in specified unit of measurement",
+            "max_temp_change" : "floating point value in specified unit of measurement",
+            "starting_temp" : "floating point value in specified unit of measurement",
+            "unit" : "unit of measurement"
         }
     ],
 
     "locks":
     [
         {
-            "answering topic": "answers/locks/home/main door",
-            "name": "Main lock",
-            "recieving topic": "home/locks/main door",
-            "id": "Mlock",
-            "states": ["locked", "unlocked"]
+            "answering topic": "the/topic/path/where/the/device/sends/messages",
+            "name": "name of the device",
+            "recieving topic": "the/topic/path/on/which/the/device/recieves/messages",
+            "id": "unique identification of the device",
+            "states": ["state1", "state2", "..."]
         }
     ]
 }

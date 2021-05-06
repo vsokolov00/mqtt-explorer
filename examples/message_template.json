@@ -1,0 +1,12 @@
+/**
+ * File:        simulator_template.json
+ * Case:        VUT, FIT, ICP, project                             
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz           
+ * Date:        summer semester 2021                               
+ * Brief:       Template JSON for sending messages to the simulator.        
+ **/
+
+{
+    "id": "unique identification of the device",
+    "state": "state to which the device should be swiched by the message" 
+}
