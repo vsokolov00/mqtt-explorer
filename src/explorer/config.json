@@ -2,43 +2,23 @@
 	"devices" : 
 	[
 		{
-			"name" : "Car front",
-			"topic" : "car/front",
-			"type" : 5
+			"name" : "Hugro",
+			"topic" : "home/humidity/bathroom",
+			"type" : 3
 		},
 		{
-			"name" : "Wattmeter",
-			"topic" : "devices/wattmeter/workshop",
-			"type" : 4
-		},
-		{
-			"name" : "Living Room Heater",
-			"topic" : "home/heating system/living room",
-			"type" : 9
-		},
-		{
-			"name" : "Light",
+			"name" : "LIG",
 			"topic" : "home/lights/living room/colorful",
 			"type" : 1
 		},
 		{
-			"name" : "Work shop",
-			"topic" : "home/lights/work shop",
-			"type" : 1
-		},
-		{
-			"name" : "basement lcok",
-			"topic" : "home/locks/basement",
-			"type" : 10
-		},
-		{
-			"name" : "Kitchen",
+			"name" : "Thermo",
 			"topic" : "home/temperatrure/kitchen",
 			"type" : 2
 		},
 		{
-			"name" : "main cam",
-			"topic" : "surveillance/motion/cameras/home/main entrance",
+			"name" : "CAm",
+			"topic" : "surveillance/motion/cameras/garden/tree house",
 			"type" : 6
 		}
 	]

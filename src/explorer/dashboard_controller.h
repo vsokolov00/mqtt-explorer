@@ -13,6 +13,7 @@
 #include <QObject>
 #include "device_widget.h"
 #include "log.h"
+#include "tree_item.h"
 
 class DashboardView;
 
@@ -49,7 +50,7 @@ public:
      * @param topic the topic of the message.
      * @param paload the data of the message.
      **/
-    void process_message(std::string topic, QByteArray payload);
+    void process_message(std::string topic, TreeItem &topic_item);
 
     /**
      * @brief Displays the dashboard.

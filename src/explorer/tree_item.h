@@ -30,7 +30,10 @@ class TreeItem
     private:
         int message_cnt;               ///< curent count of messages in a given node
 
-        std::vector<std::tuple<QVariant, QString, bool>> msg_history;   ///< message history of a given node
+        /**
+         * @brief message history of a given node with data, type and true if message was send by us, otherwise false.
+         **/
+        std::vector<std::tuple<QVariant, QString, bool>> msg_history;
 
         QVector<TreeItem*> m_childItems;        ///< children nodes
         QVector<QVariant> m_itemData;           ///< message data

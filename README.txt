@@ -96,6 +96,8 @@ Fully implemented.
 ### Structure with Generated Files (after commands 'make' and 'make doc')
 --doc/
     |
+    |--html/            (Contains generated html documentation.)
+    |
     |--Doxyfile
 
 --examples/
@@ -106,11 +108,30 @@ Fully implemented.
 
 --src/
     |
+    |--bin/             (Contains compiled programs: explorer and simulator.)
+    |
+    |--build/
+    |   |
+    |   |--client/      (Contains *.o and *.d files needed to build the client library.)
+    |   |
+    |   |--explorer/    (Contains *.o files needed to build the explorer.)
+    |   |
+    |   |--json/json.o
+    |   |
+    |   |--simulator    (Contains *.o and *.d files needed to build the simulator.)
+    |
     |--client/          (Contains *.cpp, *.h files encapsulating the Eclipse Paho MQTT client and Makefile.)
     |
     |--explorer/
     |   |
-    |   |--resources/   (Contains *.ui, *.qrc and *.png files specifying the design of the user interface.)
+    |   |--moc/         (Contains generated moc_* files by QT.)
+    |   |
+    |   |--resources/   (Contains *.ui, *.qrc and *.png files specifying the design of the user interface, 
+    |   |                generated Makefile and .qmake.stash.)
+    |   |
+    |   |--rrc/qrc_resources.cpp
+    |   |
+    |   |--ui/          (Contains generated ui_* files by QT.)
     |   |
     |   |--             (Contains *.cpp, *.h files implementing the MQTT explorer application and explorer.pro file used   
     |                    for generating Makefile for this directory.)
@@ -120,6 +141,12 @@ Fully implemented.
     |   |--json/        (Contains header files for the jsoncpp library.)
     |   |
     |   |--             (Contains the jsoncpp.cpp source code and Makefile.)
+    |
+    |--libs/
+    |   |
+    |   |--client/libclient.a
+    |   |
+    |   |--json/libjson.a
     |
     |--simulator/
     |   |

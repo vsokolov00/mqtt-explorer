@@ -12,6 +12,8 @@
 #include "ui_device_widget.h"
 #include "dashboard_controller.h"
 
+unsigned DeviceWidget::WIDGET_EDGE = 250;
+
 DeviceWidget::DeviceWidget(QWidget *parent, DeviceType type, QString name, QString topic) :
     QWidget(parent),
     _ui(new Ui::DeviceWidget),
@@ -24,44 +26,48 @@ DeviceWidget::DeviceWidget(QWidget *parent, DeviceType type, QString name, QStri
 
     if (_type == DeviceType::LIGHT)
     {
-        set_image(QImage(":/images/bulb_off.png"), 100, 100);
+        set_image(QImage(":/images/bulb_off.png"));
     } else if (_type == DeviceType::CAM)
     {
-        set_image(QImage(":/images/cam.png"), 100, 100);
-    } else if (_type == DeviceType::HYGR)
+        set_image(QImage(":/images/cam.png"));
+    } 
+    else if (_type == DeviceType::HYGR || _type == DeviceType::THERMOMETR || _type == DeviceType::THERMOSTAT)
+    {
+        _image = new QImage(WIDGET_EDGE, WIDGET_EDGE, QImage::Format_RGB16);
+        _painter = new QPainter(_image);
+        _painter->setRenderHint(QPainter::Antialiasing);
+        _painter->setPen(QPen(Qt::blue, 3));
+        set_chart();
+    } 
+    else if (_type == DeviceType::MOVE)
     {
 
-    } else if (_type == DeviceType::MOVE)
+    } 
+    else if (_type == DeviceType::RELAY)
     {
 
-    } else if (_type == DeviceType::RELAY)
+    }
+    else if (_type == DeviceType::VALVE)
     {
 
-    } else if (_type == DeviceType::THERMOMETR)
+    } 
+    else if (_type == DeviceType::WATT)
     {
-
-    } else if (_type == DeviceType::THERMOSTAT)
-    {
-
-    } else if (_type == DeviceType::VALVE)
-    {
-
-    } else if (_type == DeviceType::WATT)
-    {
-
     }
 }
 
 DeviceWidget::~DeviceWidget()
-{
+{    
+    delete _painter;
     delete _ui;
 }
 
-void DeviceWidget::set_image(QImage image, int width, int height)
+void DeviceWidget::set_image(QImage image)
 {
+    Log::log("setting an image");
     _ui->icon->clear();
     QPixmap pix_img = QPixmap::fromImage(image);
-    _ui->icon->setPixmap(pix_img.scaled(width, height, Qt::KeepAspectRatio));
+    _ui->icon->setPixmap(pix_img.scaled(WIDGET_EDGE, WIDGET_EDGE, Qt::KeepAspectRatio));
     _ui->icon->setVisible(true);
 }
 
@@ -70,8 +76,8 @@ void DeviceWidget::set_color(QPalette color)
     _ui->icon->clear();
     _ui->icon->setAutoFillBackground(true);
     _ui->icon->setPalette(color);
-    _ui->icon->setMinimumSize(100, 100);
-    _ui->icon->setMaximumSize(100, 100);
+    _ui->icon->setMinimumSize(WIDGET_EDGE, WIDGET_EDGE);
+    _ui->icon->setMaximumSize(WIDGET_EDGE, WIDGET_EDGE);
 }
 
 void DeviceWidget::set_description(QString text)
@@ -79,31 +85,71 @@ void DeviceWidget::set_description(QString text)
     _ui->description->setText(text);
 }
 
+void DeviceWidget::set_chart(TreeItem &topic_item)
+{
+    _image->fill(Qt::GlobalColor::lightGray);
+    unsigned size = topic_item.getMessages().size();
+    if (size < 2)
+    {
+        return;
+    }
+    unsigned step = WIDGET_EDGE / (size - 1);
+
+    std::vector<float> values;
+    
+    float min = std::numeric_limits<float>::max();
+    float max = std::numeric_limits<float>::min();
+    for (unsigned i = 0; i < size; i++)
+    {
+        QVariant variant = std::get<0>(topic_item.getMessages()[i]);
+        std::string string_data = variant.toString().toStdString();
+        size_t pos = string_data.find(' ');
+        if (pos == std::string::npos)
+        {
+            pos = string_data.find('%');
+        }
+        try
+        {
+            values.push_back(std::stof(string_data.substr(0, pos)));
+        }
+        catch (const std::exception &e)
+        {
+            (void)e;
+            continue;
+        }
+        if (values[i] < min)
+        {
+            min = values[i];
+        }
+        
+        if (values[i] > max)
+        {
+            max = values[i];
+        }
+    }
+
+    if (max <= min)
+    {
+        return;
+    }
+    float scale = WIDGET_EDGE / (max - min + 0.2f);
+
+    for (unsigned i = 1; i < values.size(); i++)
+    {
+        _painter->drawLine(QPoint((i-1) * step, WIDGET_EDGE - (0.1f + values[i - 1] - min) * scale), 
+                           QPoint(i * step, WIDGET_EDGE - (0.1f + values[i] - min) * scale));
+    }
+    QPixmap pix_img = QPixmap::fromImage(*_image);
+    _ui->icon->setPixmap(pix_img.scaled(WIDGET_EDGE, WIDGET_EDGE, Qt::KeepAspectRatio));
+    _ui->icon->setVisible(true);
+}
+
 void DeviceWidget::set_chart()
 {
-    QLineSeries *series = new QLineSeries();
-
-    series->append(0, 6);
-    series->append(2, 4);
-    series->append(3, 8);
-    series->append(7, 4);
-    series->append(10, 5);
-
-    QChart *chart = new QChart();
-    chart->legend()->hide();
-    chart->addSeries(series);
-    chart->createDefaultAxes();
-    chart->setTitle("Simple line chart example");
-
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-    QPixmap p = chartView->grab();
-
-    QLabel* img = new QLabel(this);
-    img->setWindowFlags(Qt::Window);
-    img->setPixmap(p);
-    img->setAttribute(Qt::WA_DeleteOnClose);
-    img->show();
+    _image->fill(Qt::GlobalColor::lightGray);
+    QPixmap pix_img = QPixmap::fromImage(*_image);
+    _ui->icon->setPixmap(pix_img.scaled(250, 250, Qt::KeepAspectRatio));
+    _ui->icon->setVisible(true);
 }
 
 DeviceType DeviceWidget::get_type()

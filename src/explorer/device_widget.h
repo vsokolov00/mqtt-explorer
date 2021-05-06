@@ -12,8 +12,16 @@
 
 #include <QWidget>
 #include <QPalette>
-#include <QtCharts>
-#include <QLineSeries>
+#include <QPainter>
+#include <QLine>
+#include <QPoint>
+#include <QLineF>
+
+#include <limits>
+#include <vector>
+
+#include "log.h"
+#include "tree_item.h"
 
 enum class DeviceType : unsigned
 {
@@ -42,10 +50,14 @@ class DeviceWidget : public QWidget
     Q_OBJECT
 
 private:
+    static unsigned WIDGET_EDGE;
+
     Ui::DeviceWidget *_ui;
     DeviceType _type;
     QString _name;
     QString _topic;
+    QPainter *_painter = nullptr;
+    QImage *_image = nullptr;
 
 public:
     explicit DeviceWidget(QWidget *parent = nullptr, DeviceType type = DeviceType::ERR, QString name = "Device", QString topic = "");
@@ -75,7 +87,7 @@ public:
      * @param width the width of the image.
      * @param height the height of the image.
      **/
-    void set_image(QImage image, int width, int height);
+    void set_image(QImage image);
 
     /**
      * @brief Set the widget to show a color.
@@ -92,5 +104,6 @@ public:
     /**
      * @brief Set the widget to show a chart.
      **/
+    void set_chart(TreeItem &topic_item);
     void set_chart();
 };

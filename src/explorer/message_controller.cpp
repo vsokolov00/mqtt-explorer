@@ -42,11 +42,6 @@ void MessageController::on_delivery_complete_cb(void *object, mqtt::delivery_tok
 
 void MessageController::on_message_arrived(const std::string &topic, const MessageData &message, FileType type)
 {
-    if (_dashboard_is_opened)
-    {
-        // TODO
-        _dashboard_controller->process_message(topic, QByteArray(message.binary.data, message.binary.size));
-    }
     Log::log("Message arrived on topic: " + topic);
     QVariant variant;
     TreeItem *topic_item = get_topic(topic);
@@ -91,6 +86,11 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
     
     Log::log("Updating model.");
     emit _tree_model->layoutChanged();
+    if (_dashboard_is_opened)
+    {
+        // TODO
+        _dashboard_controller->process_message(topic, *topic_item);
+    }
     emit message_arrived();
 }
 
