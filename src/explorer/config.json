@@ -2,6 +2,21 @@
 	"devices" : 
 	[
 		{
+			"name" : "Car front",
+			"topic" : "car/front",
+			"type" : 5
+		},
+		{
+			"name" : "Wattmeter",
+			"topic" : "devices/wattmeter/workshop",
+			"type" : 4
+		},
+		{
+			"name" : "Living Room Heater",
+			"topic" : "home/heating system/living room",
+			"type" : 9
+		},
+		{
 			"name" : "Light",
 			"topic" : "home/lights/living room/colorful",
 			"type" : 1
@@ -10,6 +25,16 @@
 			"name" : "Work shop",
 			"topic" : "home/lights/work shop",
 			"type" : 1
+		},
+		{
+			"name" : "basement lcok",
+			"topic" : "home/locks/basement",
+			"type" : 10
+		},
+		{
+			"name" : "Kitchen",
+			"topic" : "home/temperatrure/kitchen",
+			"type" : 2
 		},
 		{
 			"name" : "main cam",

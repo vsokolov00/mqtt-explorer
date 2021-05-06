@@ -1,3 +1,12 @@
+/**
+ * File:        config.json
+ * Case:        VUT, FIT, ICP, project                             
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz           
+ * Date:        summer semester 2021                               
+ * Brief:       Simulator configuration file with specified simulated devices,
+ *              see the template file in ../../examples/simulator_template.json.
+ **/
+
 {
     "thermometers":
     [
@@ -299,7 +308,7 @@
         {
             "answering topic": "home/locks/basement",
             "name": "basement-lock",
-            "recieving topic": "home/locks/basement",
+            "recieving topic": "home/locks/basement_recv",
             "id": "Block",
             "states": ["open", "locked"]
         },

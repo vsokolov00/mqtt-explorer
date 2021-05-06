@@ -51,7 +51,9 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
     QVariant variant;
     TreeItem *topic_item = get_topic(topic);
     QJsonDocument json_document;
-    bool our_message = _message_map.count(hash_function(message.binary.data, message.binary.size));
+    size_t hash = hash_function(message.binary.data, message.binary.size);
+    bool our_message = _message_map.count(hash);
+    _message_map.erase(hash);
 
     switch (type)
     {
@@ -66,6 +68,7 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
             }
             else
             {
+                type = FileType::STRING_UTF8;
                 variant = QVariant(QByteArray(message.binary.data, message.binary.size));
             }
             break;
@@ -126,7 +129,6 @@ bool MessageController::parse_json_message(const Binary &binary_data, QJsonDocum
     QJsonParseError parse_error;
     json_document = QJsonDocument::fromJson(QByteArray(binary_data.data, binary_data.size), &parse_error);
 
-    Log::error(parse_error.errorString().toStdString());
 
     if (parse_error.error == QJsonParseError::NoError)
     {

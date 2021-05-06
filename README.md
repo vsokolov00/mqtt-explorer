@@ -73,4 +73,4 @@ Fully implemented.
 ## MQTT explorer usage
 ### run in the /src/explorer directory as: ../bin/explorer
 ### or run from anywhere and specify the configuration file as an argument: ./explorer "path/to/configuration/file"
-The application can be also started in verbose mode if -v or --verbose is specified in the command line arguments.
+The application can be also started in verbose mode if -v or --verbose is specified in the command line arguments. If the configuration file cannot be opened, new file 'config.json' will be created and a state of the dashboard will be saved there at termination.

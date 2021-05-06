@@ -32,6 +32,7 @@ void Lock::on_message_arrived(std::string state, Client &client, std::mutex &mut
     std::string message_str;
 
     root["name"] = _name;
+    root["id"] = id;
 
     if (iterator == _states.end())
     {

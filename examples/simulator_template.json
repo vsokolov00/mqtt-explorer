@@ -1,0 +1,138 @@
+/**
+ * File:        simulator_template.json
+ * Case:        VUT, FIT, ICP, project                             
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz           
+ * Date:        summer semester 2021                               
+ * Brief:       Template JSON file for the simulator.        
+ **/
+
+{
+    "thermometers":
+    [
+        {
+            "topic": "home/temperatrure/kitchen",
+            "name": "temp1",
+            "period": 10,
+            "min_temp": 5,
+            "max_temp": 10,
+            "min_step": 0.2,
+            "max_step": 0.8,
+            "temp": 27.3,
+            "unit": "C"
+        }
+    ],
+
+    "hygrometers": 
+    [
+        {
+            "topic": "home/humidity/bathroom",
+            "name": "hygro1",
+            "period": 18,
+            "min_step": 0.1,
+            "max_step": 0.3,
+            "humidity": 67.1
+
+        }
+    ],
+
+    "wattmeters": 
+    [
+        {
+            "topic": "devices/wattmeter/workshop",
+            "name": "WM",
+            "period": 16,
+            "min_val": 0,
+            "max_val": 200,
+            "min_step": 1,
+            "max_step": 4,
+            "value": 53,
+            "unit": "kW"
+        }
+    ],
+
+    "move sensors":
+    [
+        {
+            "topic": "home/move sensors/main door",
+            "name": "move detector",
+            "min_period": 10,
+            "max_period": 223
+        }
+    ],
+
+    "lights":
+    [
+        {
+            "topic": "home/lights/living room",
+            "name": "main light",
+            "recieving topic": "home/lights/living room",
+            "id": 267,
+            "period": 3,
+            "states": ["on", "off"]
+        }
+    ],
+
+    "cameras":
+    [
+        {
+            "topic": "surveillance/motion/cameras/home/main entrance",
+            "name": "main cam",
+            "min_preiod": 8,
+            "max_period": 10,
+            "images": ["images/bob_ross.jpg", 
+                       "images/composition_8.jpg", 
+                       "images/impression_sunrise.jpg", 
+                       "images/scream.jpg"]
+        }
+    ],
+
+    "relays":
+    [
+        {
+            "answering topic": "answers/relays",
+            "name": "switch-relay",
+            "recieving topic": "devices/relays/main switch",
+            "id": "RL4569",
+            "states": ["on", "off"]
+        }
+    ],
+
+    "valves":
+    [
+        {
+            "topic": "answers/valves",
+            "name": "SECTOR A",
+            "period": 1,
+            "recieving topic": "devices/valves/main piping",
+            "id": "AVLV",
+            "states": ["open", "closed", "40%", "80%"]
+        }
+    ],
+
+    "thermostats":
+    [
+        {
+            "topic": "home/heating system/main heater",
+            "name": "Main Heater",
+            "min_period": 25,
+            "max_period": 163,
+            "recieving topic": "devices/heaters/main heater",
+            "id": "MHTR",
+            "set_point": 23.1,
+            "max_temp_change" : 1.3,
+            "starting_temp" : 21.5,
+            "unit" : "C"
+        }
+    ],
+
+    "locks":
+    [
+        {
+            "answering topic": "answers/locks/home/main door",
+            "name": "Main lock",
+            "recieving topic": "home/locks/main door",
+            "id": "Mlock",
+            "states": ["locked", "unlocked"]
+        }
+    ]
+}

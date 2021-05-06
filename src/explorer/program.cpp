@@ -183,7 +183,7 @@ void Program::load_configuration()
     if (file.fail())
     {
         Log::error("Opening configuration file '" + CONFIG_FILE + "' failed. Dashboard was not loaded.");
-        Program::CONFIG_FILE = "";
+        Program::CONFIG_FILE = "config.json";
         return;
     }
 
@@ -223,11 +223,6 @@ void Program::load_configuration()
 
 void Program::save_configuration()
 {
-    if (CONFIG_FILE == "")
-    {
-        return;
-    }
-
     Json::Value root;
     Json::StreamWriter *writer = Json::StreamWriterBuilder().newStreamWriter();
     if (writer == nullptr)
