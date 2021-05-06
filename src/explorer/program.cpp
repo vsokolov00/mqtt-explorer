@@ -182,7 +182,8 @@ void Program::load_configuration()
     std::ifstream file(CONFIG_FILE, std::ifstream::in);
     if (file.fail())
     {
-        Log::error("Opening configuration file '" + CONFIG_FILE + "' failed. Dashboard was not loaded.");
+        Log::warning("Opening configuration file '" + CONFIG_FILE + "' failed. Dashboard was not loaded.\n"
+                     "New confuguration file 'config.json' will be created at termination.");
         Program::CONFIG_FILE = "config.json";
         return;
     }

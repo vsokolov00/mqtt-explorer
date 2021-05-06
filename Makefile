@@ -7,7 +7,7 @@
 # Description: Makefile used for calling Makefiles in subdirectories.
 #================================================================================================
 
-.PHONY: all explorer clean simulator run run-explorer run-simulator doc
+.PHONY: all explorer clean simulator run run-explorer run-simulator doc doxygen
 
 all:
 	@cd src && make
@@ -32,6 +32,9 @@ run-explorer:
 run-simulator:
 	@cd src && make run-simulator
 
+doxygen:
+	@cd doc && doxygen Doxyfile
+	
 doc:
 	@cd doc && doxygen Doxyfile
 

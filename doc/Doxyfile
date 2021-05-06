@@ -1,3 +1,12 @@
+
+#================================================================================================
+# File:        Doxyfile
+# Case:        VUT, FIT, ICP, project
+# Author:      David Mihola, xmihol00@stud.fit.vutbr.cz
+# Date:        summer semester 2021
+# Description: Generated Doxyfile with changes to suit documentation generation of our project.
+#================================================================================================
+
 # Doxyfile 1.8.17
 
 # This file describes the settings to be used by the documentation system

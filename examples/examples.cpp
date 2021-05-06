@@ -20,7 +20,12 @@
  * 
  * \image html ../examples/images/main_window.png "The main window of the MQTT Explorer." <br>
  * 
- * @section S2 Examples of Usage of The MQTT Explorer
+ * @section S2 Examples of Makefile Usage
+ * @verbatim
+ 'make'              - builds bot the MQTT explorer as well as the simulator
+ @endverbatim 
+ *
+ * @section S3 Examples of Usage of The MQTT Explorer
  * 
  * \image html ../examples/images/login_example.png "Example how to start a session." <br>
  * 
@@ -28,10 +33,16 @@
  * 
  * \image html ../examples/images/history_example.png "Example how to view a history of a topic and a detail of a specific message." <br>
  * 
- * @section S3 Examples of Usage of The Simulator
- * @subsection ss1 Template JSON file for simulated devices configuration.
+ * 
+ * @section S4 Examples of Usage of The Simulator
+ * @subsection ss1 Startup examples
+ * @verbatim
+ './simulator -v'    - starts the simulator in a 'verbose', in which the acctions of the simulator are printed to STDERR. 
+ @endverbatim 
+ * 
+ * @subsection ss2 Template JSON file for simulated devices configuration.
  * @verbinclude ../examples/simulator_template.json <br>
  * 
- * @subsection ss2 Template JSON file for sending a message to a device.
+ * @subsection ss3 Template JSON file for sending a message to a device.
  * @verbinclude ../examples/message_template.json <br>
  **/
