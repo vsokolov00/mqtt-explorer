@@ -79,7 +79,7 @@ class PopUp : public QWidget
         QGridLayout layout;                 ///< layout of a pop up
         QPropertyAnimation animation;       ///< animation of a pop up
         float popupOpacity;                 ///< opacity of a pop up
-        QTimer *timer;                      ///< timer to hide popup
+        QTimer *timer;                      ///< timer used to hide a pop up
 
         bool is_positive = true;            ///< true when the pop up shows success message, oherwise false and failure message is shown.
 };

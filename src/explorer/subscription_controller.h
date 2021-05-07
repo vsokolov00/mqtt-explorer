@@ -130,5 +130,9 @@ class SubscriptionController : public QObject
         void unsubscription_failure(const QString& topic);
 
     public slots:
+        /**
+         * @brief Subscribes a new device added to the dasboard.
+         * @param topic the topic of the newly added device.
+         **/
         void new_dashboard_device(std::string topic);
 };

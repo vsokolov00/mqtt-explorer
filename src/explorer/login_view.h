@@ -14,9 +14,7 @@
 #include <QMainWindow>
 #include <string>
 
-//TODO remove
 #include <thread>
-#include <chrono>
 
 #include "../client/client.h"
 #include "../client/listener.h"

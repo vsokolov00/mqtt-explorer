@@ -52,19 +52,19 @@ class MainView : public QMainWindow
     Q_OBJECT
 
 private slots:
-    void on_publish_clicked();      ///< triggerd when "publish" button is pressed
-    void on_subscribe_clicked();    ///< triggerd when "subscribe" button is pressed
-    void on_unsubscribe_clicked();  ///< triggerd when "unsubscribe" button is pressed
-    void on_chooseFile_clicked();   ///< triggerd when "chose file" button is pressed
-    void on_clear_clicked();        ///< triggerd when "clear" button is pressed
+    void on_publish_clicked();      ///< triggered when "publish" button is pressed
+    void on_subscribe_clicked();    ///< triggered when "subscribe" button is pressed
+    void on_unsubscribe_clicked();  ///< triggered when "unsubscribe" button is pressed
+    void on_chooseFile_clicked();   ///< triggered when "chose file" button is pressed
+    void on_clear_clicked();        ///< triggered when "clear" button is pressed
 
-    void on_disconnect_clicked();   ///< triggerd when "disconnect" button is pressed
+    void on_disconnect_clicked();   ///< triggered when "disconnect" button is pressed
 
-    void on_save_snapshot_clicked();    ///< triggerd when "save snapshot" button is pressed
+    void on_save_snapshot_clicked();    ///< triggered when "save snapshot" button is pressed
 
-    void on_dashboard_clicked();
+    void on_dashboard_clicked();        ///< triggered when "dashboard" button is pressed
 signals:
-    void dashboard_opened();
+    void dashboard_opened();        ///< Informs that the dashboard is open.
 
 private:
     Ui::MainWindow *_ui = nullptr;      ///< the main window user interface

@@ -48,7 +48,7 @@ void Log::help_message(bool cerr)
     stream << "   --cameras or -c:          Include or exclude cameras." << std::endl;
     stream << "   --hygrometers or -g:      Include or exclude hygrometers." << std::endl;
     stream << "   --lights or -l:           Include or exclude lights." << std::endl;
-    stream << "   --locks or -l:            Include or exclude locks." << std::endl;
+    stream << "   --locks or -k:            Include or exclude locks." << std::endl;
     stream << "   --move or -m:             Include or exclude move sensors." << std::endl;
     stream << "   --relays or -r:           Include or exclude relays." << std::endl;
     stream << "   --thermometers or -t:     Include or exclude thermometers." << std::endl;

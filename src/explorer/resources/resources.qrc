@@ -1,3 +1,12 @@
+
+<!---
+File:        dashboard.ui                                
+Case:        VUT, FIT, ICP, project                                      
+Author:      Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz        
+Date:        summer semester 2021
+Brief:       Resources specification.
+-->
+
 <RCC>
     <qresource prefix="/images">
         <file>mqtt-logo.png</file>

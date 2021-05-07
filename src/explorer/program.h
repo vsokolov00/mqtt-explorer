@@ -42,7 +42,7 @@
 class Program
 {
     public:
-        static std::string CONFIG_FILE;
+        static std::string CONFIG_FILE;     ///< path/name of the dashboard configuration file
 
     public:
         /**
@@ -66,21 +66,30 @@ class Program
         Client *_client = nullptr;              ///< MQTT client
         TreeModel *_tree_model = nullptr;       ///< main data model of the application
 
-        DashboardView *_dashboard_view = nullptr;
-        LoginView *_login_view = nullptr;
-        MainView *_main_view = nullptr;
+        DashboardView *_dashboard_view = nullptr;               ///< manages the dashboard window
+        LoginView *_login_view = nullptr;                       ///< manages the login window
+        MainView *_main_view = nullptr;                         ///< manages the main window
 
-        ConnectionController *_connection_controller = nullptr;
-        MessageController *_message_controller = nullptr;
-        SubscriptionController *_subscription_controller = nullptr;
-        DashboardController *_dashboard_controller = nullptr;
+        ConnectionController *_connection_controller = nullptr;         ///< manages connection to a broker
+        MessageController *_message_controller = nullptr;               ///< manages recieval and publish of messages
+        SubscriptionController *_subscription_controller = nullptr;     ///< manages subscription and unsubscription
+        DashboardController *_dashboard_controller = nullptr;           ///< manages actions on the dashboard
 
-        FlowLayout *_flow_layout = nullptr;
+        FlowLayout *_flow_layout = nullptr;                             ///< data model of the dashboard
 
-        std::mutex *_mutex;
+        std::mutex *_mutex;                                             ///< synchronization
 
-        bool _config_loaded = false;
+        bool _config_loaded = false;              ///< true when a configuration file was loaded, otherwise false
+
+        /**
+         * @brief Loads a configuration file of the dashboard.
+         **/
         void load_configuration();
+
+        
+        /**
+         * @brief Saves current dashboard configuration to a file.
+         **/
         void save_configuration();
 
     public:

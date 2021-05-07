@@ -98,7 +98,7 @@ class TreeItem
          * @param type the type of the added message.
          * @param our_message true when the message was send by our application, otherwise false.
          **/
-        void addMessage(QVariant message, unsigned short type, bool our_message); //TODO
+        void addMessage(QVariant message, unsigned short type, bool our_message);
 
         /**
          * @brief Gets a number of messages on the node.

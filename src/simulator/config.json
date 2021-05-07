@@ -13,7 +13,7 @@
         {
             "topic": "home/temperatrure/kitchen",
             "name": "temp1",
-            "period": 7,
+            "period": 17,
             "min_temp": 5,
             "max_temp": 48,
             "min_step": 0.2,
@@ -50,7 +50,7 @@
         {
             "topic": "home/humidity/bathroom",
             "name": "hygro1",
-            "period": 8,
+            "period": 19,
             "min_step": 0.1,
             "max_step": 0.3,
             "humidity": 67.1
@@ -123,8 +123,8 @@
         {
             "topic": "car/front",
             "name": "LIDAR",
-            "min_period": 5,
-            "max_period": 12,
+            "min_period": 26,
+            "max_period": 89,
             "vertical_FOV": 150,
             "horizontal_FOV": 180
         },
@@ -143,9 +143,9 @@
         {
             "topic": "home/lights/living room",
             "name": "main light",
-            "recieving topic": "home/lights/living room",
+            "recieving topic": "home/lights/living room/recieving",
             "id": 267,
-            "period": 3,
+            "period": 16,
             "states": ["on", "off"]
         },
         {

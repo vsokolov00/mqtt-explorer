@@ -14,4 +14,9 @@
 
 #include <QApplication>
 
+/**
+ * @brief Parses the command line arguments.
+ * @param argc number of arguments.
+ * @param argv the arguments.
+ **/
 void parse_command_line_arguments(int argc, char **argv);

@@ -3,6 +3,7 @@
  * @file        device_widget.h
  * Case:        VUT, FIT, ICP, project                                      <br>
  * Authors:     Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
+ *              David Mihola, xmihol00@stud.fit.vutbr.cz                    <br>
  * Date:        summer semester 2021                                        <br>
  * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0                    <br>
  * @brief       Declaration of a class, which manages dasboard devices and declaration of device types. 
@@ -51,14 +52,14 @@ class DeviceWidget : public QWidget
     Q_OBJECT
 
 private:
-    static unsigned WIDGET_EDGE;
+    static unsigned WIDGET_EDGE;        ///< size of a device widget
 
-    Ui::DeviceWidget *_ui;
-    DeviceType _type;
-    QString _name;
-    QString _topic;
-    QPainter *_painter = nullptr;
-    QImage *_image = nullptr;
+    Ui::DeviceWidget *_ui;              ///< widget representing the device data
+    DeviceType _type;                   ///< type of a device
+    QString _name;                      ///< name of a device
+    QString _topic;                     ///< topic on which a device is subscribed
+    QPainter *_painter = nullptr;       ///< painter used for plotting data and displaying text
+    QImage *_image = nullptr;           ///< image used to paint on
 
 public:
     explicit DeviceWidget(QWidget *parent = nullptr, DeviceType type = DeviceType::ERR, QString name = "Device", QString topic = "");
@@ -102,11 +103,21 @@ public:
      **/
     void set_description(QString text);
 
+    /**
+     * @brief Sets the widget to show text data.
+     * @param topic_item messages on the topic.
+     **/
     void set_text(TreeItem &topic_item);
 
     /**
-     * @brief Set the widget to show a chart.
+     * @brief Sets the widget to show a chart.
+     * @param topic_item messages on the topic.
      **/
     void set_chart(TreeItem &topic_item);
+
+    /**
+     * @brief Sets an empty chart with a base color.
+     * @param color the color
+     **/
     void set_chart(Qt::GlobalColor color = Qt::GlobalColor::lightGray);
 };

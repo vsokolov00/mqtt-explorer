@@ -94,8 +94,6 @@ int TreeItem::getMessageCnt()
 
 void TreeItem::addMessage(QVariant message, unsigned short type, bool our_message)
 {
-    //TODO remove, if true - mark the message as send by us, otherwise mark it as recieved from the borker
-
     this->message_cnt++;
     this->m_itemData[1] = message;
     if (msg_history.size() > MSGLIMIT)

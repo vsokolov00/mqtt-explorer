@@ -23,7 +23,6 @@ the examples.
 GNU make                                https://www.gnu.org/software/make/  
 GCC, the GNU Compiler Collection        https://gcc.gnu.org/, other C++ compilers may work as well  
 QT Library Version 5.12.8               https://www.qt.io/  
-QT Charts Library                       can be installed with command 'sudo apt install libqt5charts5-dev'  
 qmake                                   build automatically with QT libraries.
 Eclipse Paho MQTT C++ Version 1.2.0     https://github.com/eclipse/paho.mqtt.cpp  
 
@@ -47,7 +46,10 @@ apart from the Makefile were downloaded from https://github.com/open-source-pars
 Fully implemented.
 
 ### Dashboard
-TODO
+Devices can be added persistantly.
+Messages can be displayed in a format based on the device.
+Communication is not implemented.
+Devices cannot be removed.
 
 ### Simulator
 Fully implemented.
@@ -187,7 +189,7 @@ For specific cases of usage see the examples.
    --cameras or -c:          Include or exclude cameras.  
    --hygrometers or -g:      Include or exclude hygrometers.  
    --lights or -l:           Include or exclude lights.  
-   --locks or -l:            Include or exclude locks.  
+   --locks or -k:            Include or exclude locks.  
    --move or -m:             Include or exclude move sensors.  
    --relays or -r:           Include or exclude relays.  
    --thermometers or -t:     Include or exclude thermometers.  
