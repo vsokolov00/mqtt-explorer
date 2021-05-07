@@ -2,23 +2,48 @@
 	"devices" : 
 	[
 		{
-			"name" : "Hugro",
-			"topic" : "home/humidity/bathroom",
-			"type" : 3
+			"name" : "Lock",
+			"topic" : "answers/locks/home/main door",
+			"type" : 10
 		},
 		{
-			"name" : "LIG",
+			"name" : "Valve",
+			"topic" : "answers/valves",
+			"type" : 8
+		},
+		{
+			"name" : "Move Sensor",
+			"topic" : "car/front",
+			"type" : 5
+		},
+		{
+			"name" : "Relay",
+			"topic" : "devices/relays/engine",
+			"type" : 7
+		},
+		{
+			"name" : "Wattmeter",
+			"topic" : "devices/wattmeter/transformer",
+			"type" : 4
+		},
+		{
+			"name" : "Thermostat",
+			"topic" : "home/heating system/living room",
+			"type" : 9
+		},
+		{
+			"name" : "Light",
 			"topic" : "home/lights/living room/colorful",
 			"type" : 1
 		},
 		{
-			"name" : "Thermo",
+			"name" : "Hygrometer",
 			"topic" : "home/temperatrure/kitchen",
 			"type" : 2
 		},
 		{
-			"name" : "CAm",
-			"topic" : "surveillance/motion/cameras/garden/tree house",
+			"name" : "Camera",
+			"topic" : "motion/video/car/rear",
 			"type" : 6
 		}
 	]

@@ -47,7 +47,7 @@ clean:
 	@rm -r libs || true
 
 run: explorer
-	@cd explorer && ../bin/explorer -v #TODO
+	@cd explorer && ../bin/explorer 
 
 run-simulator:
 	@cd simulator && make -j run

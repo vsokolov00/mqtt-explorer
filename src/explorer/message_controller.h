@@ -126,14 +126,6 @@ class MessageController : public QObject
         TreeItem *get_topic(std::string topic_path);
 
         /**
-         * @brief Created a QjsonDocument from binary data.
-         * @param binary_data the binary data.
-         * @param json_document [out] the created json document.
-         * @return false on success, otherwise true.
-         **/
-        bool parse_json_message(const Binary &binary_data, QJsonDocument &json_document);
-
-        /**
          * @brief Hashes a message.
          * @param data the data of a message.
          * @param size the size of a message.

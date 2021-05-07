@@ -123,8 +123,8 @@
         {
             "topic": "car/front",
             "name": "LIDAR",
-            "min_period": 15,
-            "max_period": 60,
+            "min_period": 5,
+            "max_period": 12,
             "vertical_FOV": 150,
             "horizontal_FOV": 180
         },
@@ -213,7 +213,7 @@
             "states": ["on", "off"]
         },
         {
-            "answering topic": "answers/relays",
+            "answering topic": "answers/relays/relay1",
             "name": "relay-ZAP-VYP",
             "recieving topic": "devices/relays/battery switch",
             "id": "RAL7745",
@@ -222,7 +222,7 @@
         {
             "answering topic": "devices/relays/engine",
             "name": "ENG-RL",
-            "recieving topic": "devices/relays/engine",
+            "recieving topic": "devices/relays/engine/recieving",
             "id": "ENGRL",
             "states": ["run", "stop"]
         }
@@ -233,7 +233,7 @@
         {
             "topic": "answers/valves",
             "name": "SECTOR A",
-            "period": 1,
+            "period": 21,
             "recieving topic": "devices/valves/main piping",
             "id": "AVLV",
             "states": ["open", "closed", "40%", "80%"]
@@ -287,7 +287,7 @@
             "name": "Car Heater",
             "min_period": 32,
             "max_period": 141,
-            "recieving topic": "car/heater",
+            "recieving topic": "car/heater/recieving",
             "id": "CHTR",
             "set_point": 89.0,
             "max_temp_change" : 4.3,

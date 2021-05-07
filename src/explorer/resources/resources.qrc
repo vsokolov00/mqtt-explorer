@@ -1,8 +1,6 @@
 <RCC>
     <qresource prefix="/images">
         <file>mqtt-logo.png</file>
-        <file>bulb_off.png</file>
-        <file>bulb_on.png</file>
 	<file>cam.png</file>
     </qresource>
     <qresource prefix="/gifs">

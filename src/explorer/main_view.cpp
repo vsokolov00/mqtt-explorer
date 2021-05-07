@@ -153,14 +153,10 @@ void MainView::on_disconnect_clicked()
     _connection_controller->disconnect();
 }
 
-void MainView::on_reconnect_clicked()
-{
-    _connection_controller->reconnect();
-}
-
 void MainView::on_chooseFile_clicked()
 {
-    QString file_name = QFileDialog::getOpenFileName(this, "Choose the message content", QDir::homePath(), tr("Messages (*.png *.jpg *.json *.txt)"));
+    QString file_name = QFileDialog::getOpenFileName(this, "Choose the message content", 
+                                                    QDir::homePath(), tr("Messages (*.png *.jpg *.json *.txt)"));
     QFile file(file_name);
     QFileInfo info_file(file_name);
     QByteArray msg;
@@ -169,7 +165,6 @@ void MainView::on_chooseFile_clicked()
 
     if (type == "jpg" || type == "png")
     {
-        //binary
         QImage img;
         QImageReader reader(file_name);
 
@@ -183,8 +178,13 @@ void MainView::on_chooseFile_clicked()
             _ui->img_label->setPixmap(image.scaled(w, h, Qt::KeepAspectRatio));
             _ui->img_label->setVisible(true);
             _ui->msg_to_publish->setVisible(false);
-            //----------------------
-            file.open(QIODevice::ReadOnly);
+            
+            if (!file.open(QIODevice::ReadOnly))
+            {
+                _pop_up->set_pop_up("Opening file failed.", false);
+                show_popup();
+                return;
+            }
             msg = file.readAll();
 
             _message_controller->set_message(QVariant(msg));
@@ -194,7 +194,12 @@ void MainView::on_chooseFile_clicked()
     }
     else if (type == "json")
     {
-        file.open(QIODevice::ReadOnly);
+        if (!file.open(QIODevice::ReadOnly))
+        {
+            _pop_up->set_pop_up("Opening file failed.", false);
+            show_popup();
+            return;
+        }
         msg = file.readAll();
 
         _ui->img_label->setText(file_name);
@@ -206,10 +211,11 @@ void MainView::on_chooseFile_clicked()
     }
     else
     {
-        //plain text
         if (!file.open(QFile::ReadOnly | QFile::Text))
         {
-
+            _pop_up->set_pop_up("Opening file failed.", false);
+            show_popup();
+            return;
         }
         QTextStream in(&file);
         QStringList message;
@@ -217,6 +223,8 @@ void MainView::on_chooseFile_clicked()
 
         _ui->msg_to_publish->setPlainText(message.join("\n"));
     }
+
+    file.close();
 }
 
 
@@ -225,11 +233,6 @@ void MainView::on_clear_clicked()
     _ui->img_label->setVisible(false);
     _ui->msg_to_publish->setPlainText("");
     _ui->msg_to_publish->setVisible(true);
-}
-
-void MainView::on_exit_clicked()
-{
-    _connection_controller->go_to_login_view();
 }
 
 void MainView::publish_success_popup_set()
@@ -272,7 +275,6 @@ void MainView::unsubscribe_failure_popup_set(QString s)
     show_popup();
 }
 
-
 void MainView::show_popup()
 {
     auto window_size = this->size();
@@ -286,7 +288,7 @@ void MainView::show_popup()
 void MainView::connection_lost_dialog()
 {
     QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Connection was lost", "Try to reconnect?",
+    reply = QMessageBox::question(this, "Connection was lost", "Do you want to reconnect?",
                                 QMessageBox::Yes|QMessageBox::No);
     if (reply == QMessageBox::Yes)
     {
@@ -302,9 +304,8 @@ void MainView::connection_lost_dialog()
 
 void MainView::reconnection_failed_dialog()
 {
-    //TODO display a window reconnect failed with reconnect button and got to login page
     QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Reconnection failed", "Try again?",
+    reply = QMessageBox::question(this, "Reconnection failed", "Do you want to reconnect?",
                                 QMessageBox::Yes|QMessageBox::No);
     if (reply == QMessageBox::Yes)
     {
@@ -366,7 +367,7 @@ void MainView::display_full_message(QListWidgetItem* clicked_item)
         img->setAttribute(Qt::WA_DeleteOnClose);
         img->show();
     } 
-    else if (type == "text" || type == "binary")
+    else if (type == "text" || type == "binary" || type == "json")
     {
         QLabel* text = new QLabel(this);
         text->setWindowFlags(Qt::Window);
@@ -375,17 +376,6 @@ void MainView::display_full_message(QListWidgetItem* clicked_item)
         text->setText(tmp);
         text->setAttribute(Qt::WA_DeleteOnClose);
         text->show();
-    } 
-    else if (type == "json")
-    {
-        QLabel *json = new QLabel(this);
-        json->setWindowFlags(Qt::Window);
-        auto doc = msg.toByteArray();
-        json->setMinimumSize(200, 100);
-        //auto tmp = doc.toJson(QJsonDocument::Indented);
-        json->setText(doc);
-        json->setAttribute(Qt::WA_DeleteOnClose);
-        json->show();
     }
 }
 

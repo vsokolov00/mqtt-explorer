@@ -129,24 +129,18 @@ void Program::connect(const std::string &server_address, const std::string &id,
     _mutex->lock();
         Log::log("Connecting client...");
 
-//        if (_client->connect(connection_options))
-//        {
-//            // TODO
-//            emit _connection_controller->connection_failed();
-//            return;
-//        }
-        try 
-        {
-            _client->connect(connection_options);
-        }  
-        catch (const mqtt::exception& exc) 
-        {
-            emit _connection_controller->connection_failed();
-            Log::error("Connection failure.");
-            return;
-        }
-        _mutex->lock(); // wait for connection to complete
-        _mutex->unlock(); // open the mutex for next possible connection
+    try 
+    {
+        _client->connect(connection_options);
+    }  
+    catch (const mqtt::exception& exc) 
+    {
+        emit _connection_controller->connection_failed();
+        Log::error("Connection failure.");
+        return;
+    }
+    _mutex->lock(); // wait for connection to complete
+    _mutex->unlock(); // open the mutex for next possible connection
 
     if (_connection_controller->get_connection_status())
     {
@@ -179,6 +173,7 @@ void Program::disconnect()
 
 void Program::load_configuration()
 {
+    _config_loaded = true;
     std::ifstream file(CONFIG_FILE, std::ifstream::in);
     if (file.fail())
     {
@@ -224,6 +219,11 @@ void Program::load_configuration()
 
 void Program::save_configuration()
 {
+    if (!_config_loaded)
+    {
+        return;
+    }
+    
     Json::Value root;
     Json::StreamWriter *writer = Json::StreamWriterBuilder().newStreamWriter();
     if (writer == nullptr)

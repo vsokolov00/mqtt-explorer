@@ -79,6 +79,7 @@ class Program
 
         std::mutex *_mutex;
 
+        bool _config_loaded = false;
         void load_configuration();
         void save_configuration();
 

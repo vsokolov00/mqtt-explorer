@@ -50,6 +50,7 @@ void MoveSensor::run(mqtt::client &client, const bool &run, std::mutex &mutex, s
 
         writer->write(root, &stream);
         message_str = stream.str();
+        Log::log(message_str);
         message->set_payload(message_str.c_str(), message_str.size());
         
         mutex.lock();

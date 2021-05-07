@@ -50,36 +50,7 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
     bool our_message = _message_map.count(hash);
     _message_map.erase(hash);
 
-    switch (type)
-    {
-        case FileType::STRING_UTF8:
-            variant = QVariant(QByteArray(message.binary.data, message.binary.size));
-            break;
-
-        case FileType::JSON:
-            if (parse_json_message(message.binary, json_document))
-            {
-                variant = QVariant(json_document);
-            }
-            else
-            {
-                type = FileType::STRING_UTF8;
-                variant = QVariant(QByteArray(message.binary.data, message.binary.size));
-            }
-            break;
-
-        case FileType::JPG:
-        case FileType::PNG:
-            variant = QVariant(QByteArray(message.binary.data, message.binary.size));
-            break;
-
-        case FileType::BINARY:
-            variant = QVariant(QByteArray(message.binary.data, message.binary.size));
-            break;
-        
-        default:
-            return;
-    }
+    variant = QVariant(QByteArray(message.binary.data, message.binary.size));
 
     Log::log("Adding message.");
     topic_item->addMessage(variant, static_cast<unsigned short>(type), our_message);
@@ -88,7 +59,6 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
     emit _tree_model->layoutChanged();
     if (_dashboard_is_opened)
     {
-        // TODO
         _dashboard_controller->process_message(topic, *topic_item);
     }
     emit message_arrived();
@@ -96,7 +66,6 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
 
 void MessageController::on_publish_success(const mqtt::token &token)
 {
-    // TODO register the ID and wait for delivery complete
     emit publish_success();
     Log::log("Message published successfuly.");
 }
@@ -105,7 +74,6 @@ void MessageController::on_publish_failure(const mqtt::token &token)
 {
     (void)token;
 
-    //_main_widget_model->publish_failure(token.get_message_id());
     Log::log("Publishing failed.");
 }
 
@@ -115,27 +83,11 @@ void MessageController::on_delivery_complete(mqtt::delivery_token_ptr token)
     {
         return;
     }
-    
-    //_main_widget_model->delivery_complete(token.get()->get_message_id());
 }
 
 void MessageController::register_client(Client *client)
 {
     _client = client;
-}
-
-bool MessageController::parse_json_message(const Binary &binary_data, QJsonDocument &json_document)
-{
-    QJsonParseError parse_error;
-    json_document = QJsonDocument::fromJson(QByteArray(binary_data.data, binary_data.size), &parse_error);
-
-
-    if (parse_error.error == QJsonParseError::NoError)
-    {
-        return true;
-    }
-
-    return false;
 }
 
 void MessageController::publish(const std::string &topic, const std::string &message)

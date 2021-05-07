@@ -27,7 +27,7 @@ DashboardView::DashboardView(DashboardController *dashboard_controller, FlowLayo
     setLayout(_central_layout);
 
     this->setWindowTitle("Dashboard");
-    this->resize(1200, 600);
+    this->resize(1390, 680);
 
     connect(_dialog, SIGNAL(new_device_added(QString,QString,uint)), this, SLOT(add_device(QString,QString,uint)));
 }

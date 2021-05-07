@@ -59,8 +59,6 @@ private slots:
     void on_clear_clicked();        ///< triggerd when "clear" button is pressed
 
     void on_disconnect_clicked();   ///< triggerd when "disconnect" button is pressed
-    void on_reconnect_clicked();    ///< triggerd when "reconnect" button is pressed
-    void on_exit_clicked();         ///< triggerd when "exit" button is pressed
 
     void on_save_snapshot_clicked();    ///< triggerd when "save snapshot" button is pressed
 

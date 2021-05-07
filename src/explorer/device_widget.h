@@ -16,6 +16,7 @@
 #include <QLine>
 #include <QPoint>
 #include <QLineF>
+#include <QJsonDocument>
 
 #include <limits>
 #include <vector>
@@ -101,9 +102,11 @@ public:
      **/
     void set_description(QString text);
 
+    void set_text(TreeItem &topic_item);
+
     /**
      * @brief Set the widget to show a chart.
      **/
     void set_chart(TreeItem &topic_item);
-    void set_chart();
+    void set_chart(Qt::GlobalColor color = Qt::GlobalColor::lightGray);
 };
