@@ -34,3 +34,8 @@ void DeleteDeviceDialog::on_ok_clicked()
     emit pass_selected_devices(checked);
     this->accept();
 }
+
+void DeleteDeviceDialog::on_cancel_clicked()
+{
+    this->reject();
+}

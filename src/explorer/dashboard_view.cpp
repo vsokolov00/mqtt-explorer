@@ -63,9 +63,11 @@ void DashboardView::on_delete_device_clicked()
 {
     auto list = _delete_dialog->get_device_list();
     list->clear();
-    for (std::map<std::string, DeviceWidget*>::iterator it = _dashboard_controller->topic_to_device.begin(); it != _dashboard_controller->topic_to_device.end(); ++it)
+
+    for (auto& topic : _dashboard_controller->get_topics())
     {
-        list->addItem(QString::fromStdString(it->second->get_name()));
+        auto name = _dashboard_controller->topic_to_device[topic]->get_name();
+        list->addItem(QString::fromStdString(name));
     }
     for(int i = 0; i < list->count(); ++i)
     {

@@ -61,10 +61,17 @@ public:
 
     void delete_devices(std::vector<int>);
 
+    std::vector<std::string> get_topics();
+
 signals:
     /**
      * @brief Informs about a new device on a given topic.
      * @param device the new device.
      **/
     void new_device_on_topic(std::string topic);
+    /**
+     * @brief device_deleted Informs about deleted device
+     * @param topic
+     */
+    void device_deleted(std::string topic);
 };

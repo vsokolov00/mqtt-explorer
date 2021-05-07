@@ -24,6 +24,8 @@ public:
 private slots:
     void on_ok_clicked();
 
+    void on_cancel_clicked();
+
 private:
     Ui::DeleteDeviceDialog *ui;
 };

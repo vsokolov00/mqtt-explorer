@@ -135,4 +135,10 @@ class SubscriptionController : public QObject
          * @param topic the topic of the newly added device.
          **/
         void new_dashboard_device(std::string topic);
+
+        /**
+         * @brief dashboard_device_deleted Unsubscribes a device deleted from the dasboard.
+         * @param topic of deleted device.
+         */
+        void dashboard_device_deleted(std::string topic);
 };

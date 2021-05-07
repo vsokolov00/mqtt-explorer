@@ -111,3 +111,8 @@ void SubscriptionController::new_dashboard_device(std::string topic)
 {
     _client->subscribe(topic, 1);
 }
+
+void SubscriptionController::dashboard_device_deleted(std::string topic)
+{
+    _client->unsubscribe(topic);
+}

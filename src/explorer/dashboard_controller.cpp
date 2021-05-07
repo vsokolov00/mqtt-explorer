@@ -142,7 +142,13 @@ void DashboardController::delete_devices(std::vector<int> indeces)
     for (auto i : indeces)
     {
         topic_to_device.erase(topics[i]);
+        emit device_deleted(topics[i]);
         topics.erase(topics.begin() + i);
     }
+}
+
+std::vector<std::string> DashboardController::get_topics()
+{
+    return topics;
 }
 
