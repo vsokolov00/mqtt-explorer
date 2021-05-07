@@ -31,6 +31,7 @@ SOURCES += \
     connection_controller.cpp \
     dashboard_controller.cpp \
     dashboard_view.cpp \
+    delete_device_dialog.cpp \
     device_widget.cpp \
     flowlayout.cpp \
     login_view.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
     connection_controller.h \
     dashboard_controller.h \
     dashboard_view.h \
+    delete_device_dialog.h \
     device_widget.h \
     flowlayout.h \
     login_view.h \
@@ -63,6 +65,7 @@ HEADERS += \
     log.h
 
 FORMS += \
+    resources/delete_device_dialog.ui \
     resources/new_device_dialog.ui \
     resources/device_widget.ui \
     resources/dashboard.ui \

@@ -224,3 +224,17 @@ int FlowLayout::smartSpacing(QStyle::PixelMetric pm) const
     }
 }
 //! [12]
+
+void FlowLayout::delete_item(std::vector<int> indeces)
+{
+    std::sort(indeces.begin(), indeces.end());
+    std::reverse(indeces.begin(), indeces.end());
+
+    for (auto i : indeces)
+    {
+        auto it = takeAt(i);
+        it->widget()->hide();
+        delete it->widget();
+        delete it;
+    }
+}

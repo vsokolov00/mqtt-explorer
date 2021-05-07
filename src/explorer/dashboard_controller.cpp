@@ -29,6 +29,7 @@ DashboardController::~DashboardController()
 void DashboardController::add_device(DeviceWidget* device)
 {
     topic_to_device[device->get_topic()] = device;
+    topics.push_back(device->get_topic());
     emit new_device_on_topic(device->get_topic());
 }
 
@@ -132,3 +133,16 @@ void DashboardController::show_dashboard()
 {
     _dashboard_window->show();
 }
+
+void DashboardController::delete_devices(std::vector<int> indeces)
+{
+    std::sort(indeces.begin(), indeces.end());
+    std::reverse(indeces.begin(), indeces.end());
+
+    for (auto i : indeces)
+    {
+        topic_to_device.erase(topics[i]);
+        topics.erase(topics.begin() + i);
+    }
+}
+

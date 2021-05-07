@@ -80,6 +80,7 @@ public:
     QSize sizeHint() const override;
     QLayoutItem *takeAt(int index) override;
 
+    void delete_item(std::vector<int> indeces);
 private:
     int doLayout(const QRect &rect, bool testOnly) const;
     int smartSpacing(QStyle::PixelMetric pm) const;

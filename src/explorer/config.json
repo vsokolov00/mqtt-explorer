@@ -1,3 +1,10 @@
 {
-	"devices" : []
+	"devices" : 
+	[
+		{
+			"name" : "fdsfs",
+			"topic" : "sadfsd",
+			"type" : 6
+		}
+	]
 }

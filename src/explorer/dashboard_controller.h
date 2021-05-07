@@ -27,6 +27,7 @@ class DashboardController : public QObject
 
 private:
     DashboardView *_dashboard_window = nullptr;     ///< dashboard window
+    std::vector<std::string> topics;
 
 public:
     std::map<std::string, DeviceWidget*> topic_to_device;
@@ -57,6 +58,8 @@ public:
      * @brief Displays the dashboard.
      **/
     void show_dashboard();
+
+    void delete_devices(std::vector<int>);
 
 signals:
     /**
