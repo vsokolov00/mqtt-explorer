@@ -41,56 +41,57 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
 
     /**
-     * @brief TODO
-     * @param section TODO
-     * @param orientation TODO
-     * @param role TODO
-     * @return TODO
+     * @brief Retrieves tree view root data
+     * @param section of the tree view
+     * @param orientation of the tree view header
+     * @param role of the header
+     * @return root item data
      **/
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const override;
 
     /**
-     * @brief TODO
-     * @param index TODO
-     * @return TODO
+     * @brief Returns item flags for the given index
+     * @param index of tree view item
+     * @return item flags
      **/
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
     /**
-     * @brief TODO
-     * @param row TODO
-     * @param columns TODO
-     * @param parent TODO
-     * @return TODO
+     * @brief Retrives the index of an element according to the row, column and parent (supertopic) item
+     * of that item
+     * @param row of the item
+     * @param columns of the item
+     * @param parent of the item
+     * @return QModelIndex object of that item
      **/
     QModelIndex index(int row, int column,
                       const QModelIndex &parent = QModelIndex()) const override;
     
     /**
-     * @brief TODO
-     * @param index TODO
-     * @return TODO
+     * @brief Retrieves the index to the parent item (supertopic) of the given item
+     * @param index to item
+     * @return QModelIndex object of the parent item
      **/
     QModelIndex parent(const QModelIndex &index) const override;
 
     /**
      * @brief Gets the number of rows of the model.
-     * @param parent TODO
-     * @return the number of rows.
+     * @param parent tree view item index to be examined
+     * @return the number of rows (subtopics).
      **/
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
     /**
      * @brief Gets the number of columns of the model.
-     * @param parent TODO
+     * @param parent tree view item index to be examined
      * @return the number of columns.
      **/
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     /**
      * @brief Gets a message item.
-     * @param index TODO
+     * @param index to the tree view item
      * @return the message item.
      **/
     TreeItem *getItem(const QModelIndex &index) const;

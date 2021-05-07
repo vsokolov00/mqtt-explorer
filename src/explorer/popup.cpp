@@ -46,7 +46,7 @@ void PopUp::paintEvent(QPaintEvent *event)
     Q_UNUSED(event)
 
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing); // Включаем сглаживание
+    painter.setRenderHint(QPainter::Antialiasing);
 
     QRect roundedRect;
     roundedRect.setX(rect().x() + 5);
