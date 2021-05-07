@@ -1,10 +1,12 @@
-//========================================================================================
-// File:        examples.cpp
-// Case:        VUT, FIT, ICP, project                             
-// Author:      David Mihola, xmihol00@stud.fit.vutbr.cz           
-// Date:        summer semester 2021                               
-// Brief:       Documentation of the mainpage of the generated HTML output with Doxygen.
-//========================================================================================
+
+/**
+ * @file        examples.cpp
+ * Case:        VUT, FIT, ICP, project                          <br>
+ * Author:      David Mihola, xmihol00@stud.fit.vutbr.cz        <br>
+ * Date:        summer semester 2021                            <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0        <br>
+ * @brief       Documentation of the mainpage of the generated HTML output with Doxygen.
+ **/
 
 /**
  * @mainpage MQTT Explorer and Simulator

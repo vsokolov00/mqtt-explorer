@@ -53,19 +53,19 @@ QVariant TreeItem::data(int column) const
         return QVariant();
     }
     else if (column == 1)
+    {
+        QString raw_data = m_itemData.at(1).toString();
+        if (!raw_data.toStdString().empty())
         {
-            QString raw_data = m_itemData.at(1).toString();
-            if (!raw_data.toStdString().empty())
+            if (raw_data.size() < 40)
             {
-                if (raw_data.size() < 40)
-                {
-                    return QVariant(raw_data);
-                }
-                raw_data = raw_data.left(40);
-                raw_data += "...";
                 return QVariant(raw_data);
             }
+            raw_data = raw_data.left(40);
+            raw_data += "...";
+            return QVariant(raw_data);
         }
+    }
     return m_itemData.at(column);
 }
 

@@ -120,7 +120,8 @@ int TreeModel::rowCount(const QModelIndex &parent) const
 
 TreeItem *TreeModel::getItem(const QModelIndex &index) const
 {
-    if (index.isValid()) {
+    if (index.isValid()) 
+    {
         TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
         if (item)
             return item;
