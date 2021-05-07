@@ -95,7 +95,6 @@ void DashboardView::delete_devices(std::vector<int> devices)
 {
     _dashboard_controller->delete_devices(devices);
     _flow_layout->delete_item(devices);
-
     _flow_layout->update();
 }
 

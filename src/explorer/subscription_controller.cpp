@@ -73,7 +73,7 @@ void SubscriptionController::on_unsubscribe_success(const mqtt::token &token)
     }
     for (unsigned i = 0; i < topics->size(); i++)
     {
-        Log::log("Successful unsubscription of topic: " + (*topics)[i]);
+        Log::log("Successful unsubscription from topic: " + (*topics)[i]);
         emit unsubscription_success(QString::fromStdString((*topics)[i]));
     }
 }
@@ -87,7 +87,7 @@ void SubscriptionController::on_unsubscribe_failure(const mqtt::token &token)
     }
     for (unsigned i = 0; i < topics->size(); i++)
     {
-        Log::log("Unsuccessful unsubscription of topic: " + (*topics)[i]);
+        Log::log("Unsuccessful unsubscription from topic: " + (*topics)[i]);
         emit unsubscription_failure(QString::fromStdString((*topics)[i]));
     }
 }

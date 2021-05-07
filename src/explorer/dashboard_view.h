@@ -60,6 +60,9 @@ private slots:
      **/
     void add_device(QString name, QString topic, unsigned device_type);
 public slots:
+    /**
+     * @brief delete_devices Deletes devies from the flow layout and dashboard controller
+     */
     void delete_devices(std::vector<int>);
 
 public:

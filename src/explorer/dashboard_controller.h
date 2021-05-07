@@ -59,6 +59,9 @@ public:
      **/
     void show_dashboard();
 
+    /**
+     * @brief delete_devices Deletes devices from the dashboard on the given indeces
+     */
     void delete_devices(std::vector<int>);
 
     std::vector<std::string> get_topics();
