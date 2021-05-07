@@ -66,6 +66,7 @@ void MessageController::on_message_arrived(const std::string &topic, const Messa
 
 void MessageController::on_publish_success(const mqtt::token &token)
 {
+    (void)token;
     emit publish_success();
     Log::log("Message published successfuly.");
 }

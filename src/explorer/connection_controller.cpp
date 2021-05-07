@@ -66,6 +66,7 @@ void ConnectionController::on_connection_success(const std::string &cause)
 
 void ConnectionController::on_connection_failure(const mqtt::token &token)
 {
+    (void)token;
     Log::log("Connection failed.");
 
     if (!_reconnect)

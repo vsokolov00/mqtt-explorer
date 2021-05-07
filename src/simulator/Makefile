@@ -8,7 +8,7 @@
 #================================================================================================
 
 CC = g++
-CFLAGS = -std=c++17 -Wall -Wextra -MMD -Wno-unused-parameter -Wno-unused-result
+CFLAGS = -std=c++17 -Wall -Wextra -MMD
 LDFLAGS = -pthread -lpthread -L. -lclient
 MQTT_LIB = -lpaho-mqttpp3 -lpaho-mqtt3a
 BUILD_DIR = ../build/simulator
