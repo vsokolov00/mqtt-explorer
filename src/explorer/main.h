@@ -1,6 +1,6 @@
 
 /**
- * @file        main.cpp
+ * @file        main.h
  * Case:        VUT, FIT, ICP, project                                      <br>
  * Author:      Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
  * Date:        summer semester 2021                                        <br>

@@ -19,7 +19,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets charts
 
 INCLUDEPATH += .
 LIBS = -L../libs/client -lclient -L../libs/json -ljson -lpaho-mqttpp3 -lpaho-mqtt3a
-QMAKE_CXXFLAGS += -Wno-unused-result -Wno-unused-parameter -std=c++17
+QMAKE_CXXFLAGS += -std=c++17
 
 DESTDIR         = ../bin/               # Target file directory
 OBJECTS_DIR     = ../build/explorer     # Intermediate object files directory

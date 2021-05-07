@@ -54,8 +54,7 @@ void PopUp::paintEvent(QPaintEvent *event)
     roundedRect.setWidth(rect().width() - 10);
     roundedRect.setHeight(rect().height() - 10);
 
-    // 180/255
-    painter.setBrush(QBrush(QColor(0,0,0,180)));
+    painter.setBrush(QBrush(QColor(0, 0 , 0, 180)));
     painter.setPen(Qt::NoPen);
 
     painter.drawRoundedRect(roundedRect, 10, 10);

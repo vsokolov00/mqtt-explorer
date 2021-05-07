@@ -66,11 +66,11 @@ void ConnectionController::on_connection_success(const std::string &cause)
 
 void ConnectionController::on_connection_failure(const mqtt::token &token)
 {
+    (void)token;
     Log::log("Connection failed.");
 
     if (!_reconnect)
     {
-        //emit connection_failed(QString::fromStdString(std::string(token.get_connect_response().get_server_uri())), token.get_connect_response().is_session_present());
         emit connection_failed();
 
         _connection_status = false;

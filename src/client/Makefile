@@ -9,7 +9,7 @@
 #================================================================================================
 
 CC = g++
-CFLAGS = -std=c++17 -Wall -Wextra -MMD -Wno-unused-result -Wno-unused-parameter
+CFLAGS = -std=c++17 -Wall -Wextra -MMD
 LDFLAGS = -fPIC -pthread  -lpthread
 BUILD_DIR = ../build/client
 LIBS_DIR = ../libs/client

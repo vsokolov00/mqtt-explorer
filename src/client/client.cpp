@@ -286,9 +286,9 @@ bool Client::disconnect()
     {
         _client.disconnect(nullptr, _disconect_listener)->wait();
     }
-    catch (const mqtt::exception& exc)
+    catch (const mqtt::exception& e)
     {
-        std::cerr << "Disconnect failed: " << exc.what() << std::endl;
+        std::cerr << "Disconnect failed: " << e.what() << std::endl;
         return true;
     }
 
@@ -297,12 +297,26 @@ bool Client::disconnect()
 
 void Client::subscribe(const std::string topic, const int QOS)
 {
-    _client.subscribe(topic, QOS, nullptr, _subscribe_listener);
+    try
+    {
+        _client.subscribe(topic, QOS, nullptr, _subscribe_listener);
+    }
+    catch(const mqtt::exception& e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
 }
 
 void Client::unsubscribe(const std::string topic)
 {
-    _client.unsubscribe(topic, nullptr, _unsubscribe_listener);
+    try
+    {
+        _client.unsubscribe(topic, nullptr, _unsubscribe_listener);
+    }
+    catch(const mqtt::exception& e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
 }
 
 int Client::publish(const std::string topic, const std::string message)

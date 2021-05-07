@@ -39,4 +39,4 @@ doc:
 	@cd doc && doxygen Doxyfile
 
 pack: clean
-	zip -r 1-xmihol00-xsokol15.zip doc src Makefile README.txt
+	zip -r 1-xmihol00-xsokol15.zip doc src examples Makefile README.txt

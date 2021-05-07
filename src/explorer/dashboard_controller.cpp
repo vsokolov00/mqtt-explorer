@@ -52,7 +52,8 @@ void DashboardController::process_message(std::string topic, TreeItem &topic_ite
             QImage i;
             i.loadFromData(payload.toByteArray());
             device->set_image(i);
-        } else if (type == DeviceType::LIGHT)
+        } 
+        else if (type == DeviceType::LIGHT)
         {
             QString state(payload.toString());
             if (state == "on")
