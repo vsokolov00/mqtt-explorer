@@ -32,12 +32,17 @@
 			"type" : 9
 		},
 		{
+			"name" : "Hygrometer",
+			"topic" : "home/humidity/bathroom",
+			"type" : 3
+		},
+		{
 			"name" : "Light",
 			"topic" : "home/lights/living room/colorful",
 			"type" : 1
 		},
 		{
-			"name" : "Hygrometer",
+			"name" : "Thermometer",
 			"topic" : "home/temperatrure/kitchen",
 			"type" : 2
 		},

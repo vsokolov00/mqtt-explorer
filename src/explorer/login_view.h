@@ -41,7 +41,7 @@ class LoginView: public QMainWindow
     private:
         Ui::Login *_ui = nullptr;       ///< the login window user interface
 
-        PopUp* pop_up;                  ///< manages pop up messages
+        PopUp* _pop_up;                 ///< manages pop up messages
 
         ConnectionController *_connection_controller = nullptr;     ///< connection controller managing this view
 

@@ -53,7 +53,7 @@ void Lock::on_message_arrived(std::string state, Client &client, std::mutex &mut
     _mutex->lock();
         if (state != _state)
         {
-            root["change"] = "unchanged";
+            root["change"] = "successful";
             root["state"] = state;
             writer->write(root, &stream);
             message_str = stream.str();
@@ -62,7 +62,7 @@ void Lock::on_message_arrived(std::string state, Client &client, std::mutex &mut
         }
         else
         {
-            root["change"] = "successful";
+            root["change"] = "unchanged";
             root["state"] = state;
             writer->write(root, &stream);
             message_str = stream.str();

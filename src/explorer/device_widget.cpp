@@ -54,8 +54,13 @@ DeviceWidget::DeviceWidget(QWidget *parent, DeviceType type, QString name, QStri
 }
 
 DeviceWidget::~DeviceWidget()
-{    
+{   
+    if (_painter != nullptr)
+    {
+        _painter->end();
+    }
     delete _painter;
+    delete _image;
     delete _ui;
 }
 

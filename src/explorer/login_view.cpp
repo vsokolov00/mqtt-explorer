@@ -27,11 +27,12 @@ LoginView::LoginView(ConnectionController *connection_cotroller)
     _ui->clean_session->setChecked(true);
     _ui->connection_id->setText("");
 
-    pop_up = new PopUp();
+    _pop_up = new PopUp();
 }
 
 LoginView::~LoginView()
 {
+    delete _pop_up;
     delete _ui;
 }
 
@@ -52,16 +53,16 @@ void LoginView::show_popup()
 {
     auto window_size = this->size();
     auto app_position =  this->mapToGlobal(this->pos());
-    auto popup_size = pop_up->size();
-    pop_up->setGeometry(app_position.x() / 2 + window_size.rwidth() - (popup_size.rwidth()+30),
+    auto popup_size = _pop_up->size();
+    _pop_up->setGeometry(app_position.x() / 2 + window_size.rwidth() - (popup_size.rwidth()+30),
                         app_position.y() / 2 + 20, popup_size.rwidth(), popup_size.rheight());
-    pop_up->show();
+    _pop_up->show();
 }
 
 void LoginView::connection_failure_popup_set()
 {
 
-    pop_up->set_pop_up("Connection failed.", false);
+    _pop_up->set_pop_up("Connection failed.", false);
 
     show_popup();
 }

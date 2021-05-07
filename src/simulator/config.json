@@ -274,7 +274,7 @@
             "topic": "home/heating system/living room",
             "name": "Living Room Heater",
             "min_period": 21,
-            "max_period": 185,
+            "max_period": 26,
             "recieving topic": "devices/heaters",
             "id": "LVHTR",
             "set_point": 25.1,
