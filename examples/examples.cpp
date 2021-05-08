@@ -23,7 +23,11 @@
  * \image html ../examples/images/main_window.png "The main window of the MQTT Explorer." <br>
  * 
  * \image html ../examples/images/dashboard.png "The dashboard of the MQTT Explorer." <br>
+ *
+ * \image html ../examples/images/add_device.png "The add new device dialog." <br>
  * 
+ * \image html ../examples/images/delete_device.png "The delete device dialog." <br>
+ *  
  * @section S2 Examples of Makefile Usage
  * @verbatim
  'make'                 - builds both the MQTT explorer as well as the simulator.
@@ -51,6 +55,7 @@
  * 
  * \image html ../examples/images/new_device_example.png "Example of how to add a new device to the dashboard." <br>
  * 
+ * \image html ../examples/images/delete_device_example.png "Example of how delete a device or devices on the dashboard." <br>
  * 
  * @section S4 Examples of Usage of The Simulator
  * @subsection ss1 Startup examples

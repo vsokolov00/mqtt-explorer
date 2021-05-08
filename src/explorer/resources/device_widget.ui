@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!---
+File:        device_widget.ui                                
+Case:        VUT, FIT, ICP, project                                      
+Author:      Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz        
+Date:        summer semester 2021
+Brief:       Design of a device widget.      
+-->
+
 <ui version="4.0">
  <class>DeviceWidget</class>
  <widget class="QWidget" name="DeviceWidget">

@@ -17,9 +17,9 @@ DashboardView::DashboardView(DashboardController *dashboard_controller, FlowLayo
 {
     _central_layout = new QVBoxLayout();
     _add_device = new QPushButton();
-    _add_device->setText("Add device");
+    _add_device->setText("Add Device");
     _delete_device = new QPushButton();
-    _delete_device->setText("Delete device");
+    _delete_device->setText("Delete Device");
     QObject::connect(_add_device, &QPushButton::clicked, this, &DashboardView::on_add_device_clicked);
     QObject::connect(_delete_device, &QPushButton::clicked, this, &DashboardView::on_delete_device_clicked);
 
@@ -32,7 +32,7 @@ DashboardView::DashboardView(DashboardController *dashboard_controller, FlowLayo
     setLayout(_central_layout);
 
     this->setWindowTitle("Dashboard");
-    this->resize(1390, 680);
+    this->resize(1390, 700);
 
     connect(_add_dialog, SIGNAL(new_device_added(QString,QString,uint)), this, SLOT(add_device(QString,QString,uint)));
     connect(_delete_dialog, SIGNAL(pass_selected_devices(std::vector<int>)), this, SLOT(delete_devices(std::vector<int>)));

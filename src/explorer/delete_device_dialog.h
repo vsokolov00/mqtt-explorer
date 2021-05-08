@@ -1,5 +1,14 @@
-#ifndef DELETE_DEVICE_DIALOG_H
-#define DELETE_DEVICE_DIALOG_H
+
+/**
+ * @file        delete_device_dialog.h
+ * Case:        VUT, FIT, ICP, project                                      <br>
+ * Authors:     Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
+ * Date:        summer semester 2021                                        <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0                    <br>
+ * @brief       Declaration of a class, which manages a window for deleting devices to the dasboard. 
+ **/
+
+#pragma once
 
 #include <QDialog>
 #include <QListWidget>
@@ -44,4 +53,3 @@ private:
     Ui::DeleteDeviceDialog *ui;
 };
 
-#endif // DELETE_DEVICE_DIALOG_H

@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!---
+File:        delete_device_dialog.ui                                
+Case:        VUT, FIT, ICP, project                                      
+Author:      Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz        
+Date:        summer semester 2021
+Brief:       Design of the Delete Device dialog.      
+-->
+
 <ui version="4.0">
  <class>DeleteDeviceDialog</class>
  <widget class="QDialog" name="DeleteDeviceDialog">
@@ -11,7 +20,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Delete Device</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -32,7 +41,7 @@
      <item>
       <widget class="QPushButton" name="ok">
        <property name="text">
-        <string>Delete selected</string>
+        <string>Delete Selected</string>
        </property>
       </widget>
      </item>

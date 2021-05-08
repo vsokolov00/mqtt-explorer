@@ -47,9 +47,9 @@ Fully implemented.
 
 ### Dashboard
 Devices can be added persistantly.
-Messages can be displayed in a format based on the device.
-Communication is not implemented.
-Devices cannot be removed.
+Devices can be deleted.
+Messages can be displayed in a format based on a type of a device.
+Communication with a device is not implemented.
 
 ### Simulator
 Fully implemented.

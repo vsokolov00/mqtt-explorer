@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!---
-File:        dashboard.ui                                
+File:        mainwindow.ui                                
 Case:        VUT, FIT, ICP, project                                      
 Author:      Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz        
 Date:        summer semester 2021
@@ -20,7 +20,7 @@ Brief:       Design of the main window.
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>MQTT Explorer</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">

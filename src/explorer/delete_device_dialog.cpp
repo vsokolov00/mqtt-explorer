@@ -1,3 +1,13 @@
+
+/**
+ * @file        delete_device_dialog.cpp
+ * Case:        VUT, FIT, ICP, project                                      <br>
+ * Authors:     Vladislav Sokolovskii, xsokol15@stud.fit.vutbr.cz           <br>
+ * Date:        summer semester 2021                                        <br>
+ * Compiled:    g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0                    <br>
+ * @brief       Implementation of constructors, destructors and functions of the DeleteDeviceDialog class. 
+ **/
+
 #include "delete_device_dialog.h"
 #include "ui_delete_device_dialog.h"
 
