@@ -67,7 +67,7 @@
  './simulator -s tcp://servername:port'    - connects to a server 'tcp://servername:port'.
  './simulator -l'                          - simulates only lights.
  './simulator -lcrt --wattmeters'          - simulates light, cameras, relays and wattmeters.
- './simulator --lights --cameras --relays t --wattmeters --thermometers'    - same as above.
+ './simulator --lights --cameras --relays --wattmeters --thermometers'    - same as above.
  './simulator -a --wattmeters'             - simulates all devices apart from wattmeters.
  './simulator --apart -wlk'                - simulates all devices apart from wattmeters, lights and locks.
  @endverbatim 

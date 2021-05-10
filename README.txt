@@ -50,6 +50,7 @@ Devices can be added persistantly.
 Devices can be deleted.
 Messages can be displayed in a format based on a type of a device.
 Communication with a device is not implemented.
+Setpoints are not implemented.
 
 ### Simulator
 Fully implemented.
