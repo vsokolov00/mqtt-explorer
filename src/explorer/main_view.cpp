@@ -37,6 +37,7 @@ MainView::MainView(TreeModel *tree_model, ConnectionController *connection_contr
     connect(_message_controller, &MessageController::publish_success, this, &MainView::publish_success_popup_set);
     connect(_message_controller, &MessageController::publish_failure, this, &MainView::publish_failure_popup_set);
     connect(_message_controller, &MessageController::publish_success, this, &MainView::on_clear_clicked);
+    connect(_connection_controller, &ConnectionController::connection_lost, this, &MainView::connection_lost_dialog);
     connect(_subscription_controller, SIGNAL(subscription_success(QString)), this, SLOT(subscribe_success_popup_set(QString)));
     connect(_subscription_controller, SIGNAL(unsubscription_success(QString)), this, SLOT(unsubscribe_success_popup_set(QString)));
     connect(_subscription_controller, SIGNAL(subscription_failure(QString)), this, SLOT(subscribe_failure_popup_set(QString)));
@@ -45,6 +46,7 @@ MainView::MainView(TreeModel *tree_model, ConnectionController *connection_contr
     connect(_connection_controller, SIGNAL(connection_success()), this, SLOT(connection_success_popup_set()));
     connect(_ui->listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(display_full_message(QListWidgetItem*)));
     connect(this, &MainView::dashboard_opened, _message_controller, &MessageController::dashboared_opened);
+    connect(_connection_controller, SIGNAL(reconnect_failed()), this, SLOT(reconnection_failed_dialog()));
 
     connect(_dashboard_controller, SIGNAL(new_device_on_topic(std::string)), _subscription_controller, SLOT(new_dashboard_device(std::string)));
     connect(_dashboard_controller, SIGNAL(device_deleted(std::string)), _subscription_controller, SLOT(dashboard_device_deleted(std::string)));
